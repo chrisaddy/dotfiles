@@ -67,6 +67,12 @@ noremap <leader>gp :Git push<CR>
 Plug 'mhinz/vim-signify'
 set updatetime=100
 
+" sessions
+Plug 'tpope/vim-obsession'
+let g:sessions_dir = '~/vim-sessions'
+exec 'nnoremap <Leader>ss :Obsession ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+exec 'nnoremap <Leader>sr :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
+
 " python
 Plug 'psf/black'
 let g:autofmt_autosave = 1
@@ -108,6 +114,7 @@ Plug 'dracula/vim'
 Plug 'challenger-deep-theme/vim', {'as': 'challenger-deep'}
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
+Plug 'ap/vim-buftabline'
 
 if executable('go')
 	Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' , 'on' : [] }
@@ -202,13 +209,25 @@ highlight Conceal ctermbg=NONE
 let g:spaceway_termcolors=256
 set noshowmode
 
+function ObsessionName()
+	let session_name = ''
+	if exists('v:this_session') && v:this_session != ''
+		let session_name = ' ' . v:this_session
+	else
+		let session_name = 'no-session'
+	endif
+	return session_name
+endfunction
+
 let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'readonly', 'filename', 'modified' ],
-      \             [ 'branch' ]]
+      \             [ 'branch' ],
+      \             [ 'obsessionStatus', 'obsessionName' ]
+      \           ]
       \ },
-      \ 'component': {
-      \   'branch': gitbranch#name()
-      \ },
+      \ 'component': { 'branch': gitbranch#name(),
+      \                'obsessionStatus': '%{ObsessionStatus()}'}
       \ }
+
