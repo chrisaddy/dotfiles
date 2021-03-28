@@ -1,5 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+#
+
+RED='\033[0;31m'
+NOCOLOR='\033[0m'
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -157,18 +161,45 @@ alias rnr=read_and_review
 export GOOGLE_USERNAME=chris.addy@penn-interactive.com
 
 alias in='task add priority:inbox'
-inbox () { task list priority:inbox }
+inbox () { clear && task list priority:inbox }
 alias t="clear && task priority:doing or priority:emergency list"
 alias ts="task sync"
+
+doing () {
+	if (( $(task priority:doing count) >= 3))
+	then
+		printf "${RED}reached doing WIP limit, considering finishing other work before taking on task $1${NOCOLOR}\n"
+		task priority:doing list
+	else
+		task $1 modify priority:doing
+		task $1 start
+	fi
+}
+
+retro () {
+	if (( $(task priority:retro count) >= 15))
+	then
+		printf "${RED}retro WIP limit reached, consider reviewing tasks in retro status${NOCOLOR}\n"
+	fi
+		task $1 modify priority:retro && task $1 stop
+}
+
 ready () { task $1 modify -in priority:ready}
-backlog () { task +ready list}
-doing () { task $1 modify priority:doing && task $1 start }
+backlog () { clear && task priority:ready list}
 emergency () { task $1 modify priority:emergency && task $1 start }
 pause () { task $1 stop }
-retro (){ task $1 modify priority:retro && task $1 stop }
+retrospect () { clear && task priority:retro list }
 fin () { task $1 done }
 
 
 ide (){ tmux new-session -A -t $([ -z "$PROJECT" ] && echo $(basename "`pwd`") || echo $PROJECT) -c . }
 goto (){ tmux detach; cd "$HOME/dev/$(ls ~/dev | fzf | awk '{print $NF}')" && ide }
 
+alias rrc="robo release candidate"
+
+source /Users/chrisaddy/.config/broot/launcher/bash/br
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/mc mc
+
+alias login="DURATION=36000 AWS_PROFILE=default robo login && DURATION=36000 AWS_PROFILE=shared robo login"

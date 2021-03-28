@@ -18,3 +18,5 @@ ln -sf $HOME/dots/.tmux.conf $HOME/.tmux.conf
 ln -sf $HOME/dots/.hyper.js $HOME/.hyper.js
 ln -sf $HOME/dots/.gitconfig $HOME/.gitconfig
 ln -sf $HOME/dots/.taskrc $HOME/.taskrc
+ln -sf $HOME/dots/.config $HOME/.config
+ln -sf $HOME/dots/.config/espanso /Users/chrisaddy/Library/Preferences/espanso/default.yml
