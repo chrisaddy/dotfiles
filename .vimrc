@@ -62,6 +62,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive', { 'on': ['Gstatus', 'Gpush', 'Gedit', 'Ggrep'] }
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gb :Gblame<CR>
+noremap <leader>gp :Git push<CR>
 
 Plug 'mhinz/vim-signify'
 set updatetime=100
@@ -106,6 +107,7 @@ Plug 'Gavinok/spaceway.vim'
 Plug 'dracula/vim'
 Plug 'challenger-deep-theme/vim', {'as': 'challenger-deep'}
 Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
 
 if executable('go')
 	Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' , 'on' : [] }
@@ -203,9 +205,10 @@ set noshowmode
 let g:lightline = {
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ] ]
+      \             [ 'readonly', 'filename', 'modified' ],
+      \             [ 'branch' ]]
       \ },
       \ 'component': {
-      \   'hello': 'hello-world'
+      \   'branch': gitbranch#name()
       \ },
       \ }
