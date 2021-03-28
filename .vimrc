@@ -1,150 +1,120 @@
-:let g:session_autoload = 'no'
-:let g:session_autosave = 'no'
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
 
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
+
+set relativenumber
+set termguicolors
 syntax on
-filetype plugin indent on
-set number relativenumber
 set ruler
+filetype plugin indent on
+set mouse=a
+augroup TERMINAL
+	autocmd!
+	" autocmd BufWinEnter,WinEnter term://* startinsert
+	autocmd BufLeave term://* stopinsert
+	au TermOpen * setlocal nonumber
+	au TermOpen * setlocal norelativenumber
+augroup end
 
-let g:vim_bootstrap_langs="javascript,python,ruby,go"
-let g:vim_bootstrap_editor="nvim"
+let g:vim_bootstrap_langs = "python,go"
+let g:vim_bootstrap_editor = "nvim"
+let g:loaded_gzip               =  1
+let g:loaded_tarPlugin          =  1
+let g:loaded_zipPlugin          =  1
+let g:loaded_2html_plugin       =  1
 
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-  \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+let g:loaded_rrhelper           =  1
+let g:loaded_remote_plugins     =  1
+let g:loaded_netrw              =  1
+let g:loaded_netrwPlugin        =  1
 
-call plug#begin(expand('~/.config/nvim/plugged'))
+let mapleader="\<SPACE>"
 
-" Themes
-Plug 'ntk148v/vim-horizon'
-Plug 'dracula/vim'
-Plug 'challenger-deep-theme/vim', {'as': 'challenger-deep'}
+augroup PLUGGED
+	if empty(glob('~/.vim/autoload/plug.vim'))  " Vim
+		silent !curl -fo ~/.vim/autoload/plug.vim --create-dirs
+					\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+		autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+	endif
+augroup end
 
-" most importantly, vim has to be pretty
-Plug 'preservim/tagbar'
-Plug 'blindFS/vim-taskwarrior'
-Plug 'powerman/vim-plugin-AnsiEsc'
-" pretty and functional
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'Yggdroot/indentLine'
-Plug 'tbabej/taskwiki'
+call plug#begin('~/.vim/plugged')
+" autocompletion/syntax
+let g:mymu_enabled=1
+let g:mylsc_enabled=1
+Plug 'lifepillar/vim-mucomplete', {'on' : []}
+Plug 'jonasw234/vim-mucomplete-minisnip'
+Plug 'dense-analysis/ale'
 
-Plug 'pangloss/vim-javascript'
-" Plug 'leafgarland/typescript-vim'
-" Plug 'peitalin/vim-jsx-typescript'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'jparise/vim-graphql'
-
-Plug 'kana/vim-textobj-user'
-Plug 'bps/vim-textobj-python'
-Plug 'mbbill/undotree'
-Plug 'nathanaelkane/vim-indent-guides'
+" zettelkasten
 Plug 'vimwiki/vimwiki'
-Plug 'tpope/vim-fugitive'
+let g:vimwiki_list = [{'path': '~/zettelkasten', 'syntax': 'markdown', 'ext': '.md'}]
+au Filetype vimwiki setlocal shiftwidth=4 tabstop=4 noexpandtab
+Plug 'dhruvasagar/vim-dotoo'
+nmap <Nop> <Plug>(dotoo-capture)
+Plug 'tpope/vim-speeddating', { 'for': [ 'org', 'dotoo', 'rec' ] }
+
+" commmenting
 Plug 'tpope/vim-commentary'
 
-" searching
-Plug 'mhinz/vim-grepper'
-Plug 'vim-scripts/grep.vim'
+" git
+Plug 'tpope/vim-fugitive', { 'on': ['Gstatus', 'Gpush', 'Gedit', 'Ggrep'] }
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gb :Gblame<CR>
 
-" file navigation
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-Plug 'voldikss/vim-floaterm'
-
-" Plug 'jistr/vim-nerdtree-tabs'
-" Plug 'SirVer/ultisnips'
-" when vim opens without filename, load nerdtree automatically
-
-" sweet, sweet syntax sugar
-Plug 'dense-analysis/ale'
-Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-surround'
-Plug 'Raimondi/delimitMate'
-Plug 'vim-syntastic/syntastic'
-
-" man pages
-Plug 'ludwig/split-manpage.vim'
-
-""" session management
-" Plug 'xolox/vim-misc'
-" Plug 'xolox/vim-session'
-" Plug 'thaerkh/vim-workspace'
-
-Plug 'guns/vim-clojure-static'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'eraserhd/parinfer-rust'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sheerun/vim-polyglot'
-" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
-
-" go
-Plug 'neovim/go-client'
-Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
-
-" html/css
-Plug 'hail2u/vim-css3-syntax'
-Plug 'mattn/emmet-vim'
-Plug 'neovim/node-client'
-
-" js
-Plug 'neoclide/neovim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'flowtype/vim-flow'
+Plug 'mhinz/vim-signify'
+set updatetime=100
 
 " python
-Plug 'neovim/pynvim'
-Plug 'vim-scripts/indentpython.vim'
-" Plug 'davidhalter/jedi-vim'
-Plug 'nvie/vim-flake8'
 Plug 'psf/black'
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-
-" R
-Plug 'jalvesaq/Nvim-R'
-
-" rust
-Plug 'daa84/neovim-lib'
-Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
-
-" swift
-Plug 'keith/swift.vim'
+let g:autofmt_autosave = 1
+autocmd BufWritePre *.py execute ':Black'
 
 " terraform
 Plug 'hashivim/vim-terraform'
+let g:terraform_fmt_on_save = 1
 
-" vue
-Plug 'posva/vim-vue'
-Plug 'leafOfTree/vim-vue-plugin'
+" terminal
+Plug 'voldikss/vim-floaterm'
+nnoremap <leader>mb :FloatermNew --autoclose=0 make build<CR>
+nnoremap <leader>mbr :FloatermNew --autoclose=0 make build run<CR>
+nnoremap <leader>mt :FloatermNew --autoclose=0 make test<CR>
+let g:floaterm_keymap_toggle = '<F12>'
 
-call plug#end()
+" file nav
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+set rtp+=/usr/local/opt/fzf
+nnoremap <leader>f :GFiles<CR>
+Plug 'scrooloose/nerdtree'
+nnoremap <leader>t :NERDTreeToggle<CR>
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let NERDTreeShowHidden = 1
+let g:NERDTreeChDirMode = 2
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
-
-
-"-------- windows ----------------
-"""" splitting
-
-""" navigating
-
-""" resizing
-
+" undo
+Plug 'mbbill/undotree'
 if has("persistent_undo")
-    set undodir=$HOME"/.undodir"
-    set undofile
+	set undodir=$HOME"/.undodir"
+	set undofile
 endif
 
+" style == function bruh
+Plug 'Gavinok/spaceway.vim'
+Plug 'dracula/vim'
+Plug 'challenger-deep-theme/vim', {'as': 'challenger-deep'}
+Plug 'itchyny/lightline.vim'
+
+if executable('go')
+	Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' , 'on' : [] }
+	let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+endif
+
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'eraserhd/parinfer-rust'
+Plug 'tpope/vim-surround'
 " rainbow parentheses
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
@@ -170,86 +140,72 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+call plug#end()
 
-"------ python --------------------
-""" run black on save
-autocmd BufWritePre *.py execute ':Black'
-let g:autofmt_autosave = 1 " autoformat rust files on save
+augroup LazyLoadPlug
+	autocmd!
+	autocmd CursorHold,CursorHoldI *
+				\ call plug#load('vim-fugitive') |
+				\ call plug#load('vim-hexokinase') |
+				\ autocmd! LazyLoadPlug
+augroup end
 
-" colorscheme challenger_deep
-let g:lightline = { 'colorscheme': 'challenger_deep'}
-:let g:challenger_deep_termcolors=256
+if has('gui_running')
+	call dotvim#LoadGui()
+elseif exists('g:colors_name') && g:colors_name !=# 'acme'
+	hi Normal      guibg=NONE
+	hi ColorColumn guibg=NONE
+	hi SignColumn  guibg=NONE
+	hi Folded      guibg=NONE
+	hi Conceal     guibg=NONE
+	hi Terminal    guibg=NONE
+	hi LineNr      guibg=NONE
+endif
 
-:let g:vim_markdown_conceal = 0
-:let g:vim_markdown_conceal_code_blocks = 0
-:let g:vim_markdown_math = 1
-:let g:vim_markdown_frontmatter = 1
+" aliases
+function! SetupCommandAlias(from, to)
+	exec 'cnoreabbrev <expr> '.a:from
+				\ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+				\ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfunction
+call SetupCommandAlias('git','Git')
+call SetupCommandAlias('cp','!cp')
+call SetupCommandAlias('mv','!mv')
+call SetupCommandAlias('rm','!rm')
+call SetupCommandAlias('mkdir','!mkdir')
 
-" transparent background
-hi! Normal ctermbg=NONE guibg=NONE
+" backup escape options
+inoremap kj <Esc>
 
-autocmd BufEnter *.hy :setlocal filetype=clojure
+" window/buffer navigation
+nnoremap <leader>h <C-W><C-H> " move left one window
+nnoremap <leader>j <C-W><C-J> " move down one window
+nnoremap <leader>k <C-W><C-K> " move up one window
+nnoremap <leader>l <C-W><C-L> " move right one window
+nnoremap <leader>n :bnext<CR>
+nnoremap <leader>p :bprevious<CR>
 
-let g:terraform_fmt_on_save=1
-
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-""" toggle nerdtree
-let NERDTreeMinimalUI=1
-let NERDTreeDirArrows=1
-let NERDTreeShowHidden=1
-
-" let g:indent_guides_enable_on_vim_startup=1
-" let g:indent_guides_auto_colors=0
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd	guibg=red	ctermbg=3
-" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven	guibg=green	ctermbg=4
-
-" Vim Wiki
-let g:vimwiki_list = [{'path': '~/Sync/wiki/', 'syntax': 'markdown'}]
-au FileType vimwiki setlocal shiftwidth=6 tabstop=6 noexpandtab
-
-set rtp+=/usr/local/opt/fzf
-
-autocmd BufWinEnter,FileType taskreport colorscheme desert
-
-let g:kite_supported_languages = ['python', 'javascript', 'go']
-let g:kite_tab_complete=1
-
-""" remaps
-let mapleader="\<SPACE>"
-
-nnoremap <leader>c :TagbarToggle<CR>
-nnoremap <leader>cicd :FloatermNew --autoclose=1 make local-cicd<CR>
-nmap <Leader>f :GFiles<CR>
-nnoremap <leader>h <C-W><C-H> " move to window left
-nnoremap <leader>j <C-W><C-J> " move to window down
-nnoremap <leader>k <C-W><C-K> " move to window up
-inoremap kk <Esc>
-nnoremap <leader>l <C-W><C-L> " move to window right
-nnoremap <leader>mt :make test<CR>
-nnoremap <leader>mb :FloatermNew --autoclose=1 make build<CR>
-nnoremap <leader>mbr :FloatermNew --autoclose=0 make build run<CR>
-nnoremap <leader>mm :make<CR>
-nnoremap <leader>mr :FloatermNew --autoclose=0 make run<CR>
-nnoremap <leader>mt :FloatermNew --autoclose=1 make test<CR>
-nnoremap <leader>n <C-W>- " resize window
-nnoremap <leader>o <C-W>> " resize window
-nnoremap <leader>pi :PlugInstall<CR>
-nnoremap <leader>pj :%!python -m json.tool<CR> " prettify json files
-nnoremap <leader>r :edit!<CR> " reload file
-nnoremap <leader>s :w<CR> " write file
-nnoremap <leader>t :NERDTreeToggle<CR>
-nnoremap <leader>u <C-W>+ " resize window
-nnoremap <leader>ve :execute "tab sp" resolve(expand("~/dotfiles/.vimrc"))<CR>
-nnoremap <leader>vs :source ~/.vimrc<CR>
-nnoremap <leader>y <C-W>< " resize window
-nnoremap <leader>a :FloatermToggle<CR>
-
-nmap <Leader>F :Files<CR>
-nnoremap <leader>H :bprevious<CR>
+" window splitting
 nnoremap <leader>J :split<CR>
-nnoremap <leader>K :bnext<CR>
-nnoremap <leader>L :vsplit<CR> " window " split
+nnoremap <leader>L :vsplit<CR>
 
-nnoremap <leader>= <C-W>= " resize window
+iab cloud butt
+
+nmap <leader><SPACE> :
+
+colorscheme spaceway
+" colorscheme dracula
+highlight Normal ctermbg=NONE
+highlight Conceal ctermbg=NONE
+let g:spaceway_termcolors=256
+set noshowmode
+
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component': {
+      \   'hello': 'hello-world'
+      \ },
+      \ }
