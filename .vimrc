@@ -52,7 +52,7 @@ Plug 'vimwiki/vimwiki'
 let g:vimwiki_list = [{'path': '~/zettelkasten', 'syntax': 'markdown', 'ext': '.md'}]
 au Filetype vimwiki setlocal shiftwidth=4 tabstop=4 noexpandtab
 Plug 'dhruvasagar/vim-dotoo'
-nmap <Nop> <Plug>(dotoo-capture)
+" nmap <Nop> <Plug>(dotoo-capture)
 Plug 'tpope/vim-speeddating', { 'for': [ 'org', 'dotoo', 'rec' ] }
 
 " commmenting
@@ -62,7 +62,9 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive', { 'on': ['Gstatus', 'Gpush', 'Gedit', 'Ggrep'] }
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gb :Gblame<CR>
-noremap <leader>gp :Git push<CR>
+nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>pr :!gh pr create --title
+
 
 Plug 'mhinz/vim-signify'
 set updatetime=100
@@ -84,6 +86,8 @@ let g:terraform_fmt_on_save = 1
 
 " terminal
 Plug 'voldikss/vim-floaterm'
+nnoremap <leader>tn :FloatermNew<CR>
+nnoremap <leader>tk :FloatermKill<CR>
 nnoremap <leader>mb :FloatermNew --autoclose=0 make build<CR>
 nnoremap <leader>mbr :FloatermNew --autoclose=0 make build run<CR>
 nnoremap <leader>mt :FloatermNew --autoclose=0 make test<CR>
@@ -107,6 +111,12 @@ if has("persistent_undo")
 	set undodir=$HOME"/.undodir"
 	set undofile
 endif
+
+" jupyter notebooks
+Plug 'szymonmaszke/vimpyter'
+autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
+autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
+autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
 
 " style == function bruh
 Plug 'Gavinok/spaceway.vim'

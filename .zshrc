@@ -205,3 +205,4 @@ complete -o nospace -C /usr/local/bin/mc mc
 alias login="DURATION=36000 AWS_PROFILE=default robo login && DURATION=36000 AWS_PROFILE=shared robo login"
 
 define() { curl -s "dict://dict.org/d:$1" | grep -v '^[0-9]'; }
+fn() { ${EDITOR:-vim} $(rg -n '.*' "$HOME/zettelkasten/" | fzf --layout=reverse --height 50% --ansi | sed -E 's/(.*):([0-9]+):.*/\1 +\2/g'); }
