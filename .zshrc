@@ -2,12 +2,14 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
 
+export PATH=/Users/addy/.poetry/bin:/opt/homebrew/Cellar/pyenv-virtualenv/1.1.5/shims:/Users/addy/.pyenv/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/Library/Apple/usr/bin:/Users/addy/.cargo/bin:/Users/addy/bin:/Users/addy/dots/bin:/Users/addy/dev/bin:/usr/local/go/bin:/Users/addy/bin:/Users/addy/dev/bin:/Users/addy/go/bin:/Users/addy/dots/bin:/Users/addy/dev/data-utils/bin:/Users/addy/dev/data-utils/robot-salami:/Users/addy/bin:/Users/addy/.pyenv/versions/3.9.2/bin:/Users/addy/.pyenv/versions/3.8.5/bin:/Users/addy/.poetry/bin
+
 RED='\033[0;31m'
 NOCOLOR='\033[0m'
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="bira"
 export UPDATE_ZSH_DAYS=1
 DISABLE_UPDATE_PROMPT="true"
 # ENABLE_CORRECTION="true" # command autocorrection
@@ -31,6 +33,7 @@ plugins=(
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 	wd
+	zsh-z
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -46,8 +49,12 @@ eval "$(direnv hook zsh)"
 [ -f $HOME/dots/links ] && . $HOME/dots/links
 [ -f $HOME/dots/funcs ] && source $HOME/dots/funcs
 
-export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:$PATH
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
+# Load pyenv into the shell by adding
+# the following to ~/.zshrc:
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
@@ -197,11 +204,14 @@ goto (){ tmux detach; cd "$HOME/dev/$(ls ~/dev | fzf | awk '{print $NF}')" && id
 
 alias rrc="robo release candidate"
 
-source /Users/chrisaddy/.config/broot/launcher/bash/br
-
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc
 
 alias login="DURATION=36000 AWS_PROFILE=default robo login && DURATION=36000 AWS_PROFILE=shared robo login"
 
 define() { curl -s "dict://dict.org/d:$1" | grep -v '^[0-9]'; }
+
+alias linode="ssh -t chrisaddy@lish-newark.linode.com ubuntu-us-east"
+alias laptop="ssh -t addy@192.168.86.68"
+alias vim="~/nvim-osx64/bin/nvim"
+alias ls="lsd -la"
