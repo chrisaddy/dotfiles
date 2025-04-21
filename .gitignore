@@ -1,2 +1,3 @@
 gcloud
 tmux/plugins
+nix/flake.lock
