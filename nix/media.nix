@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    vlc
+    mpd
     mpv
+    rmpc
   ];
 }

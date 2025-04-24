@@ -7,8 +7,8 @@
     theme = "challenger_deep";
     settings = {
       font.normal.family = "JetBrains Mono";
-      # colors.primary.background = "0x1e1e2e";
-      # colors.primary.foreground = "0xcdd6f4";
+      font.size = 24.0;
+      window.decorations = "none";
     };
   };
 }

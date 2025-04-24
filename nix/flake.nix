@@ -1,6 +1,11 @@
 {
   description = "Nix Darwin system with Emacs, Nixvim, Nushell";
 
+  nixConfig = {
+    extra-trusted-substituters = ["https://cache.flox.dev"];
+    extra-trusted-public-keys = ["flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
@@ -8,7 +13,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.url = "github:nix-community/nixvim";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    flox = {
+      url = "github:flox/flox/v1.4.0";
+    };
   };
 
   outputs = inputs @ {
@@ -17,43 +24,53 @@
     nix-darwin,
     home-manager,
     nixvim,
-    emacs-overlay,
+    flox,
+    ...
   }: let
+    lib = nixpkgs.lib;
     system = "aarch64-darwin";
     overlays = [
-      (import emacs-overlay)
       (final: prev: {
-        emacs-git = prev.emacs-git.overrideAttrs (oldAttrs: {
-          nativeBuildInputs =
-            builtins.filter
-            (input: input != prev.libgccjit)
-            oldAttrs.nativeBuildInputs;
-          configureFlags = (oldAttrs.configureFlags or []) ++ ["--without-native-compilation"];
-        });
+        emacsNoNativeComp = prev.emacs.override {
+          withNativeCompilation = false;
+        };
       })
     ];
+    pkgs = import nixpkgs {
+      inherit system overlays;
+      config.allowUnfree = true;
+    };
   in {
     darwinConfigurations."Mac" = nix-darwin.lib.darwinSystem {
       system = system;
-
       modules = [
         {
           nix.enable = false;
           nixpkgs = {
-            inherit overlays;
-            config.allowUnfree = true;
             hostPlatform = system;
+            overlays = overlays;
+            config.allowUnfreePredicate = pkg:
+              builtins.elem (lib.getName pkg) [
+                "claude-code"
+              ];
           };
 
-          nix.settings.experimental-features = "nix-command flakes";
+          nix.settings = {
+            experimental-features = "nix-command flakes";
+            substituters = ["https://cache.flox.dev"];
+            trusted-public-keys = [
+              "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+            ];
+          };
 
-          environment.systemPackages = with nixpkgs.legacyPackages.${system}; [
+          environment.systemPackages = with pkgs; [
             vim
-            nushell
+            zsh
           ];
 
           users.users.chrisaddy = {
-            shell = nixpkgs.legacyPackages.${system}.nushell;
+            home = "/Users/chrisaddy";
+            shell = pkgs.zsh;
           };
 
           system.stateVersion = 6;
@@ -61,18 +78,15 @@
         }
 
         home-manager.darwinModules.home-manager
+
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-
           home-manager.users.chrisaddy = {
             imports = [
               ./home.nix
               nixvim.homeManagerModules.nixvim
             ];
-            # home.packages = [
-            #   nixpkgs.legacyPackages.${system}.emacs-git
-            # ];
           };
         }
       ];

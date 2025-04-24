@@ -17,12 +17,18 @@
     };
 
     configFile.text = ''
+      $env.PATH = ($env.PATH | split row (char esep) | prepend [
+        "$HOME/.nix-profile/bin"
+        "/etc/profiles/per-user/$env.USER/bin"
+        "/nix/var/nix/profiles/default/bin"
+        "/run/current-system/sw/bin"
+      ] | uniq)
     '';
   };
 
   programs.zsh = {
     enable = true;
-    enableCompletion = true;
+    # enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     autocd = true;
@@ -42,7 +48,7 @@
     };
     sessionVariables = {
     };
-    initExtra = ''
+    initContent = ''
       cmt() {
         local branch diff message temp_file ticket_number final_message
         branch=$(git rev-parse --abbrev-ref HEAD)
@@ -69,6 +75,7 @@
       # source "$HOME/.secrets"
     '';
   };
+
   home.packages = with pkgs; [
     git
     fd
