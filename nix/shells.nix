@@ -1,29 +1,7 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   programs.starship = {
     enable = true;
-    enableNushellIntegration = true;
     enableZshIntegration = true;
-  };
-
-  programs.nushell = {
-    enable = true;
-    shellAliases = {
-      vim = "nvim";
-      cp = "cp -rfiv";
-    };
-
-    configFile.text = ''
-      $env.PATH = ($env.PATH | split row (char esep) | prepend [
-        "$HOME/.nix-profile/bin"
-        "/etc/profiles/per-user/$env.USER/bin"
-        "/nix/var/nix/profiles/default/bin"
-        "/run/current-system/sw/bin"
-      ] | uniq)
-    '';
   };
 
   programs.zsh = {
@@ -47,6 +25,7 @@
       cp = "cp -rfiv";
     };
     sessionVariables = {
+      EDITOR = "nvim";
     };
     initContent = ''
       cmt() {
@@ -65,14 +44,14 @@
         [ -z "$final_message" ] && echo "Empty commit message. Aborting." && return 1
         git commit -m "$final_message"
       }
+      eval "$(/opt/homebrew/bin/brew shellenv)"
 
-      # export EDITOR=nvim
       # export PATH="$HOME/.local/bin:$PATH"
       # export PYENV_ROOT="$HOME/.pyenv"
       # [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
       # eval "$(direnv hook zsh)"
       # eval "$(zoxide init zsh --cmd cd)"
-      # source "$HOME/.secrets"
+      source "$HOME/.secrets"
     '';
   };
 

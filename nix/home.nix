@@ -7,8 +7,10 @@
     ./ai.nix
     # ./emacs.nix
     ./git.nix
+    ./haskell.nix
     ./media.nix
     ./nix.nix
+    ./python.nix
     ./shells.nix
     ./terminal.nix
     ./vim.nix

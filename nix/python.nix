@@ -4,11 +4,10 @@
     python311
     mise
     uv
-    ruff 
+    ruff
 
     python311Packages.ipython # Enhanced interactive Python shell
-    
-    nodePackages.pyright # Fast Python type checker (LSP)
+
     python311Packages.python-lsp-server # Python LSP server
   ];
 
@@ -16,10 +15,10 @@
   home.shellAliases = {
     # Python environment shortcuts
     "py" = "ipython";
-    
+
     "uvs" = "uv pip sync";
     "uvr" = "uv run";
-    
+
     "rf" = "ruff format";
     "rl" = "ruff check";
     "rfix" = "ruff check --fix";

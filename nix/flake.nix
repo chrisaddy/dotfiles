@@ -1,11 +1,11 @@
 {
   description = "Nix Darwin system with Emacs, Nixvim, Nushell";
 
-  nixConfig = {
-    extra-trusted-substituters = ["https://cache.flox.dev"];
-    extra-trusted-public-keys = ["flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="];
-  };
-
+  # nixConfig = {
+  #   # extra-trusted-substituters = ["https://cache.flox.dev"];
+  #   # extra-trusted-public-keys = ["flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="];
+  # };
+  #
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
@@ -13,9 +13,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.url = "github:nix-community/nixvim";
-    flox = {
-      url = "github:flox/flox/v1.4.0";
-    };
+    # flox = {
+    #   url = "github:flox/flox/v1.4.0";
+    # };
   };
 
   outputs = inputs @ {
@@ -24,7 +24,7 @@
     nix-darwin,
     home-manager,
     nixvim,
-    flox,
+    # flox,
     ...
   }: let
     lib = nixpkgs.lib;
@@ -57,10 +57,10 @@
 
           nix.settings = {
             experimental-features = "nix-command flakes";
-            substituters = ["https://cache.flox.dev"];
-            trusted-public-keys = [
-              "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
-            ];
+            # substituters = ["https://cache.flox.dev"];
+            # trusted-public-keys = [
+            #   "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+            # ];
           };
 
           environment.systemPackages = with pkgs; [

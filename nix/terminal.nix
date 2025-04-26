@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    cmake
     jetbrains-mono
   ];
   programs.alacritty = {
@@ -8,7 +9,21 @@
     settings = {
       font.normal.family = "JetBrains Mono";
       font.size = 24.0;
-      window.decorations = "none";
+      window = {
+        decorations = "none";
+        dimensions = {
+          columns = 0;
+          lines = 0;
+        };
+        padding = {
+          x = 5;
+          y = 5;
+        };
+        startup_mode = "Windowed";
+        position = "Center";
+        width = 0.95;
+        height = 0.9;
+      };
     };
   };
 }
