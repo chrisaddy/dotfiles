@@ -13,6 +13,7 @@
     ./python.nix
     ./shells.nix
     ./terminal.nix
+    ./tmux.nix
     ./vim.nix
   ];
   home.username = lib.mkForce "chrisaddy";

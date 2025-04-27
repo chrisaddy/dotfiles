@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     vale
     markdownlint-cli2
@@ -44,6 +48,35 @@
         enable = true;
         autoLoad = true;
       };
+      aerial = {
+        enable = true;
+        settings = {
+          attach_mode = "global";
+          backends = [
+            "treesitter"
+            "lsp"
+            "markdown"
+            "man"
+          ];
+          disable_max_lines = 5000;
+          highlight_on_hover = true;
+          ignore = {
+            filetypes = [
+              "gomod"
+            ];
+          };
+          layout.default_direction = "left";
+        };
+      };
+      barbar = {
+        enable = true;
+        settings = {
+          hide = {
+            inactive = true;
+            current = true;
+          };
+        };
+      };
       cmp = {
         enable = true;
         autoEnableSources = true;
@@ -52,6 +85,75 @@
           {name = "path";}
           {name = "buffer";}
         ];
+      };
+      codecompanion.enable = true;
+      conform-nvim = {
+        enable = true;
+        settings = {
+          formatters_by_ft = {
+            bash = [
+              "shellcheck"
+              "shellharden"
+              "shfmt"
+            ];
+            cpp = ["clang_format"];
+            haskell = ["hlint"];
+            javascript = {
+              __unkeyed-1 = "prettierd";
+              __unkeyed-2 = "prettier";
+              timeout_ms = 2000;
+              stop_after_first = true;
+            };
+            nix = [
+              "alejandra"
+              "nixpkgs-fmt"
+            ];
+            python = ["ruff"];
+            "_" = [
+              "squeeze_blanks"
+              "trim_whitespace"
+              "trim_newlines"
+            ];
+          };
+          notify_on_error = true;
+          notify_no_formatters = true;
+          formatters = {
+            shellcheck = {
+              command = lib.getExe pkgs.shellcheck;
+            };
+            shfmt = {
+              command = lib.getExe pkgs.shfmt;
+            };
+            shellharden = {
+              command = lib.getExe pkgs.shellharden;
+            };
+            squeeze_blanks = {
+              command = lib.getExe' pkgs.coreutils "cat";
+            };
+          };
+          format_on_save =
+            # Lua
+            ''
+              function(bufnr)
+                if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+                  return
+                end
+
+                -- if slow_format_filetypes[vim.bo[bufnr].filetype] then
+                --   return
+                -- end
+                --
+                local function on_format(err)
+                  if err and err:match("timeout$") then
+                    slow_format_filetypes[vim.bo[bufnr].filetype] = true
+                  end
+                end
+
+                return { timeout_ms = 200, lsp_fallback = true }, on_format
+               end
+            '';
+          default_format_opts.lsp_format = "fallback";
+        };
       };
       dap.enable = true;
       dap-ui = {
@@ -77,6 +179,9 @@
           };
         };
       };
+      hardtime.enable = true;
+      hmts.enable = true;
+      hop.enable = true;
       lazygit.enable = true;
       lint = {
         enable = true;
@@ -145,77 +250,6 @@
       marks = {
         enable = true;
       };
-
-      # return {
-      #   config = function()
-      #     local function list_marks()
-      #       local marks_list = vim.fn.getmarklist(vim.fn.bufnr())
-      #       local results = {}
-      #       for _, mark in ipairs(marks_list) do
-      #         if mark.mark:match '^[a-zA-Z]$' then
-      #           table.insert(results, mark.file .. ':' .. mark.pos[2])
-      #         end
-      #       end
-      #       return results
-      #     end
-      #
-      #     function _G.jump_to_mark()
-      #       local line = vim.api.nvim_get_current_line()
-      #       local file, lineno = string.match(line, '(.-):(%d+)')
-      #       if file and lineno then
-      #         vim.cmd('e ' .. file)
-      #         vim.cmd(':' .. lineno)
-      #         vim.api.nvim_win_close(0, true)
-      #       end
-      #     end
-      #
-      #     function _G.delete_mark()
-      #       local line = vim.api.nvim_get_current_line()
-      #       local file, lineno = string.match(line, '(.-):(%d+)')
-      #       if file and lineno then
-      #         -- Remove the mark from the buffer
-      #         local marks_list = vim.fn.getmarklist(vim.fn.bufnr())
-      #         for _, mark in ipairs(marks_list) do
-      #           if mark.file == file and mark.pos[2] == tonumber(lineno) then
-      #             vim.fn.setpos("'" .. mark.mark, { 0, 0, 0, 0 }) -- Set mark position to invalid to delete
-      #             break
-      #           end
-      #         end
-      #         vim.api.nvim_buf_set_lines(0, vim.fn.line '.' - 1, vim.fn.line '.', false, {})
-      #       end
-      #     end
-      #
-      #     function _G.open_marks_menu()
-      #       local lines = list_marks()
-      #       if #lines == 0 then
-      #         print 'No bookmarks set.'
-      #         return
-      #       end
-      #
-      #       local buf = vim.api.nvim_create_buf(false, true)
-      #       local width = math.floor(vim.o.columns * 0.5)
-      #       local height = math.floor(vim.o.lines * 0.5)
-      #       local opts = {
-      #         relative = 'editor',
-      #         width = width,
-      #         height = height,
-      #         row = (vim.o.lines - height) / 2,
-      #         col = (vim.o.columns - width) / 2,
-      #         style = 'minimal',
-      #         border = 'rounded',
-      #       }
-      #       vim.api.nvim_open_win(buf, true, opts)
-      #
-      #       vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-      #
-      #       vim.api.nvim_buf_set_keymap(buf, 'n', '<CR>', ':lua jump_to_mark()<CR>', { noremap = true, silent = true })
-      #       vim.api.nvim_buf_set_keymap(buf, 'n', 'd', ':lua delete_mark()<CR>', { noremap = true, silent = true })
-      #       vim.api.nvim_buf_set_keymap(buf, 'n', '<Esc>', ':lua vim.api.nvim_win_close(0, true)<CR>', { noremap = true, silent = true })
-      #     end
-      #
-      #     vim.api.nvim_set_keymap('n', '<leader>bo', ':lua open_marks_menu()<CR>', { noremap = true, silent = true })
-      #   end,
-      # }
       mini = {
         enable = true;
         modules = {
@@ -320,6 +354,7 @@
           snippets = {
             enable = true;
             gen_loader.from_file = "~/.config/nvim/snippets/global.json";
+            gen_loader.from_lang = true;
           };
           surround = {
             enable = true;
@@ -340,9 +375,140 @@
         settings = {
           commit_editor.kind = "floating";
           commit_select_view.kind = "floating";
+          preview_buffer.kind = "floating";
+          popup.kind = "floating";
+          merge_editor.kind = "floating";
+          log_view.kind = "floating";
+          description_editor.kind = "floating";
+          rebase_editor.kind = "floating";
+          reflog_view.kind = "floating";
+          integrations.telescope = true;
         };
       };
-      neotest.enable = true;
+      neotest = {
+        enable = true;
+        settings = {
+        };
+      };
+      # return {
+      #   {
+      #     dependencies = {
+      #       'nvim-lua/plenary.nvim',
+      #       'antoinemadec/FixCursorHold.nvim',
+      #       'nvim-treesitter/nvim-treesitter',
+      #       'nvim-neotest/neotest-python',
+      #     },
+      #     config = function()
+      #       local neotest = require 'neotest'
+      #
+      #       local function handle_test_results(test_results)
+      #         local errors = {}
+      #         for position_id, result in pairs(test_results) do
+      #           local pos = neotest.positions.get(position_id)
+      #           if result.status == 'failed' then
+      #             table.insert(errors, {
+      #               filename = pos.path,
+      #               lnum = pos.range[1] + 1, -- Convert to 1-based line number
+      #               text = result.short .. (result.errors and result.errors[1] or ''),
+      #               type = 'E',
+      #             })
+      #           end
+      #         end
+      #
+      #         if #errors > 0 then
+      #           vim.fn.setqflist(errors)
+      #           vim.cmd 'copen'
+      #         else
+      #           vim.fn.setqflist {}
+      #           vim.cmd 'cclose'
+      #         end
+      #       end
+      #
+      #       neotest.setup {
+      #         adapters = {
+      #           require 'neotest-python' {
+      #             runner = 'pytest',
+      #             python = vim.fn.exepath 'python3',
+      #             args = { '--verbose' },
+      #             root_files = { 'pyproject.toml', 'setup.cfg', 'setup.py', 'pytest.ini' },
+      #           },
+      #         },
+      #         output = {
+      #           open_on_run = true,
+      #           enter = true,
+      #         },
+      #         status = {
+      #           virtual_text = true,
+      #           signs = true,
+      #         },
+      #       }
+      #
+      #       -- vim.api.nvim_create_autocmd('BufWritePost', {
+      #       --   pattern = '*.py',
+      #       --   callback = function()
+      #       --     neotest.run.run(vim.fn.expand '%', {
+      #       --       handler = handle_test_results,
+      #       --     })
+      #       --   end,
+      #       -- })
+      #       --
+      #       vim.keymap.set('n', '<leader>tf', function()
+      #         neotest.run.run(vim.fn.expand '%')
+      #       end, { desc = 'Run current file' })
+      #
+      #       vim.keymap.set('n', '<leader>ts', function()
+      #         neotest.summary.toggle()
+      #       end, { desc = 'Toggle test summary' })
+      #
+      #       vim.keymap.set('n', '<leader>to', function()
+      #         neotest.output.open { enter = true }
+      #       end, { desc = 'Show test output' })
+      #     end,
+      #     ft = { 'python' },
+      #     keys = {
+      #       { '<leader>ts', desc = 'Toggle test summary' },
+      #       { '<leader>to', desc = 'Show test output' },
+      #     },
+      #   },
+      # }
+      #
+      # keymaps = {
+      #   silent = true;
+      #   lspBuf = {
+      #     gd = {
+      #       action = "definition";
+      #       desc = "Goto Definition";
+      #     };
+      #     gr = {
+      #       action = "references";
+      #       desc = "Goto References";
+      #     };
+      #     gD = {
+      #       action = "declaration";
+      #       desc = "Goto Declaration";
+      #     };
+      #     gI = {
+      #       action = "implementation";
+      #       desc = "Goto Implementation";
+      #     };
+      #     gT = {
+      #       action = "type_definition";
+      #       desc = "Type Definition";
+      #     };
+      #
+      #
+      #     -- Change breakpoint icons
+      #     -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
+      #     -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
+      #     -- local breakpoint_icons = vim.g.have_nerd_font
+      #     --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
+      #     --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
+      #     -- for type, icon in pairs(breakpoint_icons) do
+      #     --   local tp = 'Dap' .. type
+      #     --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
+      #     --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
+      #     -- end
+      #
       obsidian = {
         enable = true;
         autoLoad = true;
@@ -420,21 +586,33 @@
         };
       };
       # precognition.enable = true;
-      project-nvim = {
+      # project-nvim = {
+      #   enable = true;
+      #   enableTelescope = true;
+      #   settings = {
+      #     detection_methods = [
+      #       "lsp"
+      #       "pattern"
+      #     ];
+      #     patterns = [
+      #       ".git"
+      #       "pyproject.toml"
+      #       "package.yaml"
+      #       "Cargo.toml"
+      #     ];
+      #     showHidden = true;
+      #   };
+      # };
+      projections = {
         enable = true;
-        enableTelescope = true;
         settings = {
-          detection_methods = [
-            "lsp"
-            "pattern"
-          ];
           patterns = [
             ".git"
-            "pyproject.toml"
-            "package.yaml"
-            "Cargo.toml"
           ];
-          showHidden = true;
+          workspaces = [
+            "~/projects/pocketsizefund/pocketsizefund"
+            "~/dotfiles/"
+          ];
         };
       };
       scope = {
@@ -448,6 +626,7 @@
         enable = true;
         enabledExtensions = [
           "scope"
+          "projections"
         ];
       };
       treesitter = {
@@ -562,23 +741,59 @@
         action = "<cmd>Yazi<cr>";
         options.desc = "[f]ile [f]ind";
       }
+      {
+        mode = "n";
+        key = "<leader>jw";
+        action = "<cmd>HopWord<cr>";
+        options.desc = "[j]ump to [w]ord";
+      }
+      {
+        mode = "n";
+        key = "<leader>ja";
+        action = "<cmd>HopAnywhere<cr>";
+        options.desc = "[j]ump to [j]ust";
+      }
 
+      {
+        mode = "n";
+        key = "<leader>jn";
+        action = "<cmd>HopNodes<cr>";
+        options.desc = "[j]ump to [n]ode";
+      }
+
+      {
+        mode = "n";
+        key = "<leader>j/";
+        action = "<cmd>HopPattern<cr>";
+        options.desc = "[j]ump to [p]attern";
+      }
+      {
+        mode = "n";
+        key = "<leader>jj";
+        action = "<cmd>HopLineAC<cr>";
+        options.desc = "[j]ump down to line";
+      }
+      {
+        mode = "n";
+        key = "<leader>jk";
+        action = "<cmd>HopLineBC<cr>";
+        options.desc = "[j]ump up to line";
+      }
       #   },
       #   keys = {
       #     { '<leader>lf', '<cmd>ObsidianFollowLink<cr>', desc = '[L]ink [F]ollow' },
       #   },
       # }
-
       {
         mode = "n";
         key = "<leader>o";
-        action = "<cmd>lua MiniFiles.open()<cr>";
+        action = "<cmd>Yazi<cr>";
         options.desc = "[o]ile file tree";
       }
       {
         mode = "n";
         key = "<leader>mm";
-        action = "<cmd>lua MiniMap.toggle()<cr>";
+        action = "<cmd>lua MiniMap.toggle()<cr><cmd>AerialToggle!<cr>";
         options.desc = "[m]ini [m]ap";
       }
       {
@@ -592,6 +807,12 @@
         key = "<leader>gg";
         action = "<cmd>Neogit<cr>";
         options.desc = "[g]it";
+      }
+      {
+        mode = "n";
+        key = "<leader>gl";
+        action = "<cmd>LazyGit<cr>";
+        options.desc = "[g]it [l]azygit";
       }
       {
         mode = "n";
@@ -655,126 +876,6 @@
   };
 }
 # #
-# return {
-#   {
-#     'nvim-neotest/neotest',
-#     dependencies = {
-#       'nvim-lua/plenary.nvim',
-#       'antoinemadec/FixCursorHold.nvim',
-#       'nvim-treesitter/nvim-treesitter',
-#       'nvim-neotest/neotest-python',
-#     },
-#     config = function()
-#       local neotest = require 'neotest'
-#
-#       local function handle_test_results(test_results)
-#         local errors = {}
-#         for position_id, result in pairs(test_results) do
-#           local pos = neotest.positions.get(position_id)
-#           if result.status == 'failed' then
-#             table.insert(errors, {
-#               filename = pos.path,
-#               lnum = pos.range[1] + 1, -- Convert to 1-based line number
-#               text = result.short .. (result.errors and result.errors[1] or ''),
-#               type = 'E',
-#             })
-#           end
-#         end
-#
-#         if #errors > 0 then
-#           vim.fn.setqflist(errors)
-#           vim.cmd 'copen'
-#         else
-#           vim.fn.setqflist {}
-#           vim.cmd 'cclose'
-#         end
-#       end
-#
-#       neotest.setup {
-#         adapters = {
-#           require 'neotest-python' {
-#             runner = 'pytest',
-#             python = vim.fn.exepath 'python3',
-#             args = { '--verbose' },
-#             root_files = { 'pyproject.toml', 'setup.cfg', 'setup.py', 'pytest.ini' },
-#           },
-#         },
-#         output = {
-#           open_on_run = true,
-#           enter = true,
-#         },
-#         status = {
-#           virtual_text = true,
-#           signs = true,
-#         },
-#       }
-#
-#       -- vim.api.nvim_create_autocmd('BufWritePost', {
-#       --   pattern = '*.py',
-#       --   callback = function()
-#       --     neotest.run.run(vim.fn.expand '%', {
-#       --       handler = handle_test_results,
-#       --     })
-#       --   end,
-#       -- })
-#       --
-#       vim.keymap.set('n', '<leader>tf', function()
-#         neotest.run.run(vim.fn.expand '%')
-#       end, { desc = 'Run current file' })
-#
-#       vim.keymap.set('n', '<leader>ts', function()
-#         neotest.summary.toggle()
-#       end, { desc = 'Toggle test summary' })
-#
-#       vim.keymap.set('n', '<leader>to', function()
-#         neotest.output.open { enter = true }
-#       end, { desc = 'Show test output' })
-#     end,
-#     ft = { 'python' },
-#     keys = {
-#       { '<leader>ts', desc = 'Toggle test summary' },
-#       { '<leader>to', desc = 'Show test output' },
-#     },
-#   },
-# }
-#
-# keymaps = {
-#   silent = true;
-#   lspBuf = {
-#     gd = {
-#       action = "definition";
-#       desc = "Goto Definition";
-#     };
-#     gr = {
-#       action = "references";
-#       desc = "Goto References";
-#     };
-#     gD = {
-#       action = "declaration";
-#       desc = "Goto Declaration";
-#     };
-#     gI = {
-#       action = "implementation";
-#       desc = "Goto Implementation";
-#     };
-#     gT = {
-#       action = "type_definition";
-#       desc = "Type Definition";
-#     };
-#
-#
-#     -- Change breakpoint icons
-#     -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
-#     -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
-#     -- local breakpoint_icons = vim.g.have_nerd_font
-#     --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-#     --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
-#     -- for type, icon in pairs(breakpoint_icons) do
-#     --   local tp = 'Dap' .. type
-#     --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-#     --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
-#     -- end
-#
 # return {
 #   'mfussenegger/nvim-dap',
 #   dependencies = {
