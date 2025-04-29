@@ -6,7 +6,7 @@
   imports = [
     ./ai.nix
     # ./emacs.nix
-    ./git.nix
+    ./gt.nix
     ./haskell.nix
     ./media.nix
     ./nix.nix

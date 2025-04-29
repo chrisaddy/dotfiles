@@ -18,6 +18,9 @@
     colorschemes.tokyonight.enable = true;
     globals.mapleader = " ";
     globals.maplocalleader = " ";
+    extraPlugins = [
+      pkgs.vimPlugins.haskell-tools-nvim
+    ];
     opts = {
       number = true;
       relativenumber = true;
@@ -140,11 +143,11 @@
                   return
                 end
 
-                local function on_format(err)
-                  if err and err:match("timeout$") then
-                    slow_format_filetypes[vim.bo[bufnr].filetype] = true
-                  end
-                end
+                -- local function on_format(err)
+                --   if err and err:match("timeout$") then
+                --     slow_format_filetypes[vim.bo[bufnr].filetype] = true
+                --   end
+                -- end
 
                 return { timeout_ms = 200, lsp_fallback = true }, on_format
                end
@@ -152,7 +155,32 @@
           default_format_opts.lsp_format = "fallback";
         };
       };
-      dap.enable = true;
+      dap = {
+        enable = true;
+        settings = {
+          adapters.haskell = {
+            type = "executable";
+            command = "haskell-debug-adapter";
+            args = [];
+          };
+          configurations.haskell = [
+            {
+              type = "haskell";
+              request = "launch";
+              name = "Debug Haskell";
+              workspace = "\${workspaceFolder}";
+              startup = "\${file}";
+              stopOnEntry = true;
+              logFile = "/tmp/haskell-dap.log";
+              logLevel = "DEBUG";
+              ghciEnv = {};
+              ghciPrompt = "λ: ";
+              ghciInitialPrompt = "λ: ";
+              ghciCmd = "cabal repl";
+            }
+          ];
+        };
+      };
       dap-ui = {
         enable = true;
         settings = {
@@ -264,11 +292,11 @@
           bashls.enable = true;
           dockerls.enable = true;
           docker_compose_language_service.enable = true;
-          ghcide.enable = true;
-          hls = {
-            enable = true;
-            installGhc = true;
-          };
+          # ghcide.enable = true;
+          # hls = {
+          #   enable = true;
+          #   installGhc = true;
+          # };
           html.enable = true;
           htmx.enable = true;
           idris2_lsp.enable = true;
@@ -567,6 +595,7 @@
       #     --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
       #     -- end
       #
+      cmp-nvim-lsp.enable = true;
       obsidian = {
         enable = true;
         autoLoad = true;
@@ -872,6 +901,33 @@
         action = "";
         options.desc = "[g]it";
       }
+
+      {
+        mode = "n";
+        key = "<leader>cl";
+        action = "<cmd>lua vim.lsp.codelens.run()<cr>";
+        options.desc = "[c]ode [l]ens";
+      }
+      {
+        mode = "n";
+        key = "<leader>ca";
+        action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+        options.desc = "[c]ode action";
+      }
+      {
+        mode = "n";
+        key = "<leader>hs";
+        action = "<cmd>lua require('haskell-tools').hoogle.hoogle_signature()<cr>";
+        options.desc = "[h]askell [signature]";
+      }
+      # vim.keymap.set('n', '<space>hs', ht.hoogle.hoogle_signature, opts)
+      # -- Evaluate all code snippets
+      # vim.keymap.set('n', '<space>ea', ht.lsp.buf_eval_all, opts)
+      # -- Toggle a GHCi repl for the current package
+      # vim.keymap.set('n', '<leader>rr', ht.repl.toggle, opts)
+      # -- Toggle a GHCi repl for the current buffer
+      # vim.keymap.set('n', '<leader>rf', function()
+      #   ht.repl.toggle(vim.api.nvim_buf_get_name(0))
       {
         mode = "n";
         key = "<leader>gg";
@@ -897,7 +953,7 @@
       {
         mode = "n";
         key = "<leader>sk";
-        action = "<cmd>Telescope <cr>";
+        action = "<cmd>Telescope keymaps<cr>";
         options.desc = "[s]earch [k]eymaps";
       }
       {

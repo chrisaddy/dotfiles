@@ -13,6 +13,8 @@
     haskellPackages.implicit-hie # Auto-generate hie.yaml files
     haskellPackages.hspec-discover # Test framework
     haskellPackages.cabal-fmt # Formatter for cabal files
+    haskellPackages.fast-tags
+    haskellPackages.haskell-debug-adapter
   ];
 
   home.shellAliases = {

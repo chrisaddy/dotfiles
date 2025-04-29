@@ -311,8 +311,8 @@
   (evil-commentary-mode))
 
 (use-package general
-  :config
   :ensure t
+  :config
   (general-create-definer hyperprior/leader-keys
     :keymaps '(normal insert visual emacs)
     :prefix "SPC"
@@ -357,7 +357,7 @@
     "os"  '(helm-org-rifle-occur-org-directory  :which-key "org search")
     "r"   '(:ignore t                           :which-key "reload")
     "ri"  '(hyperprior/reload-init              :which-key "reload init.el")
-    "th"  '(vterm                               :which-key "terminal here")
+    ; "th"  '(vterm                               :which-key "terminal here")
     ))
 
 (use-package keycast)
@@ -368,7 +368,7 @@
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 ; ;; TERMINAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package vterm)
+; (use-package vterm)
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 ; ;; SNIPPETS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -459,7 +459,6 @@
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
          ("C-r"     . 'counsel-minibuffer-history)))
-
 
 (use-package listen
   :config
