@@ -8,7 +8,7 @@
     theme = "challenger_deep";
     settings = {
       font.normal.family = "JetBrains Mono";
-      font.size = 24.0;
+      font.size = 20.0;
       window = {
         decorations = "none";
         dimensions = {

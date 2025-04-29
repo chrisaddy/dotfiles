@@ -5,6 +5,7 @@
 }: {
   home.packages = with pkgs; [
     vale
+    markdownlint-cli
     markdownlint-cli2
     jq
     hadolint
@@ -139,10 +140,6 @@
                   return
                 end
 
-                -- if slow_format_filetypes[vim.bo[bufnr].filetype] then
-                --   return
-                -- end
-                --
                 local function on_format(err)
                   if err and err:match("timeout$") then
                     slow_format_filetypes[vim.bo[bufnr].filetype] = true
@@ -179,7 +176,69 @@
           };
         };
       };
-      hardtime.enable = true;
+      debugprint = {
+        enable = true;
+        settings = {
+          filetypes = {
+            python = {
+              left = "print(f'";
+              right = "')";
+              mid_var = "{";
+              right_var = "}')";
+            };
+          };
+        };
+      };
+      gitmessenger = {
+        enable = true;
+        settings = {
+          extra_blame_args = "-w";
+          include_diff = "current";
+        };
+      };
+      hlchunk = {
+        enable = true;
+        settings = {
+          blank = {
+            enable = false;
+          };
+          chunk = {
+            chars = {
+              horizontal_line = "─";
+              left_bottom = "╰";
+              left_top = "╭";
+              right_arrow = "─";
+              vertical_line = "│";
+            };
+            enable = true;
+            exclude_filetypes = {
+              lazyterm = true;
+              neo-tree = true;
+            };
+            style = {
+              fg = "#91bef0";
+            };
+            use_treesitter = true;
+          };
+          indent = {
+            chars = [
+              "│"
+            ];
+            exclude_filetypes = {
+              lazyterm = true;
+              neo-tree = true;
+            };
+            style = {
+              fg = "#45475a";
+            };
+            use_treesitter = false;
+          };
+          line_num = {
+            style = "#91bef0";
+            use_treesitter = true;
+          };
+        };
+      };
       hmts.enable = true;
       hop.enable = true;
       lazygit.enable = true;
@@ -191,7 +250,6 @@
           json = ["jq"];
           markdown = [
             "markdownlint"
-            "vale"
           ];
           python = ["ruff"];
           rst = ["vale"];
@@ -561,6 +619,7 @@
       octo = {
         enable = true;
       };
+      oil.enable = true;
       parrot = {
         enable = true;
         settings = {
@@ -621,6 +680,18 @@
       snacks = {
         enable = true;
       };
+      spider = {
+        enable = true;
+        keymaps = {
+          motions = {
+            b = "b";
+            e = "e";
+            ge = "ge";
+            w = "w";
+          };
+          silent = true;
+        };
+      };
       supermaven.enable = true;
       telescope = {
         enable = true;
@@ -667,7 +738,6 @@
         move.enable = true;
         select.enable = true;
       };
-
       trouble.enable = true;
       twilight = {
         enable = true;
@@ -787,8 +857,8 @@
       {
         mode = "n";
         key = "<leader>o";
-        action = "<cmd>Yazi<cr>";
-        options.desc = "[o]ile file tree";
+        action = "<cmd>Oil<cr>";
+        options.desc = "[o]il file tree";
       }
       {
         mode = "n";
@@ -823,6 +893,12 @@
         mode = "n";
         key = "<leader>sf";
         action = "<cmd>Telescope find_files<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>sk";
+        action = "<cmd>Telescope <cr>";
+        options.desc = "[s]earch [k]eymaps";
       }
       {
         mode = "n";
