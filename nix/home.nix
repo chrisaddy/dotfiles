@@ -6,10 +6,11 @@
   imports = [
     ./ai.nix
     # ./emacs.nix
-    ./gt.nix
+    ./git.nix
     ./haskell.nix
     ./media.nix
     ./nix.nix
+    ./notes.nix
     ./python.nix
     ./shells.nix
     ./terminal.nix
@@ -21,10 +22,9 @@
   home.stateVersion = "23.11";
 
   home.packages = with pkgs; [
-    git
     fd
     ripgrep
-    pyenv
+    # Removed pyenv to avoid collision with python311
     direnv
     zoxide
   ];

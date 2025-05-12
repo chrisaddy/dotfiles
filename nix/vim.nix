@@ -18,8 +18,15 @@
     colorschemes.tokyonight.enable = true;
     globals.mapleader = " ";
     globals.maplocalleader = " ";
+
     extraPlugins = [
       pkgs.vimPlugins.haskell-tools-nvim
+      pkgs.vimPlugins.FixCursorHold-nvim
+      pkgs.vimPlugins.neotest-plenary
+      pkgs.vimPlugins.plenary-nvim
+      pkgs.vimPlugins.nvim-nio
+      pkgs.vimPlugins.neotest-haskell
+      pkgs.vimPlugins.limelight-vim
     ];
     opts = {
       number = true;
@@ -90,6 +97,8 @@
           {name = "buffer";}
         ];
       };
+      cmp-latex-symbols.enable = true;
+      cmp-nvim-lsp.enable = true;
       codecompanion.enable = true;
       conform-nvim = {
         enable = true;
@@ -143,12 +152,6 @@
                   return
                 end
 
-                -- local function on_format(err)
-                --   if err and err:match("timeout$") then
-                --     slow_format_filetypes[vim.bo[bufnr].filetype] = true
-                --   end
-                -- end
-
                 return { timeout_ms = 200, lsp_fallback = true }, on_format
                end
             '';
@@ -158,14 +161,15 @@
       dap = {
         enable = true;
         settings = {
-          adapters.haskell = {
+          adapters.ghc = {
             type = "executable";
             command = "haskell-debug-adapter";
             args = [];
           };
+
           configurations.haskell = [
             {
-              type = "haskell";
+              type = "ghc";
               request = "launch";
               name = "Debug Haskell";
               workspace = "\${workspaceFolder}";
@@ -179,6 +183,22 @@
               ghciCmd = "cabal repl";
             }
           ];
+          configurations.python = [
+            {
+              type = "python";
+              request = "launch";
+              name = "Debug Python";
+              program = "${pkgs.python3.interpreter}";
+              console = "integratedTerminal";
+              justMyCode = false;
+            }
+          ];
+        };
+      };
+      dap-python = {
+        enable = true;
+        settings = {
+          python_path = "${pkgs.python311}/bin/python";
         };
       };
       dap-ui = {
@@ -204,15 +224,84 @@
           };
         };
       };
-      debugprint = {
+      femaco = {enable = true;};
+      fzf-lua = {
         enable = true;
         settings = {
-          filetypes = {
-            python = {
-              left = "print(f'";
-              right = "')";
-              mid_var = "{";
-              right_var = "}')";
+          files = {
+            color_icons = true;
+            file_icons = true;
+            find_opts = {
+              __raw = "[[-type f -not -path '*.git/objects*' -not -path '*.env*']]";
+            };
+            multiprocess = true;
+            prompt = "Files❯ ";
+          };
+          winopts = {
+            col = 0.3;
+            height = 0.9;
+            row = 0.99;
+            width = 0.93;
+          };
+        };
+        keymaps = {
+          "<leader><leader>" = {
+            action = "buffers";
+            options = {
+              silent = true;
+              desc = "[f]ind [b]uffers";
+            };
+          };
+          "<leader>fc" = {
+            action = "command_history";
+            options = {
+              silent = true;
+              desc = "[f]ind [c]ommand history";
+            };
+          };
+          "<leader>ff" = {
+            action = "files";
+            options = {
+              silent = true;
+              desc = "[f]ind [f]iles";
+            };
+          };
+          "<leader>fg" = {
+            action = "live_grep";
+            settings = {
+              previewers.cat.cmd = lib.getExe' pkgs.coreutils "cat";
+            };
+            options = {
+              silent = true;
+              desc = "[f]ind with [g]rep";
+            };
+          };
+          "<leader>fm" = {
+            action = "marks";
+            options = {
+              silent = true;
+              desc = "[f]ind [m]arks";
+            };
+          };
+          "<leader>fk" = {
+            action = "keymaps";
+            options = {
+              silent = true;
+              desc = "[f]ind [k]eymaps";
+            };
+          };
+          "<leader>fr" = {
+            action = "registers";
+            options = {
+              silent = true;
+              desc = "[f]ind [r]egisters";
+            };
+          };
+          "<leader>gc" = {
+            action = "git_commit";
+            options = {
+              silent = true;
+              desc = "[g]it [c]ommit";
             };
           };
         };
@@ -223,6 +312,20 @@
           extra_blame_args = "-w";
           include_diff = "current";
         };
+      };
+      glance = {
+        enable = true;
+        settings = {
+          border = {
+            enable = true;
+          };
+          height = 40;
+          use_trouble_qf = true;
+          zindex = 50;
+        };
+      };
+      goyo = {
+        enable = true;
       };
       hlchunk = {
         enable = true;
@@ -269,6 +372,7 @@
       };
       hmts.enable = true;
       hop.enable = true;
+      illuminate.enable = true;
       lazygit.enable = true;
       lint = {
         enable = true;
@@ -292,11 +396,6 @@
           bashls.enable = true;
           dockerls.enable = true;
           docker_compose_language_service.enable = true;
-          # ghcide.enable = true;
-          # hls = {
-          #   enable = true;
-          #   installGhc = true;
-          # };
           html.enable = true;
           htmx.enable = true;
           idris2_lsp.enable = true;
@@ -456,6 +555,7 @@
           };
         };
       };
+      nabla.enable = true;
       neogit = {
         enable = true;
         settings = {
@@ -468,134 +568,44 @@
           description_editor.kind = "floating";
           rebase_editor.kind = "floating";
           reflog_view.kind = "floating";
-          integrations.telescope = true;
+          integrations.fzf-lua = true;
         };
       };
       neotest = {
         enable = true;
         settings = {
+          diagnostic = {
+            enabled = true;
+            severity = "warn";
+          };
+          discovery = {
+            enabled = true;
+            concurrent = 0;
+          };
+          output = {
+            enabled = true;
+            open_on_run = "short";
+          };
+          quickfix = {
+            enabled = true;
+            open = true;
+          };
+        };
+        adapters = {
+          haskell = {
+            enable = true;
+            settings = {
+              command = "neotest-haskell";
+            };
+          };
+          plenary = {
+            enable = true;
+          };
+          python = {
+            enable = true;
+          };
         };
       };
-      # return {
-      #   {
-      #     dependencies = {
-      #       'nvim-lua/plenary.nvim',
-      #       'antoinemadec/FixCursorHold.nvim',
-      #       'nvim-treesitter/nvim-treesitter',
-      #       'nvim-neotest/neotest-python',
-      #     },
-      #     config = function()
-      #       local neotest = require 'neotest'
-      #
-      #       local function handle_test_results(test_results)
-      #         local errors = {}
-      #         for position_id, result in pairs(test_results) do
-      #           local pos = neotest.positions.get(position_id)
-      #           if result.status == 'failed' then
-      #             table.insert(errors, {
-      #               filename = pos.path,
-      #               lnum = pos.range[1] + 1, -- Convert to 1-based line number
-      #               text = result.short .. (result.errors and result.errors[1] or ''),
-      #               type = 'E',
-      #             })
-      #           end
-      #         end
-      #
-      #         if #errors > 0 then
-      #           vim.fn.setqflist(errors)
-      #           vim.cmd 'copen'
-      #         else
-      #           vim.fn.setqflist {}
-      #           vim.cmd 'cclose'
-      #         end
-      #       end
-      #
-      #       neotest.setup {
-      #         adapters = {
-      #           require 'neotest-python' {
-      #             runner = 'pytest',
-      #             python = vim.fn.exepath 'python3',
-      #             args = { '--verbose' },
-      #             root_files = { 'pyproject.toml', 'setup.cfg', 'setup.py', 'pytest.ini' },
-      #           },
-      #         },
-      #         output = {
-      #           open_on_run = true,
-      #           enter = true,
-      #         },
-      #         status = {
-      #           virtual_text = true,
-      #           signs = true,
-      #         },
-      #       }
-      #
-      #       -- vim.api.nvim_create_autocmd('BufWritePost', {
-      #       --   pattern = '*.py',
-      #       --   callback = function()
-      #       --     neotest.run.run(vim.fn.expand '%', {
-      #       --       handler = handle_test_results,
-      #       --     })
-      #       --   end,
-      #       -- })
-      #       --
-      #       vim.keymap.set('n', '<leader>tf', function()
-      #         neotest.run.run(vim.fn.expand '%')
-      #       end, { desc = 'Run current file' })
-      #
-      #       vim.keymap.set('n', '<leader>ts', function()
-      #         neotest.summary.toggle()
-      #       end, { desc = 'Toggle test summary' })
-      #
-      #       vim.keymap.set('n', '<leader>to', function()
-      #         neotest.output.open { enter = true }
-      #       end, { desc = 'Show test output' })
-      #     end,
-      #     ft = { 'python' },
-      #     keys = {
-      #       { '<leader>ts', desc = 'Toggle test summary' },
-      #       { '<leader>to', desc = 'Show test output' },
-      #     },
-      #   },
-      # }
-      #
-      # keymaps = {
-      #   silent = true;
-      #   lspBuf = {
-      #     gd = {
-      #       action = "definition";
-      #       desc = "Goto Definition";
-      #     };
-      #     gr = {
-      #       action = "references";
-      #       desc = "Goto References";
-      #     };
-      #     gD = {
-      #       action = "declaration";
-      #       desc = "Goto Declaration";
-      #     };
-      #     gI = {
-      #       action = "implementation";
-      #       desc = "Goto Implementation";
-      #     };
-      #     gT = {
-      #       action = "type_definition";
-      #       desc = "Type Definition";
-      #     };
-      #
-      #
-      #     -- Change breakpoint icons
-      #     -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
-      #     -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
-      #     -- local breakpoint_icons = vim.g.have_nerd_font
-      #     --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-      #     --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
-      #     -- for type, icon in pairs(breakpoint_icons) do
-      #     --   local tp = 'Dap' .. type
-      #     --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-      #     --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
-      #     -- end
-      #
-      cmp-nvim-lsp.enable = true;
       obsidian = {
         enable = true;
         autoLoad = true;
@@ -624,7 +634,7 @@
             folder = "calendar/daily";
           };
           picker = {
-            name = "telescope.nvim";
+            name = "fzf-lua";
           };
           note_id_func = ''
             function(title)
@@ -649,34 +659,19 @@
         enable = true;
       };
       oil.enable = true;
-      parrot = {
+      projections = {
         enable = true;
         settings = {
-          cmd_prefix = "Parrot";
-          providers = {
-            anthropic = {
-              api_key.__raw = "os.getenv 'ANTHROPIC_API_KEY'";
-            };
-            openai = {
-              api_key.__raw = "os.getenv 'OPENAI_API_KEY'";
-            };
-          };
-          hooks = {
-            Ask.__raw = ''
-              function(parrot, params)
-                local template = "Please, answer to this question: {{command}}."
-                local model_obj = parrot.get_model("command")
-                parrot.logger.info("Asking model: " .. model_obj.name)
-                parrot.Prompt(params, parrot.ui.Target.popup, model_obj, "🤖 Ask ~ ", template)
-              end
-            '';
-          };
+          patterns = [".git"];
+          workspaces = [
+            "~/vaults/zettelkasten"
+            "~/projects/pocketsizefund/pocketsizefund"
+            "~/projects/pocketsizefund/pocketsizefund"
+          ];
         };
       };
-      # precognition.enable = true;
       # project-nvim = {
       #   enable = true;
-      #   enableTelescope = true;
       #   settings = {
       #     detection_methods = [
       #       "lsp"
@@ -684,51 +679,24 @@
       #     ];
       #     patterns = [
       #       ".git"
-      #       "pyproject.toml"
       #       "package.yaml"
+      #       "stack.yaml"
       #       "Cargo.toml"
+      #       "pyproject.toml"
       #     ];
       #     showHidden = true;
+      #     # silent_chdir = false;
+      #     # scope_chdir = "win";
+      #     # manual_mode = true;
       #   };
       # };
-      projections = {
-        enable = true;
-        settings = {
-          patterns = [
-            ".git"
-          ];
-          workspaces = [
-            "~/projects/pocketsizefund/pocketsizefund"
-            "~/dotfiles/"
-          ];
-        };
-      };
       scope = {
         enable = true;
       };
       snacks = {
         enable = true;
       };
-      spider = {
-        enable = true;
-        keymaps = {
-          motions = {
-            b = "b";
-            e = "e";
-            ge = "ge";
-            w = "w";
-          };
-          silent = true;
-        };
-      };
       supermaven.enable = true;
-      telescope = {
-        enable = true;
-        enabledExtensions = [
-          "scope"
-          "projections"
-        ];
-      };
       treesitter = {
         enable = true;
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -737,6 +705,7 @@
           diff
           html
           json
+          latex
           lua
           luadoc
           make
@@ -790,13 +759,110 @@
         enable = true;
       };
       wtf.enable = true;
-      yazi.enable = true;
+      zen-mode = {
+        enable = true;
+        settings.plugins.options = {
+          number = false;
+          signcolumn = "no";
+          tmux = {
+            enabled = false;
+          };
+        };
+      };
     };
     keymaps = [
       {
         mode = "n";
+        key = "<leader>tf";
+        action.__raw = "function()
+          vim.cmd('silent! wall')
+          require('neotest').run.run(vim.fn.expand('%'))
+        end";
+        options.desc = "Run current file";
+      }
+      {
+        mode = "n";
+        key = "<leader>tl";
+        action = "<cmd>wall<cr><cmd>Neotest run last<cr>";
+        options.desc = "[t]est run [l]ast";
+      }
+      {
+        mode = "n";
+        key = "<leader>mp";
+        action = "<cmd>lua require('nabla').popup()<cr>";
+        options.desc = "[m]ath [p]opup";
+      }
+      {
+        mode = "n";
+        key = "<leader>ta";
+        action.__raw = "function()
+          vim.cmd('silent! wall')
+          require('neotest').run.run({vim.fn.getcwd(), strategy = 'dap'})
+        end";
+        options.desc = "[t]est run [a]ll";
+      }
+      {
+        mode = "n";
+        key = "<leader>tj";
+        action = "<cmd>Neotest jump next<cr>";
+        options.desc = "[t]est [j]ump next";
+      }
+      {
+        mode = "n";
+        key = "<leader>tk";
+        action = "<cmd>Neotest jump prev<cr>";
+        options.desc = "[t]est [k]ump previous";
+      }
+      {
+        mode = "n";
+        key = "<leader>to";
+        action = "<cmd>Neotest output-panel toggle<cr>";
+        options.desc = "[t]est [o]utput panel";
+      }
+      {
+        mode = "n";
+        key = "<leader>ts";
+        action = "<cmd>Neotest summary toggle<cr>";
+        options.desc = "[t]est [s]ummary";
+      }
+      {
+        mode = "n";
+        key = "<leader>tm";
+        action.__raw = "function()
+          -- Make sure changes are saved before running tests
+          vim.cmd('silent! wall')
+          require('neotest').run.run({vim.fn.expand('%'), adapter = 'haskell'})
+        end";
+        options.desc = "Run Haskell module tests";
+      }
+      {
+        mode = "n";
+        key = "<leader>hr";
+        action = "<cmd>Haskell repl toggle<cr>";
+        options.desc = "[h]askell [r]epl";
+      }
+      {
+        mode = "n";
         key = "<Esc>";
         action = "<cmd>nohlsearch<CR>";
+      }
+      {
+        mode = "n";
+        key = "<leader>c";
+        action = "";
+        options.desc = "[c]ode";
+      }
+      {
+        mode = "n";
+        key = "<leader>f";
+        action = "";
+        options.desc = "[f]ind";
+      }
+      {
+        mode = "n";
+        key = "<leader>ft";
+        action = "<cmd>ObsidianSearch #todo<cr>";
+        options.desc = "[f]ind [t]odo";
       }
       {
         mode = "n";
@@ -806,7 +872,7 @@
       }
       {
         mode = "n";
-        key = "<leader>fs";
+        key = "<leader>sf";
         action = "<cmd>w<cr>";
         options.desc = "[f]ile [s]ave";
       }
@@ -824,21 +890,21 @@
       }
       {
         mode = "n";
+        key = "<leader>nb";
+        action = "<cmd>ObsidianBacklinks<cr>";
+        options.desc = "[n]ote [b]acklinks";
+      }
+      {
+        mode = "n";
         key = "<leader>nn";
         action = "<cmd>ObsidianNew<cr>";
-        options.desc = "[n]ew [n]ote";
+        options.desc = "[n]ote [n]ew";
       }
       {
         mode = "n";
-        key = "<leader>sn";
+        key = "<leader>ns";
         action = "<cmd>ObsidianSearch<cr>";
-        options.desc = "[s]earch [n]otes";
-      }
-      {
-        mode = "n";
-        key = "<leader>ff";
-        action = "<cmd>Yazi<cr>";
-        options.desc = "[f]ile [f]ind";
+        options.desc = "[n]ote [s]earch";
       }
       {
         mode = "n";
@@ -878,11 +944,6 @@
         action = "<cmd>HopLineBC<cr>";
         options.desc = "[j]ump up to line";
       }
-      #   },
-      #   keys = {
-      #     { '<leader>lf', '<cmd>ObsidianFollowLink<cr>', desc = '[L]ink [F]ollow' },
-      #   },
-      # }
       {
         mode = "n";
         key = "<leader>o";
@@ -920,14 +981,6 @@
         action = "<cmd>lua require('haskell-tools').hoogle.hoogle_signature()<cr>";
         options.desc = "[h]askell [signature]";
       }
-      # vim.keymap.set('n', '<space>hs', ht.hoogle.hoogle_signature, opts)
-      # -- Evaluate all code snippets
-      # vim.keymap.set('n', '<space>ea', ht.lsp.buf_eval_all, opts)
-      # -- Toggle a GHCi repl for the current package
-      # vim.keymap.set('n', '<leader>rr', ht.repl.toggle, opts)
-      # -- Toggle a GHCi repl for the current buffer
-      # vim.keymap.set('n', '<leader>rf', function()
-      #   ht.repl.toggle(vim.api.nvim_buf_get_name(0))
       {
         mode = "n";
         key = "<leader>gg";
@@ -942,44 +995,9 @@
       }
       {
         mode = "n";
-        key = "<leader>sc";
-        action = "<cmd>Telescope command_history<cr>";
-      }
-      {
-        mode = "n";
-        key = "<leader>sf";
-        action = "<cmd>Telescope find_files<cr>";
-      }
-      {
-        mode = "n";
-        key = "<leader>sk";
-        action = "<cmd>Telescope keymaps<cr>";
-        options.desc = "[s]earch [k]eymaps";
-      }
-      {
-        mode = "n";
-        key = "<leader>sm";
-        action = "<cmd>Telescope marks<cr>";
-        options.desc = "[s]earch [m]arks";
-      }
-      {
-        mode = "n";
-        key = "<leader>sp";
-        action = "<cmd>Telescope projects<cr>";
-        options.desc = "[s]earch [p]rojects";
-      }
-
-      {
-        mode = "n";
-        key = "<leader>sr";
-        action = "<cmd>Telescope registers<cr>";
-        options.desc = "[s]earch [r]egisters";
-      }
-      {
-        mode = "n";
-        key = "<leader>st";
-        action = "<cmd>Telescope<cr>";
-        options.desc = "[s]earch [t]elescope";
+        key = "<leader>f<leader>";
+        action = "<cmd>FzfLua<cr>";
+        options.desc = "[f]ind menu";
       }
       {
         mode = "n";
@@ -1001,101 +1019,10 @@
       }
       {
         mode = "n";
-        key = "<leader><leader>";
-        action = "<cmd>Telescope scope buffers<cr>";
+        key = "<leader>zm";
+        action = "<cmd>Goyo<cr><cmd>Limelight!!<cr><cmd>ZenMode<cr>";
+        options.desc = "[z]en [m]ode";
       }
     ];
   };
 }
-# #
-# return {
-#   'mfussenegger/nvim-dap',
-#   dependencies = {
-#     'nvim-neotest/nvim-nio',
-#     'williamboman/mason.nvim',
-#     'jay-babu/mason-nvim-dap.nvim',
-#     'leoluz/nvim-dap-go',
-#   },
-#   keys = {
-#     {
-#       '<F5>',
-#       function()
-#         require('dap').continue()
-#       end,
-#       desc = 'Debug: Start/Continue',
-#     },
-#     {
-#       '<F1>',
-#       function()
-#         require('dap').step_into()
-#       end,
-#       desc = 'Debug: Step Into',
-#     },
-#     {
-#       '<F2>',
-#       function()
-#         require('dap').step_over()
-#       end,
-#       desc = 'Debug: Step Over',
-#     },
-#     {
-#       '<F3>',
-#       function()
-#         require('dap').step_out()
-#       end,
-#       desc = 'Debug: Step Out',
-#     },
-#     {
-#       '<leader>b',
-#       function()
-#         require('dap').toggle_breakpoint()
-#       end,
-#       desc = 'Debug: Toggle Breakpoint',
-#     },
-#     {
-#       '<leader>B',
-#       function()
-#         require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-#       end,
-#       desc = 'Debug: Set Breakpoint',
-#     },
-#     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-#     {
-#       '<F7>',
-#       function()
-#         require('dapui').toggle()
-#       end,
-#       desc = 'Debug: See last session result.',
-#     },
-#   },
-#   config = function()
-#     local dap = require 'dap'
-#     local dapui = require 'dapui'
-#
-#     require('mason-nvim-dap').setup {
-#       -- Makes a best effort to setup the various debuggers with
-#       -- reasonable debug configurations
-#       automatic_installation = true,
-#
-#       -- You can provide additional configuration to the handlers,
-#       -- see mason-nvim-dap README for more information
-#       handlers = {},
-#       },
-#     }
-#
-#     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-#     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-#     dap.listeners.before.event_exited['dapui_config'] = dapui.close
-#
-#     require('dap-go').setup {
-#       delve = {
-#         -- On Windows delve must be run attached or it crashes.
-#         -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-#         detached = vim.fn.has 'win32' == 0,
-#       },
-#     }
-#   end,
-# }
-#
-#
-

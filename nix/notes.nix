@@ -1,6 +1,9 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-		typst
-
+    just
+    just-formatter
+    just-lsp
+    typst
+    zk
   ];
 }

@@ -3,23 +3,15 @@
     lazygit
   ];
   programs = {
+    jujutsu.enable = true;
     git = {
       enable = true;
       ignores = [
         "*~"
         "*.swp"
       ];
-      includes = [
-        {
-          path = "~/.gitconfig";
-          contents = {
-            user = {
-              name = "chrisaddy";
-              email = "chris.william.addy@gmail.com";
-            };
-          };
-        }
-      ];
+      userName = "chrisaddy";
+      userEmail = "chris.william.addy@gmail.com";
     };
     gh = {
       enable = true;

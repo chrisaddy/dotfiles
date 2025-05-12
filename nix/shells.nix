@@ -1,4 +1,15 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [
+    fd
+    ripgrep
+    # pyenv removed to avoid collision with python311
+    direnv
+    zoxide
+    tmux
+    _1password-cli
+    _1password-gui
+  ];
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -32,6 +43,7 @@
     };
     sessionVariables = {
       EDITOR = "nvim";
+      ZK_NOTEBOOK_DIR = "$HOME/vaults/zettelkasten";
     };
     initContent = ''
       cmt() {
@@ -60,14 +72,4 @@
       source "$HOME/.secrets"
     '';
   };
-
-  home.packages = with pkgs; [
-    git
-    fd
-    ripgrep
-    pyenv
-    direnv
-    zoxide
-    tmux
-  ];
 }

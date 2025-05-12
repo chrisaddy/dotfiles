@@ -49,9 +49,13 @@
           nixpkgs = {
             hostPlatform = system;
             overlays = overlays;
+            config.allowBroken = true;
+
             config.allowUnfreePredicate = pkg:
               builtins.elem (lib.getName pkg) [
                 "claude-code"
+                "1password-cli"
+                "1password"
               ];
           };
 

@@ -5,6 +5,7 @@
 }: {
   home.packages = with pkgs; [
     nh
+    alejandra
 
     (writeShellScriptBin "clean-system" ''
       sudo nix-collect-garbage --delete-older-than 15d --verbose
