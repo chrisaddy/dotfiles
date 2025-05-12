@@ -18,8 +18,8 @@
     ./tmux.nix
     ./vim.nix
   ];
-  home.username = lib.mkForce "chrisaddy";
-  home.homeDirectory = lib.mkForce "/Users/chrisaddy";
+  #home.username = lib.mkForce "chrisaddy";
+  #home.homeDirectory = lib.mkForce "/Users/chrisaddy";
   home.stateVersion = "23.11";
 
   home.packages = with pkgs; [

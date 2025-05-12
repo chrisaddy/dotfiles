@@ -15,7 +15,7 @@
 
   programs.nixvim = {
     enable = true;
-    colorschemes.tokyonight.enable = true;
+    # colorschemes.tokyonight.enable = true;
     globals.mapleader = " ";
     globals.maplocalleader = " ";
 
