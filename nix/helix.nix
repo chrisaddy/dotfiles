@@ -90,7 +90,7 @@
         };
       };
       keys.normal = {
-        z.z = ":wq!";
+        Z.Z = ":wq!";
       };
     };
     ignores = [".stack-work"];
