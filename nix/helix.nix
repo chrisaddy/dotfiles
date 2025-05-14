@@ -21,7 +21,9 @@
           name = "nix";
           scope = "source.nix";
           language-servers = [
-            "nil"
+            {
+              command = "${pkgs.nil}/bin/nil"
+            }
             "nixd"
           ];
           formatter = {
