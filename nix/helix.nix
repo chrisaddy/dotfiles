@@ -45,9 +45,9 @@
             "rust-analyzer"
           ];
           formatter = {
-            command = "cargo";
+            command = "${pkgs.cargo}/bin/cargo";
             args = ["fmt"];
-          }
+          };
           auto-format = true;
           roots = ["Cargo.toml"];
         }
