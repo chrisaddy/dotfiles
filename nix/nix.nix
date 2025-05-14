@@ -13,6 +13,10 @@
       nix store gc --verbose
     '')
 
+    (writeShellScriptBin "search" ''
+     nh search $1 -j | jq .results.'[]'.package_attr_name | fzf
+     '')
+
     (writeShellScriptBin "up" ''
       # go to config directory
       pushd $HOME/dotfiles
