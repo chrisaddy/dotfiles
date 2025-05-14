@@ -1,4 +1,12 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [
+    # nix lsps
+    nil
+    nixd
+    # python lsps
+    ruff
+    pyright
+  ];
   programs.helix = {
     enable = true;
     defaultEditor = true;
@@ -12,6 +20,10 @@
         {
           name = "nix";
           scope = "source.nix";
+          language-servers = [
+            "nil"
+            "nixd"
+          ];
           formatter = {
             command = "${pkgs.alejandra}/bin/alejandra";
           };
