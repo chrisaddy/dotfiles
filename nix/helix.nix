@@ -109,10 +109,10 @@
     };
     ignores = [".stack-work" "__pycache__"];
     extraConfig = ''
-      [editor.keys.normal."["]
+      [keys.normal."["]
       b = ":buffer-previous"
 
-      [editor.keys.normal."]"]
+      [keys.normal."]"]
       b = "buffer-next"
     '';
     extraPackages = with pkgs; [
