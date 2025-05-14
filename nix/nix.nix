@@ -18,6 +18,7 @@
       pushd $HOME/dotfiles
       git add .
       git commit -m 'updates'
+      git pull --rebase
       pushd nix
 
       ${pkgs.alejandra}/bin/alejandra -q .
