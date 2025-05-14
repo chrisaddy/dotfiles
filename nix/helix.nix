@@ -104,12 +104,17 @@
         };
       };
       keys.normal = {
-        "[b" = ":buffer-previous";
-        "]b" = ":buffer-next";
         Z.Z = ":wq!";
       };
     };
     ignores = [".stack-work" "__pycache__"];
+    extraConfig = ''
+      [editor.keys.normal.[]
+      b = ":buffer-previous"
+
+      [editor.keys.normal.]]
+      b = "buffer-next"
+    '';
     extraPackages = with pkgs; [
       # haskell
       haskell-language-server
