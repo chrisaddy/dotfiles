@@ -104,6 +104,8 @@
         };
       };
       keys.normal = {
+        "[.b" = ":buffer-previous";
+        "].b" = ":buffer-next";
         Z.Z = ":wq!";
       };
     };
