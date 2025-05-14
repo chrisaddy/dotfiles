@@ -372,6 +372,35 @@
       };
       hmts.enable = true;
       hop.enable = true;
+      hunk = {
+        enable = true;
+        settings = {
+          hooks = {
+            on_diff_mount.__raw = ''
+              ---@param _context { buf: number, win: number }
+              function(_context) end
+            '';
+          };
+          on_tree_mount.__raw = ''
+            ---@param _context { buf: number, tree: NuiTree, opts: table }
+            function(_context) end
+          '';
+          keys = {
+            global = {
+              quit = [
+                "x"
+              ];
+            };
+          };
+          ui = {
+            layout = "horizontal";
+            tree = {
+              mode = "flat";
+              width = 40;
+            };
+          };
+        };
+      };
       illuminate.enable = true;
       lazygit.enable = true;
       lint = {
@@ -886,35 +915,6 @@
         mode = "n";
         key = "<leader>wl";
         action = "<cmd>vsplit<cr>";
-        options.desc = "[w]indow split right";
-      }
-      {
-        mode = "n";
-        key = "<leader>nb";
-        action = "<cmd>ObsidianBacklinks<cr>";
-        options.desc = "[n]ote [b]acklinks";
-      }
-      {
-        mode = "n";
-        key = "<leader>nn";
-        action = "<cmd>ObsidianNew<cr>";
-        options.desc = "[n]ote [n]ew";
-      }
-      {
-        mode = "n";
-        key = "<leader>ns";
-        action = "<cmd>ObsidianSearch<cr>";
-        options.desc = "[n]ote [s]earch";
-      }
-      {
-        mode = "n";
-        key = "<leader>jw";
-        action = "<cmd>HopWord<cr>";
-        options.desc = "[j]ump to [w]ord";
-      }
-      {
-        mode = "n";
-        key = "<leader>ja";
         action = "<cmd>HopAnywhere<cr>";
         options.desc = "[j]ump to [j]ust";
       }

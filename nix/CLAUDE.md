@@ -7,9 +7,8 @@ Nix-based dotfiles repository for managing macOS system configuration, including
 
 ## Commands
 - `nix flake update` - Update flake dependencies
-- `darwin-rebuild switch --flake .#Mac` - Apply system configuration
 - `clean-system` - Clean Nix store
-- `up` - Update and rebuild system
+- `up` - Update and rebuild system (always use this command for rebuilding)
 
 ## Style Guidelines
 - Nix files use 2-space indentation

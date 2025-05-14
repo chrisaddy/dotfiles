@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     fd
+    fzf
     ripgrep
     # pyenv removed to avoid collision with python311
     direnv
