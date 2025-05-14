@@ -24,7 +24,6 @@
             {
               command = "${pkgs.nil}/bin/nil"
             }
-            "nixd"
           ];
           formatter = {
             command = "${pkgs.alejandra}/bin/alejandra";
