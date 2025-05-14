@@ -22,7 +22,7 @@
           scope = "source.nix";
           language-servers = [
             {
-              command = "${pkgs.nil}/bin/nil"
+              command = "${pkgs.nil}/bin/nil";
             }
           ];
           formatter = {
