@@ -113,7 +113,7 @@
       b = ":buffer-previous"
 
       [keys.normal."]"]
-      b = "buffer-next"
+      b = ":buffer-next"
     '';
     extraPackages = with pkgs; [
       # haskell
