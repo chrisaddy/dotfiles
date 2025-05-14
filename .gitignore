@@ -1,3 +1,5 @@
 gcloud
 tmux/plugins
 nix/flake.lock
+
+**/.claude/settings.local.json

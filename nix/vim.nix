@@ -915,6 +915,12 @@
         mode = "n";
         key = "<leader>wl";
         action = "<cmd>vsplit<cr>";
+        options.desc = "Split window right";
+      }
+
+      {
+        mode = "n";
+        key = "<leader>jj";
         action = "<cmd>HopAnywhere<cr>";
         options.desc = "[j]ump to [j]ust";
       }

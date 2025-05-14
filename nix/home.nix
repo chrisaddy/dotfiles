@@ -7,7 +7,7 @@
     ./ai.nix
     # ./emacs.nix
     ./git.nix
-    ./helix.nix
+    ./hx
     ./haskell.nix
     ./helix.nix
     ./media.nix
@@ -17,7 +17,7 @@
     ./shells.nix
     ./terminal.nix
     ./tmux.nix
-    ./vim.nix
+    # ./vim.nix
   ];
   #home.username = lib.mkForce "chrisaddy";
   #home.homeDirectory = lib.mkForce "/Users/chrisaddy";
