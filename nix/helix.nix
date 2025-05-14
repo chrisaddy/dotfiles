@@ -3,12 +3,6 @@
     enable = true;
     defaultEditor = true;
     languages = {
-      debugger = {
-        enable = true;
-        name = "lldb-dap";
-        transport = "stdio";
-        command = "lldb-dap";
-      };
       language = [
         {
           name = "haskell";
@@ -35,8 +29,6 @@
             args = ["format" "--line-length" "88" "-"];
           };
           auto-format = true;
-          debugger = {
-          };
         }
         {
           name = "rust";
