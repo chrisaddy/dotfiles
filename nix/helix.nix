@@ -47,10 +47,10 @@
           language-servers = [
             "rust-analyzer"
           ];
-          formatter = {
-            command = "${pkgs.cargo}/bin/cargo";
-            args = ["fmt"];
-          };
+          # formatter = {
+          #   command = "${pkgs.cargo}/bin/cargo";
+          #   args = ["fmt"];
+          # };
           auto-format = true;
           roots = ["Cargo.toml"];
         }
