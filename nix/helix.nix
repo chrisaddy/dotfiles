@@ -36,9 +36,9 @@
             command = "${pkgs.ruff}/bin/ruff";
             args = ["format" "--line-length" "88" "-"];
           };
-          debugger = {
-            command = "${pkgs.}."
-          };
+          # debugger = {
+          #   command = "${pkgs.}."
+          # };
           auto-format = true;
         }
         {
