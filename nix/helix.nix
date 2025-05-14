@@ -23,7 +23,11 @@
             "pyproject.toml"
             "requirements.txt"
           ];
-          scope = "source.py";
+          scope = "source.python";
+          language-servers = [
+            "ruff"
+            "pyright"
+          ];
           formatter = {
             command = "${pkgs.ruff}/bin/ruff";
             args = ["format" "--line-length" "88" "-"];
@@ -86,7 +90,7 @@
         };
       };
       keys.normal = {
-        space.z.z = ":wq!";
+        z.z = ":wq!";
       };
     };
     ignores = [".stack-work"];
