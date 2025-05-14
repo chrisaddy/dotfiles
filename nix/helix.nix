@@ -40,7 +40,14 @@
         }
         {
           name = "rust";
-          scope = "source.rs";
+          scope = "source.rust";
+          language-servers = [
+            "rust-analyzer"
+          ];
+          formatter = {
+            command = "cargo";
+            args = ["fmt"];
+          }
           auto-format = true;
           roots = ["Cargo.toml"];
         }
@@ -99,12 +106,16 @@
     };
     ignores = [".stack-work" "__pycache__"];
     extraPackages = with pkgs; [
-      # nix lsps
+      # haskell
+      haskell-language-server
+      # nix
       nil
       nixd
-      # python lsps
+      # python
       ruff
       pyright
+      # rust
+      rust-analyzer
     ];
   };
 }
