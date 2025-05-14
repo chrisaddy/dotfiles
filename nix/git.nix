@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     lazygit
+    lazyjj
+    jujutsu
   ];
   programs = {
     jujutsu = {

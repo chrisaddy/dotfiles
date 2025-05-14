@@ -9,6 +9,7 @@
     ./git.nix
     ./helix.nix
     ./haskell.nix
+    ./helix.nix
     ./media.nix
     ./nix.nix
     ./notes.nix

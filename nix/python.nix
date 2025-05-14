@@ -1,17 +1,12 @@
-{pkgs, ...}: let
-  pythonEnv = pkgs.python311.withPackages (ps:
-    with ps; [
-      pytest
-      ipython
-      python-lsp-server
-    ]);
-in {
+{pkgs, ...}: {
   home.packages = with pkgs; [
-    pythonEnv
     mise
     uv
     ruff
     pre-commit
+    python313Packages.python-lsp-server
+    python313Packages.jedi-language-server
+    pyright
   ];
 
   home.shellAliases = {

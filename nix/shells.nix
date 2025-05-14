@@ -3,7 +3,7 @@
     fd
     fzf
     ripgrep
-    # pyenv removed to avoid collision with python311
+    pyenv
     direnv
     zoxide
     tmux
@@ -14,6 +14,11 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    enableNushellIntegration = true;
+  };
+
+  programs.nushell = {
+    enable = true;
   };
 
   programs.direnv = {
@@ -43,7 +48,7 @@
       cp = "cp -rfiv";
     };
     sessionVariables = {
-      EDITOR = "nvim";
+      EDITOR = "hx";
       ZK_NOTEBOOK_DIR = "$HOME/vaults/zettelkasten";
     };
     initContent = ''
@@ -65,11 +70,11 @@
       }
       eval "$(/opt/homebrew/bin/brew shellenv)"
 
-      # export PATH="$HOME/.local/bin:$PATH"
-      # export PYENV_ROOT="$HOME/.pyenv"
-      # [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-      # eval "$(direnv hook zsh)"
-      # eval "$(zoxide init zsh --cmd cd)"
+      export PATH="$HOME/.local/bin:$PATH"
+      export PYENV_ROOT="$HOME/.pyenv"
+      [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+      eval "$(pyenv init --path)"
+      eval "$(pyenv init -)"
       source "$HOME/.secrets"
     '';
   };
