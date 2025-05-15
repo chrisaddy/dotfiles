@@ -72,8 +72,8 @@
             zsh
           ];
 
-          users.users.caddy = {
-            home = "/Users/caddy";
+          users.users.chrisaddy = {
+            home = "/Users/chrisaddy";
             shell = pkgs.zsh;
           };
 
@@ -86,7 +86,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.caddy = {
+          home-manager.users.chrisaddy = {
             imports = [
               ./home.nix
               nixvim.homeManagerModules.nixvim
