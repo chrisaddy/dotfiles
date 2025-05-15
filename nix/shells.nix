@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
     fd
     fzf
@@ -24,7 +28,16 @@
 
   programs.nushell = {
     enable = true;
-    shellIntegration.enable = true;
+    envFile.text = ''
+      source-env /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.sh
+
+      # Custom PATH tweaks
+      $env.PATH = ($env.PATH
+        | split row (char esep)
+        | prepend /home/myuser/.apps
+        | append /usr/bin/env
+      )
+    '';
 
     extraConfig = ''
        let carapace_completer = {|spans|
