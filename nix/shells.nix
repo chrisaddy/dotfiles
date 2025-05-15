@@ -57,8 +57,7 @@
     extraConfig = ''
       $env.PATH = ($env.PATH |
         split row (char esep) |
-        prepend /home/myuser/.apps |
-        append /usr/bin/env
+        append /etc/profiles/per-user/${config.home.user}/bin
       )
     '';
   };
