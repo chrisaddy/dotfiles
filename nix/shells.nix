@@ -34,6 +34,10 @@
   programs.nushell = {
     enable = true;
 
+    environmentVariables = {
+      EDITOR = "hx";
+    };
+
     settings = {
       show_banner = false;
       completions = {
