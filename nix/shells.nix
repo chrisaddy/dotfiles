@@ -60,6 +60,11 @@
         append /etc/profiles/per-user/${config.home.username}/bin
       )
     '';
+    shellAliases = {
+      vi = "hx";
+      vim = "hx";
+      nano = "hx";
+    };
   };
 
   programs.direnv = {
