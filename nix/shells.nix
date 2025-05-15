@@ -36,19 +36,6 @@
     envFile.source = ../nu/env.nu;
     configFile.source = ../nu/config.nu;
 
-    envFile.text = ''
-      source-env "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-      source-env /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.sh
-
-      $env.PATH = $env.PATH ++ ["/etc/profiles/per-user/${config.home.username}/bin"]
-    '';
-
-    configFile.text = ''
-      let carapace_completer = {|spans|
-      carapace $spans.0 nushell ...$spans | from json
-      }
-    '';
-
     settings = {
       show_banner = false;
       completions = {
