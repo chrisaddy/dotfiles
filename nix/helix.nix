@@ -105,6 +105,8 @@
       };
       keys.normal = {
         Z.Z = ":wq!";
+        H = "vgh";
+        L = "vgl";
       };
     };
     ignores = [".stack-work" "__pycache__"];

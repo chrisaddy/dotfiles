@@ -33,8 +33,8 @@
 
   programs.nushell = {
     enable = true;
-    envFile.source = ./nu/env.nu; # relative to shells.nix
-    configFile.source = ./nu/config.nu;
+    envFile.source = ../nu/env.nu;
+    configFile.source = ../nu/config.nu;
 
     envFile.text = ''
       source-env "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
