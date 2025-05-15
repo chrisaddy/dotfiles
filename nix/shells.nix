@@ -67,6 +67,7 @@
       vi = "hx";
       vim = "hx";
       nano = "hx";
+      lj = "lazyjj";
     };
   };
 
