@@ -25,9 +25,7 @@
 
       ${pkgs.alejandra}/bin/alejandra -q .
 
-      ${pkgs.nh}/bin/nh os switch --update .
-      nix flake update
-      nix run nix-darwin/master#darwin-rebuild -- switch --flake ".#$(scutil --get LocalHostName)"
+      ${pkgs.nh}/bin/nh darwin switch --update .
       git push
     '')
   ];
