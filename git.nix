@@ -1,9 +1,9 @@
 {
-  pkgs, 
+  pkgs,
   lib ? null,
   ...
 }: let
-  userConfig = import ./config.nix { inherit lib; };
+  userConfig = import ./config.nix {inherit lib;};
 in {
   home.packages = with pkgs; [
     lazygit

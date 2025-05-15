@@ -20,7 +20,7 @@
   }: let
     lib = nixpkgs.lib;
     system = "aarch64-darwin";
-    userConfig = import ./config.nix { inherit lib; };
+    userConfig = import ./config.nix {inherit lib;};
     overlays = [
       (final: prev: {
         emacsNoNativeComp = prev.emacs.override {
