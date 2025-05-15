@@ -69,7 +69,6 @@
 
           environment.systemPackages = with pkgs; [
             vim
-            zsh
           ];
 
           users.users.chrisaddy = {
