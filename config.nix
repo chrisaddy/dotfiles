@@ -6,6 +6,10 @@
 
   homeDirectory = "/Users/${username}";
   email = "chris.william.addy@gmail.com";
+
+  hostnameMap = {
+    "Christophers-MacBook-Pro" = "Mac";
+  };
 in {
   inherit username homeDirectory email;
 }

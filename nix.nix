@@ -27,7 +27,7 @@
 
       ${pkgs.nh}/bin/nh os switch --update .
       nix flake update
-      nix run nix-darwin/master#darwin-rebuild -- switch --flake .#Mac
+      nix run nix-darwin/master#darwin-rebuild -- switch --flake .#${hostname=$(scutil --get LocalHostName)}
       git push
     '')
   ];
