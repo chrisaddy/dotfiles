@@ -33,8 +33,6 @@
 
   programs.nushell = {
     enable = true;
-    # envFile.source = ../nu/env.nu;
-    # configFile.source = ../nu/config.nu;
 
     settings = {
       show_banner = false;
