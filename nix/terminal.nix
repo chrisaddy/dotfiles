@@ -4,6 +4,9 @@
     jetbrains-mono
   ];
   xdg.configFile."ghostty/config".text = ''
+    shell = "/etc/profiles/per-user/chrisaddy/bin/nu"
+    login = true
+
     font-size = 24
     theme = tokyonight-storm
     cursor-style = block
