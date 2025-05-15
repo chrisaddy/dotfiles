@@ -33,8 +33,8 @@
 
   programs.nushell = {
     enable = true;
-    envFile.source = ../nu/env.nu;
-    configFile.source = ../nu/config.nu;
+    # envFile.source = ../nu/env.nu;
+    # configFile.source = ../nu/config.nu;
 
     settings = {
       show_banner = false;
@@ -46,7 +46,9 @@
         external = {
           enable = true;
           max_results = 100;
-          completer = lib.hm.nushell.mkNushellInline "$carapace_completer";
+          completer = lib.hm.nushell.mkNushellInline ''
+            carapace $spans.0 nushell ...$spans | from json
+          '';
         };
       };
     };
