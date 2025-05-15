@@ -68,6 +68,9 @@
       vim = "hx";
       nano = "hx";
       lj = "lazyjj";
+      jh = "jj --help";
+      je = "jj edit";
+      js = "jj st";
     };
   };
 
