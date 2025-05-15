@@ -11,8 +11,6 @@
     direnv
     zoxide
     tmux
-    _1password-cli
-    _1password-gui
   ];
 
   programs.starship = {
