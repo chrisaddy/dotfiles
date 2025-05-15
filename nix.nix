@@ -25,7 +25,11 @@
 
       ${pkgs.alejandra}/bin/alejandra -q .
 
-      ${pkgs.nh}/bin/nh darwin switch --update .
+      if [[ "$(uname)" == "Darwin" ]]; then
+        ${pkgs.nh}/bin/nh darwin switch .
+      else
+        ${pkgs.nh}/bin/nh os switch --update .
+      fi
       git push
     '')
   ];
