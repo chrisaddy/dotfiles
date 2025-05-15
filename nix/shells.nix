@@ -28,17 +28,6 @@
 
   programs.nushell = {
     enable = true;
-    envFile.text = ''
-      source-env /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.sh
-
-      # Custom PATH tweaks
-      $env.PATH = ($env.PATH
-        | split row (char esep)
-        | prepend /home/myuser/.apps
-        | append /usr/bin/env
-        | append /etc/profiles/per-user/${config.home.username}/bin
-      )
-    '';
 
     extraConfig = ''
        let carapace_completer = {|spans|
@@ -60,10 +49,14 @@
           }
         }
        }
-      $env.PATH = ($env.PATH |
-      split row (char esep) |
-      prepend /home/myuser/.apps |
-      append /usr/bin/env
+
+      source-env /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.sh
+
+      $env.PATH = ($env.PATH
+        | split row (char esep)
+        | prepend /home/myuser/.apps
+        | append /usr/bin/env
+        | append /etc/profiles/per-user/${config.home.username}/bin
       )
     '';
   };
