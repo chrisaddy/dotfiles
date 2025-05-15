@@ -3,7 +3,7 @@
     cmake
     jetbrains-mono
   ];
-  xdg.configFile."ghostty.config".text = ''
+  xdg.configFile."ghostty/config".text = ''
     font-size = 24
     theme = tokyonight-storm
     cursor-style = block
