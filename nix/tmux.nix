@@ -8,7 +8,7 @@
     mouse = true;
     newSession = true;
     sensibleOnTop = true;
-    shell = "${pkgs.zsh}/bin/zsh";
+    shell = "${pkgs.nushell}/bin/nu";
     plugins = with pkgs; [
       tmuxPlugins.better-mouse-mode
       tmuxPlugins.continuum
