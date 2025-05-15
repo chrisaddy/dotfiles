@@ -28,6 +28,8 @@
 
   programs.nushell = {
     enable = true;
+    loginShell = true; # runs chsh for you
+    shellIntegration.enable = true; # autogenerates env.nu that sources hm-session-vars
 
     extraConfig = ''
        let carapace_completer = {|spans|
@@ -52,8 +54,6 @@
       # source-env /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.sh
       $env.PATH = ($env.PATH
         | split row (char esep)
-        | prepend /home/myuser/.apps
-        | append /usr/bin/env
         | append /etc/profiles/per-user/${config.home.username}/bin
       )
     '';
