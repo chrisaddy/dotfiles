@@ -1,10 +1,14 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
     cmake
     jetbrains-mono
   ];
   xdg.configFile."ghostty/config".text = ''
-    shell = "/etc/profiles/per-user/chrisaddy/bin/nu"
+    shell = "/etc/profiles/per-user/${config.home.username}/bin/nu"
     login = true
 
     font-size = 24
