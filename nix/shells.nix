@@ -19,6 +19,7 @@
 
   programs.nushell = {
     enable = true;
+    loginShell = true;
   };
 
   programs.direnv = {
