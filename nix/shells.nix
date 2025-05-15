@@ -24,6 +24,7 @@
 
   programs.nushell = {
     enable = true;
+    shellIntegration = true;
 
     extraConfig = ''
        let carapace_completer = {|spans|
