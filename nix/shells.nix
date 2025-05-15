@@ -36,7 +36,7 @@
         | split row (char esep)
         | prepend /home/myuser/.apps
         | append /usr/bin/env
-        | /etc/profiles/per-user/${config.home.username}/bin
+        | append /etc/profiles/per-user/${config.home.username}/bin
       )
     '';
 
