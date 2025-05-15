@@ -18,21 +18,17 @@
     '')
 
     (writeShellScriptBin "up" ''
-      # go to config directory
       pushd $HOME/dotfiles
       git add .
       git commit -m 'updates'
       git pull --rebase
-      pushd nix
 
       ${pkgs.alejandra}/bin/alejandra -q .
 
-      # ${pkgs.nh}/bin/nh os switch --update .
+      ${pkgs.nh}/bin/nh os switch --update .
       nix flake update
       nix run nix-darwin/master#darwin-rebuild -- switch --flake .#Mac
-      popd
       git push
-      popd
     '')
   ];
 }
