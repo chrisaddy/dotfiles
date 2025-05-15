@@ -105,8 +105,8 @@
       };
       keys.normal = {
         Z.Z = ":wq!";
-        H = ["extend_to_line_end" "yank_main_selection_to_clipboard"];
-        # L = "vgl";
+        H = ["extend_to_line_start" "yank_main_selection_to_clipboard"];
+        L = ["extend_to_line_end" "yank_main_selection_to_clipboard"];
       };
     };
     ignores = [".stack-work" "__pycache__"];
