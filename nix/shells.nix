@@ -71,6 +71,7 @@
       jh = "jj --help";
       je = "jj edit";
       js = "jj st";
+      jsq = "jj squash";
     };
   };
 
