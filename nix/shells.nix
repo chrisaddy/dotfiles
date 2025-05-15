@@ -53,9 +53,10 @@
       };
     };
     extraConfig = ''
-      $env.PATH = ($env.PATH |
-        split row (char esep) |
-        append /etc/profiles/per-user/${config.home.username}/bin
+      $env.PATH = ($env.PATH
+        | split row (char esep)
+        | append /etc/profiles/per-user/${config.home.username}/bin
+        | append /usr/local/bin
       )
     '';
     shellAliases = {
