@@ -16,7 +16,7 @@
     ./shells.nix
     ./terminal.nix
     ./tmux.nix
-    # ./vim.nix
+    ./vim.nix
   ];
   home.stateVersion = "23.11";
 
