@@ -3,27 +3,20 @@
     cmake
     jetbrains-mono
   ];
-  programs.alacritty = {
+  programs.ghostty = {
     enable = true;
-    theme = "challenger_deep";
-    settings = {
-      font.normal.family = "JetBrains Mono";
-      font.size = 20.0;
-      window = {
-        decorations = "none";
-        dimensions = {
-          columns = 0;
-          lines = 0;
-        };
-        padding = {
-          x = 5;
-          y = 5;
-        };
-        startup_mode = "Windowed";
-        position = "Center";
-        width = 0.95;
-        height = 0.9;
-      };
-    };
   };
+# font-size = 24
+# theme = tokyonight-storm
+# cursor-style = block
+# shell-integration = zsh
+# shell-integration-features = cursor,no-title
+# background-opacity = 0.9
+# macos-titlebar-style = transparent
+# 
+# window-position-x = 5
+# window-position-y = 5
+# 
+# window-width = 85
+# window-height = 24
 }
