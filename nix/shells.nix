@@ -60,6 +60,7 @@
       $env.PATH = ($env.PATH
         | split row (char esep)
         | append /etc/profiles/per-user/${config.home.username}/bin
+        | append /run/current-system/sw/bin
         | append /usr/local/bin
       )
     '';

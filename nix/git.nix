@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  pkgs, 
+  lib ? null,
+  ...
+}: let
+  userConfig = import ./config.nix { inherit lib; };
+in {
   home.packages = with pkgs; [
     lazygit
     lazyjj
@@ -9,8 +15,8 @@
       enable = true;
       settings = {
         user = {
-          email = "chris.william.addy@gmail.com";
-          name = "chrisaddy";
+          email = userConfig.email;
+          name = userConfig.username;
         };
         ui = {
           diff-editor = ["nvim" "-c" "DiffEditor $left $right $output"];
@@ -34,8 +40,8 @@
           "$HOME/projects/pocketsizefund/pocketsizefund"
         ];
       };
-      userName = "chrisaddy";
-      userEmail = "chris.william.addy@gmail.com";
+      userName = userConfig.username;
+      userEmail = userConfig.email;
     };
     gh = {
       enable = true;
