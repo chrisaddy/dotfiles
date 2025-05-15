@@ -49,9 +49,7 @@
           }
         }
        }
-
-      source-env /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.sh
-
+      # source-env /etc/profiles/per-user/${config.home.username}/etc/profile.d/hm-session-vars.sh
       $env.PATH = ($env.PATH
         | split row (char esep)
         | prepend /home/myuser/.apps
