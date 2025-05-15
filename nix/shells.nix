@@ -33,25 +33,27 @@
 
   programs.nushell = {
     enable = true;
-    envFile.source = ../nu/env.nu;
-    configFile.source = ../nu/config.nu;
+    # envFile.source = ../nu/env.nu;
+    # configFile.source = ../nu/config.nu;
 
-    # settings = {
-    #   show_banner = false;
-    #   completions = {
-    #     case_sensitive = false;
-    #     quick = true;
-    #     partial = true;
-    #     algorithm = "fuzzy";
-    #     external = {
-    #       enable = true;
-    #       max_results = 100;
-    #       completer = lib.hm.nushell.mkNushellInline ''
-    #         carapace $spans.0 nushell ...$spans | from json
-    #       '';
-    #     };
-    #   };
-    # };
+    settings = {
+      show_banner = false;
+      completions = {
+        case_sensitive = false;
+        quick = true;
+        partial = true;
+        algorithm = "fuzzy";
+        external = {
+          enable = true;
+          max_results = 100;
+          completer = lib.hm.nushell.mkNushellInline ''
+            {|spans|
+              carapace $spans.0 nushell ...$spans | from json
+            }
+          '';
+        };
+      };
+    };
   };
 
   programs.direnv = {
