@@ -28,8 +28,14 @@
 
   programs.nushell = {
     enable = true;
-    loginShell = true; # runs chsh for you
-    shellIntegration.enable = true; # autogenerates env.nu that sources hm-session-vars
+
+    envFile.text = ''
+      # Pull in Home-Manager’s session variables (PATH, SSL_CERT_FILE, …)
+      source-env "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+
+      # Append a custom dir (list concatenation is easiest)
+      $env.PATH = $env.PATH ++ ["/etc/profiles/per-user/${config.home.username}/bin"]
+    '';
 
     extraConfig = ''
        let carapace_completer = {|spans|
