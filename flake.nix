@@ -98,7 +98,7 @@
 
     hosts = [
       "Mac"
-      "Christophers-Macbook-Pro"
+      "Christophers-MacBook-Pro"
     ];
   in
     lib.foldl' (acc: name: acc // (mkHost name)) {} hosts;
