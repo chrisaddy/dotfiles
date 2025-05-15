@@ -16,6 +16,7 @@
       tmuxPlugins.tokyo-night-tmux
     ];
     extraConfig = ''
+      set -g default-command "${pkgs.nushell}/bin/nu -l"
       set-environment -g TMUX_FZF_OPTIONS "-p -w 90% -h 90% -m"
       set-environment -g TMUX_FZF_PLUGIN_DIR "${pkgs.tmuxPlugins.tmux-fzf}/share/tmux-plugins/tmux-fzf"
       bind s choose-session
