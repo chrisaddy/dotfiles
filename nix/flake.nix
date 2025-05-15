@@ -74,7 +74,7 @@
 
           users.users.chrisaddy = {
             home = "/Users/chrisaddy";
-            shell = pkgs.zsh;
+            shell = pkgs.nushell;
           };
 
           system.stateVersion = 6;
