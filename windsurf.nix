@@ -1,0 +1,3 @@
+{...}: {
+  programs.windsurf.enable = true;
+}
