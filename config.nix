@@ -2,7 +2,7 @@
   username =
     if builtins.getEnv "USER" != ""
     then builtins.getEnv "USER"
-    else "caddy";
+    else "chrisaddy";
 
   homeDirectory = "/Users/${username}";
   email = "chris.william.addy@gmail.com";
