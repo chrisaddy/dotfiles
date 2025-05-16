@@ -9,6 +9,7 @@
 
   hostnameMap = {
     "Christophers-MacBook-Pro" = "Mac";
+    "Mac" = "Mac";
   };
 in {
   inherit username homeDirectory email;
