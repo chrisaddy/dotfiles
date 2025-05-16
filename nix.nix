@@ -18,18 +18,18 @@
     '')
 
     (writeShellScriptBin "up" ''
-      pushd $HOME/dotfiles
+      #!/usr/bin/env nu
+      cd $"($nu.env.HOME)/dotfiles"
       git add .
-      git commit -m 'updates'
+      do { git commit -m "updates" } | ignore
       git pull --rebase
-
-      ${pkgs.alejandra}/bin/alejandra -q .
-
-      if [[ "$(uname)" == "Darwin" ]]; then
-        ${pkgs.nh}/bin/nh darwin switch .
-      else
-        ${pkgs.nh}/bin/nh os switch --update .
-      fi
+      alejandra -q .
+      let system = (uname)
+      if $system == "Darwin" {
+        nh darwin switch .
+      } else {
+        nh os switch --update .
+      }
       git push
     '')
   ];
