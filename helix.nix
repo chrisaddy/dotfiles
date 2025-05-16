@@ -67,6 +67,9 @@
           };
         };
         end-of-line-diagnostics = "hint";
+        file-picker = {
+          hidden = false;
+        };
         line-number = "relative";
         inline-diagnostics = {
           cursor-line = "warning";

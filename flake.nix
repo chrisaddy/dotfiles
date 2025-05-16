@@ -13,6 +13,7 @@
     };
 
     nixvim.url = "github:nix-community/nixvim";
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = inputs @ {
@@ -21,6 +22,7 @@
     nix-darwin,
     home-manager,
     nixvim,
+    mac-app-util,
     ...
   }: let
     lib = nixpkgs.lib;
@@ -38,7 +40,7 @@
 
     pkgs = import nixpkgs {
       inherit system overlays;
-      config.allowUnfree = true;
+      # config.allowUnfree = true;
     };
 
     baseModules = [
@@ -52,8 +54,9 @@
           config.allowUnfreePredicate = pkg:
             builtins.elem (lib.getName pkg) [
               "claude-code"
-              "1password-cli"
-              "1password"
+              "vscode-extension-visualjj-visualjj"
+              "vscode"
+              "vscode-extension-ms-vscode-remote-remote-containers"
             ];
         };
 
@@ -86,6 +89,10 @@
             nixvim.homeManagerModules.nixvim
           ];
         };
+
+        home-manager.sharedModules = [
+          mac-app-util.homeManagerModules.default
+        ];
       }
     ];
 

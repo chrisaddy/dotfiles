@@ -14,7 +14,7 @@
     '')
 
     (writeShellScriptBin "search" ''
-      nh search $1 -j | jq .results.'[]'.package_attr_name | fzf
+      ${pkgs.nh}/bin/nh search $1 -j --limit 10000 | jq .results.'[]'.package_attr_name | fzf
     '')
 
     (writeShellScriptBin "up" ''
