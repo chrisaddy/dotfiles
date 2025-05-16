@@ -7,11 +7,6 @@
     nh
     alejandra
 
-    (writeShellScriptBin "clean-system" ''
-      #!/usr/bin/env nu
-      nh clean all
-    '')
-
     (writeShellScriptBin "search" ''
       #!/usr/bin/env nu
       ${pkgs.nh}/bin/nh search $query -j --limit 10000
