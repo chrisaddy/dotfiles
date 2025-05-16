@@ -100,7 +100,6 @@
     };
 
     hosts = [
-      "Christophers-MacBook-Pro"
       "Mac"
     ];
   in
