@@ -8,13 +8,18 @@
     alejandra
 
     (writeShellScriptBin "clean-system" ''
-      sudo nix-collect-garbage --delete-older-than 15d --verbose
-      nix store optimise --verbose
-      nix store gc --verbose
+      #!/usr/bin/env nu
+      nh clean all
     '')
 
     (writeShellScriptBin "search" ''
-      ${pkgs.nh}/bin/nh search $1 -j --limit 10000 | jq .results.'[]'.package_attr_name | fzf
+      #!/usr/bin/env nu
+      ${pkgs.nh}/bin/nh search $query -j --limit 10000
+      | from json
+      | get results
+      | get package_attr_name
+      | str join (char nl)
+      | fzf
     '')
 
     (writeShellScriptBin "up" ''

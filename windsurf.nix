@@ -1,3 +1,5 @@
-{...}: {
-  programs.windsurf.enable = true;
+{pkgs, ...}: {
+  home.packages = with pkgs; [
+    windsurf
+  ];
 }
