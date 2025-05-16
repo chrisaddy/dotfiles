@@ -16,7 +16,7 @@
     mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = inputs @ {
+  outputs = {
     self,
     nixpkgs,
     nix-darwin,
@@ -40,7 +40,6 @@
 
     pkgs = import nixpkgs {
       inherit system overlays;
-      # config.allowUnfree = true;
     };
 
     baseModules = [
@@ -64,10 +63,6 @@
         nix.settings = {
           experimental-features = "nix-command flakes";
         };
-
-        environment.systemPackages = with pkgs; [
-          vim
-        ];
 
         users.users.${userConfig.username} = {
           home = userConfig.homeDirectory;
@@ -105,8 +100,8 @@
     };
 
     hosts = [
-      "Mac"
       "Christophers-MacBook-Pro"
+      "Mac"
     ];
   in
     lib.foldl' (acc: name: acc // (mkHost name)) {} hosts;
