@@ -23,12 +23,12 @@
       git add .
       do { git commit -m "updates" } | ignore
       git pull --rebase
-      alejandra -q .
+      ${pkgs.alejandra}/bin/alejandra -q .
       let system = (uname)
       if $system == "Darwin" {
-        nh darwin switch .
+        ${pkgs.nh}/bin/nh darwin switch .
       } else {
-        nh os switch --update .
+        ${pkgs.nh}/bin/nh os switch --update .
       }
       git push
     '')
