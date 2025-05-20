@@ -9,6 +9,7 @@ in {
     lazygit
     lazyjj
     jujutsu
+    radicle-node
   ];
   programs = {
     jujutsu = {
