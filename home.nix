@@ -7,6 +7,7 @@
     ./ai.nix
     # ./emacs.nix
     ./git.nix
+    ./gcloud.nix
     ./haskell.nix
     ./helix.nix
     ./media.nix
