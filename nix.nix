@@ -10,11 +10,11 @@
     (writeShellScriptBin "search" ''
       #!/usr/bin/env nu
       ${pkgs.nh}/bin/nh search $query -j --limit 10000
-      | from json
-      | get results
-      | get package_attr_name
-      | str join (char nl)
-      | fzf
+      \| from json
+      \| get results
+      \| get package_attr_name
+      \| str join (char nl)
+      \| fzf
     '')
 
     (writeShellScriptBin "up" ''
