@@ -16,8 +16,8 @@
     ./shells.nix
     ./terminal.nix
     ./tmux.nix
-    ./vim.nix
-    ./vscode.nix
+    # ./vim.nix
+    # ./vscode.nix
     # ./windsurf.nix
   ];
   home.stateVersion = "23.11";

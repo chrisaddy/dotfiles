@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs";
 
     nix-darwin = {
       url = "github:lnl7/nix-darwin/master";
@@ -12,8 +12,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim.url = "github:nix-community/nixvim";
-    mac-app-util.url = "github:hraban/mac-app-util";
+    # nixvim.url = "github:nix-community/nixvim";
+    # mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = {
@@ -21,8 +21,8 @@
     nixpkgs,
     nix-darwin,
     home-manager,
-    nixvim,
-    mac-app-util,
+    # nixvim,
+    # mac-app-util,
     ...
   }: let
     lib = nixpkgs.lib;
@@ -52,7 +52,7 @@
           config.allowBroken = true;
           config.allowUnfreePredicate = pkg:
             builtins.elem (lib.getName pkg) [
-              "claude-code"
+              # "claude-code"
               "vscode-extension-visualjj-visualjj"
               "vscode"
               "vscode-extension-ms-vscode-remote-remote-containers"
@@ -82,13 +82,13 @@
         home-manager.users.${userConfig.username} = {
           imports = [
             ./home.nix
-            nixvim.homeManagerModules.nixvim
+            # nixvim.homeManagerModules.nixvim
           ];
         };
 
-        home-manager.sharedModules = [
-          mac-app-util.homeManagerModules.default
-        ];
+        # home-manager.sharedModules = [
+        #   mac-app-util.homeManagerModules.default
+        # ];
       }
     ];
 
@@ -100,7 +100,7 @@
     };
 
     hosts = [
-      "Mac"
+      "Chriss-MacBook-Air"
     ];
   in
     lib.foldl' (acc: name: acc // (mkHost name)) {} hosts;
