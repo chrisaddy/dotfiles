@@ -13,7 +13,7 @@
     ./media.nix
     ./nix.nix
     ./notes.nix
-    ./obs.nix
+    # ./obs.nix
     ./python.nix
     ./shells.nix
     ./terminal.nix
