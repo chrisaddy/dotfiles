@@ -22,6 +22,7 @@
     ./tmux.nix
     # ./vim.nix
     # ./vscode.nix
+    ./web.nix
     # ./windsurf.nix
   ];
   home.stateVersion = "23.11";
