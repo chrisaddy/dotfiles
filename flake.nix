@@ -11,10 +11,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nyxt-src = {
-      url = "github:atlas-engineer/nyxt/b858a2a03550c7e018a8d0a28a72ed69db84cc10";
-      flake = false;
-    };
 
     # nixvim.url = "github:nix-community/nixvim";
     # mac-app-util.url = "github:hraban/mac-app-util";
@@ -27,10 +23,6 @@
     home-manager,
     # nixvim,
     # mac-app-util,
-    nyxt-src,
-    /*
-    nyxt
-    */
     ...
   }: let
     lib = nixpkgs.lib;
@@ -43,20 +35,6 @@
         # emacsNoNativeComp = prev.emacs.override {
         #   withNativeCompilation = false;
         # };
-
-        nyxt = prev.stdenv.mkDerivation {
-          pname = "nyxt";
-          version = "3.12.0";
-          src = nyxt-src;
-          buildInputs = [
-            prev.make
-          ];
-          installPhase = ''
-            make
-            mkdir -p $out/bin
-            cp my-binary $out/bin/
-          '';
-        };
       })
     ];
 
