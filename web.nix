@@ -1,0 +1,3 @@
+{...}: {
+  programs.nyxt.enable = true;
+}
