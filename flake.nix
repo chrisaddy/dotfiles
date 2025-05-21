@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nyxt-src = {
-      url = "github:atlas-engineer/nyxt/v3.12.0";
+      url = "github:atlas-engineer/nyxt/b858a2a03550c7e018a8d0a28a72ed69db84cc10";
       flake = false;
     };
 
