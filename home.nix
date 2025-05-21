@@ -16,6 +16,7 @@
     ./notes.nix
     # ./obs.nix
     ./python.nix
+    ./rust.nix
     ./shells.nix
     ./terminal.nix
     ./tmux.nix
