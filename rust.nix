@@ -1,4 +1,6 @@
-{...}: {
-  programs.cargo.enable = true;
-  programs.rustup.enable = true;
+{pkgs, ...}: {
+  home.packages = with pkgs; [
+    cargo
+    rustup
+  ];
 }
