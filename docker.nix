@@ -1,5 +1,7 @@
-{...}: {
-  programs.docker.enable = true;
-  programs.docker-compose.enable = true;
+{pkgs, ...}: {
+  home.packages = with pkgs; [
+    docker
+    docker-compose
+  ];
   programs.lazydocker.enable = true;
 }
