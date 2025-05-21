@@ -32,6 +32,7 @@
     # Removed pyenv to avoid collision with python311
     direnv
     zoxide
+    tree
   ];
 
   nix = {
