@@ -50,6 +50,7 @@
           hostPlatform = system;
           overlays = overlays;
           config.allowBroken = true;
+          config.allowUnsupportedSystems = true;
           config.allowUnfreePredicate = pkg:
             builtins.elem (lib.getName pkg) [
               "claude-code"
