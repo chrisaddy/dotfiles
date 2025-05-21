@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./ai.nix
+    ./docker.nix
     # ./emacs.nix
     ./git.nix
     ./gcloud.nix
