@@ -57,7 +57,7 @@
       ];
     };
     settings = {
-      theme = "tokyonight_moon";
+      theme = "base16_terminal";
       editor = {
         auto-save = {
           focus-lost = true;

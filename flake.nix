@@ -52,7 +52,7 @@
           config.allowBroken = true;
           config.allowUnfreePredicate = pkg:
             builtins.elem (lib.getName pkg) [
-              # "claude-code"
+              "claude-code"
               "vscode-extension-visualjj-visualjj"
               "vscode"
               "vscode-extension-ms-vscode-remote-remote-containers"
