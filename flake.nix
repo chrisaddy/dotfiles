@@ -53,11 +53,11 @@
           config.allowUnsupportedSystem = true;
           config.allowUnfreePredicate = pkg:
             builtins.elem (lib.getName pkg) [
-              "claude-code"
-              "vscode-extension-visualjj-visualjj"
-              "vscode"
-              "vscode-extension-ms-vscode-remote-remote-containers"
-              "windsurf"
+              # "claude-code"
+              # "vscode-extension-visualjj-visualjj"
+              # "vscode"
+              # "vscode-extension-ms-vscode-remote-remote-containers"
+              # "windsurf"
             ];
         };
 

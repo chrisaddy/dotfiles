@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [
-    windsurf
-  ];
+  # home.packages = with pkgs; [
+  #   windsurf
+  # ];
 }

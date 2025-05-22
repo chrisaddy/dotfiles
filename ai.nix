@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    claude-code
-    mods
+    # claude-code
+    # mods
     codex
   ];
 }
