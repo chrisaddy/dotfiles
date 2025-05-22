@@ -12,7 +12,6 @@ in {
     radicle-node
   ];
   programs = {
-    radicle-node.enable = true;
     jujutsu = {
       enable = true;
       settings = {
