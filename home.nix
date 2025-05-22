@@ -28,12 +28,12 @@
   home.stateVersion = "23.11";
 
   home.packages = with pkgs; [
+    direnv
+    dysk
     fd
     ripgrep
-    # Removed pyenv to avoid collision with python311
-    direnv
-    zoxide
     tree
+    zoxide
   ];
 
   nix = {
