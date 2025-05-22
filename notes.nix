@@ -4,7 +4,5 @@
     just-formatter
     just-lsp
     typst
-    zk
-    tana
   ];
 }
