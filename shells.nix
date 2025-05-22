@@ -64,7 +64,7 @@
         | append /usr/local/bin
       )
 
-      source $env.home/.secrets.nu
+      source ~/.secrets.nu
     '';
     shellAliases = {
       vi = "hx";
