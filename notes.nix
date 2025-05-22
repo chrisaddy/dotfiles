@@ -5,5 +5,6 @@
     just-lsp
     typst
     zk
+    tana
   ];
 }
