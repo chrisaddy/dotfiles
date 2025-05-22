@@ -8,7 +8,6 @@
     fd
     fzf
     ripgrep
-    pyenv
     direnv
     zoxide
     tmux
@@ -64,6 +63,8 @@
         | append /run/current-system/sw/bin
         | append /usr/local/bin
       )
+
+      source $HOME/.secrets.nu
     '';
     shellAliases = {
       vi = "hx";
