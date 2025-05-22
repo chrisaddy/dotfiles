@@ -58,6 +58,7 @@
               "vscode"
               "vscode-extension-ms-vscode-remote-remote-containers"
               "windsurf"
+              "tana"
             ];
         };
 
