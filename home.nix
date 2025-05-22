@@ -30,6 +30,7 @@
   home.packages = with pkgs; [
     direnv
     dysk
+    dunst
     fd
     ripgrep
     tree
