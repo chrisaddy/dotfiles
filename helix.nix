@@ -9,6 +9,7 @@
           scope = "source.hs";
           auto-format = true;
         }
+
         {
           name = "nix";
           scope = "source.nix";
@@ -20,6 +21,16 @@
             command = "${pkgs.alejandra}/bin/alejandra";
           };
           auto-format = true;
+        }
+        {
+          name = "nut";
+          scope = "source.nut";
+          language-server = [
+            "clojure-lsp"
+          ];
+          formatter = {
+            command = "${pkgs.clojure-lsp}/bin/clojure-lsp";
+          };
         }
         {
           name = "python";
