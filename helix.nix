@@ -28,8 +28,7 @@
           file-types = ["nut"];
           auto-format = true;
           formatter = {
-            command = "${pkgs.clojure-lsp}/bin/clojure-lsp";
-            args = ["format" "--raw"];
+            command = "${pkgs.parinfer-rust}/bin/parinfer-rust";
           };
         }
         {
