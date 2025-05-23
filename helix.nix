@@ -25,9 +25,8 @@
         {
           name = "nut";
           scope = "source.nut";
-          language-server = [
-            "clojure-lsp"
-          ];
+          file-types = ["nut"];
+          auto-format = true;
           formatter = {
             command = "${pkgs.clojure-lsp}/bin/clojure-lsp";
           };
