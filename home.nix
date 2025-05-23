@@ -34,6 +34,7 @@
     fd
     ripgrep
     tree
+    tealdeer
     zoxide
   ];
 
