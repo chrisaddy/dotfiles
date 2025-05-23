@@ -29,6 +29,7 @@
           auto-format = true;
           formatter = {
             command = "${pkgs.clojure-lsp}/bin/clojure-lsp";
+            args = ["format" "--raw"];
           };
         }
         {
