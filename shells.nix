@@ -12,6 +12,16 @@
     tmux
   ];
 
+  programs.eza = {
+    enable = true;
+    enableNushellIntegration = true;
+    colors = "always";
+    extraOptions = [
+      "--group-directories-first"
+      "--header"
+    ];
+  };
+
   programs.zoxide = {
     enable = true;
     enableNushellIntegration = true;
