@@ -14,6 +14,8 @@
 
     # nixvim.url = "github:nix-community/nixvim";
     # mac-app-util.url = "github:hraban/mac-app-util";
+    themes.url = "github:RGBCube/ThemeNix";
+
   };
 
   outputs = {
