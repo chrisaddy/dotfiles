@@ -19,6 +19,7 @@
     ./rust.nix
     ./shells.nix
     ./terminal.nix
+    ./theme.nix
     ./tmux.nix
     # ./vim.nix
     # ./vscode.nix

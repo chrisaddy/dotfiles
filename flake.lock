@@ -60,7 +60,23 @@
       "inputs": {
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "themes": "themes"
+      }
+    },
+    "themes": {
+      "locked": {
+        "lastModified": 1748114866,
+        "narHash": "sha256-zQ0tbcpVCwX4lJfodZmq0WYKkfRA2Gn6bzlbiUGCOjA=",
+        "owner": "RGBCube",
+        "repo": "ThemeNix",
+        "rev": "1267b9132b3a9c1d6e5c92f52ea1ca780ab2ac4f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "RGBCube",
+        "repo": "ThemeNix",
+        "type": "github"
       }
     }
   },
