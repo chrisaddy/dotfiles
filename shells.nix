@@ -10,6 +10,7 @@
     ripgrep
     direnv
     tmux
+    fselect
   ];
 
   programs.eza = {
