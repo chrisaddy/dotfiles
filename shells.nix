@@ -9,9 +9,16 @@
     fzf
     ripgrep
     direnv
-    zoxide
     tmux
   ];
+
+  programs.zoxide = {
+    enable = true;
+    enableNushellIntegration = true;
+    options = [
+      "--cmd cd"
+    ];
+  };
 
   programs.starship = {
     enable = true;
