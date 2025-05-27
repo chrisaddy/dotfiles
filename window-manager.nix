@@ -70,9 +70,4 @@
                 yabai -m window --toggle pip
     '';
   };
-  system.activationScripts.preActivation.text = ''
-    echo "Setting up scripting additions for yabai..."
-    sudo yabai --install-sa
-    sudo yabai --load-sa
-  '';
 }
