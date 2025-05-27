@@ -32,7 +32,7 @@
     target = ".config/skhd/skhdrc";
     text = ''
       #!/usr/bin/env sh
-      alt - return : open -n /Applications/Ghostty.app/
+      cmd - return : open -na "Ghostty"
       alt - b : open /Applications/qutebrowser.app/
 
       # focus window
