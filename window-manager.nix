@@ -27,4 +27,47 @@
       echo "yabai configuration loaded.."
     '';
   };
+
+  home.file.skhd = {
+    target = ".config/skhd/skhdrc";
+    text = ''
+      # focus window
+      alt - h : yabai -m window --focus west
+      alt - j : yabai -m window --focus south
+      alt - k : yabai -m window --focus north
+      alt - l : yabai -m window --focus east
+
+      # swap managed window
+      shift + alt - h : yabai -m window --swap west
+      shift + alt - j : yabai -m window --swap south
+      shift + alt - k : yabai -m window --swap north
+      shift + alt - l : yabai -m window --swap east
+
+      # fast focus desktop
+      # cmd + alt - x : yabai -m space --focus recent
+      # cmd + alt - 1 : yabai -m space --focus 1
+
+      # send window to desktop and follow focus
+      # shift + cmd - z : yabai -m window --space next; yabai -m space --focus next
+      # shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
+
+      # increase window size
+      shift + alt - a : yabai -m window --resize left:-20:0
+      shift + alt - s : yabai -m window --resize right:-20:0
+      # shift + alt - w : yabai -m window --resize top:0:-20
+
+      # decrease window size
+      # shift + cmd - s : yabai -m window --resize bottom:0:-20
+      # shift + cmd - w : yabai -m window --resize top:0:20
+
+      # float / unfloat window and center on screen
+      alt - t : yabai -m window --toggle float; \
+                yabai -m window --grid 4:4:1:1:2:2
+
+      # toggle sticky(+float), topmost, picture-in-picture
+      alt - p : yabai -m window --toggle sticky; \
+                yabai -m window --toggle topmost; \
+                yabai -m window --toggle pip
+    '';
+  };
 }
