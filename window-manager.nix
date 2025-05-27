@@ -31,7 +31,9 @@
   home.file.skhd = {
     target = ".config/skhd/skhdrc";
     text = ''
+      #!/usr/bin/env sh
       cmd + shift - return : open Applications/Ghostty.app
+      cmd + shift - b : open Applications/qutebrowser.app
 
       # focus window
       alt - h : yabai -m window --focus west
