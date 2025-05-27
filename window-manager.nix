@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     yabai
+    skhd
   ];
   home.file.yabai = {
     executable = true;
