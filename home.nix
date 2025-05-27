@@ -24,6 +24,7 @@
     # ./vim.nix
     # ./vscode.nix
     # ./web.nix
+    ./window-manager.nix
     # ./windsurf.nix
   ];
   home.stateVersion = "23.11";
