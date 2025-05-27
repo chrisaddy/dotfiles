@@ -42,6 +42,8 @@
       {
         nix.enable = false;
 
+        system.primaryUser = userConfig.username;
+
         nixpkgs = {
           hostPlatform = system;
           overlays = overlays;
