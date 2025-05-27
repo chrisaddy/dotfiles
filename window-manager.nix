@@ -57,8 +57,8 @@
       # shift + alt - w : yabai -m window --resize top:0:-20
 
       # decrease window size
-      # shift + cmd - s : yabai -m window --resize bottom:0:-20
-      # shift + cmd - w : yabai -m window --resize top:0:20
+      shift + cmd - s : yabai -m window --resize bottom:0:-20
+      shift + cmd - w : yabai -m window --resize top:0:20
 
       # float / unfloat window and center on screen
       alt - t : yabai -m window --toggle float; \
