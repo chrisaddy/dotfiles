@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  services.yabai = {
+  programs.yabai = {
     enable = true;
     package = pkgs.yabai;
     enableScriptingAddition = true;
