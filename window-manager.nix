@@ -75,7 +75,4 @@
     sudo yabai --install-sa
     sudo yabai --load-sa
   '';
-
-  # Required for scripting addition and accessibility API
-  security.pam.enableSudoTouchIdAuth = true;
 }
