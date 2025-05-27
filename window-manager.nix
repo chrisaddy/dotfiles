@@ -31,6 +31,8 @@
   home.file.skhd = {
     target = ".config/skhd/skhdrc";
     text = ''
+      cmd - return : open -na Ghostty
+
       # focus window
       alt - h : yabai -m window --focus west
       alt - j : yabai -m window --focus south
