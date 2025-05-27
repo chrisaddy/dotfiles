@@ -2,20 +2,28 @@
   home.packages = with pkgs; [
     yabai
   ];
-  # programs.yabai = {
-  #   enable = true;
-  #   package = pkgs.yabai;
-  #   enableScriptingAddition = true;
-  #   config = {
-  #     layout = "bsp";
-  #     auto_balance = "on";
-  #     focus_follows_mouse = "autoraise";
-  #     mouse_follows_focus = "off";
-  #     window_gap = 10;
-  #     top_padding = 10;
-  #     bottom_padding = 10;
-  #     left_padding = 10;
-  #     right_padding = 10;
-  #   };
-  # };
+  home.file.yabai = {
+    executable = true;
+    target = ".config/yabai/yabairc";
+    text = ''
+      #!/usr/bin/env sh
+
+      sudo yabai --load-sa
+      yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+      yabai -m config layout bsp
+      yabai -m config auto_balance off
+      yabai -m config window_topmost on
+
+      yabai -m config top_padding    0
+      yabai -m config bottom_padding 0
+      yabai -m config left_padding   0
+      yabai -m config right_padding  0
+      yabai -m config window_gap     0
+
+      yabai -m rule --add app="^System Preferences$" manage=off
+
+      echo "yabai configuration loaded.."
+    '';
+  };
 }
