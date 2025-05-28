@@ -80,7 +80,6 @@
         | append /etc/profiles/per-user/${config.home.username}/bin
         | append /run/current-system/sw/bin
         | append /usr/local/bin
-        | append ~/.local/bin
       )
 
       source ~/.secrets.nu
