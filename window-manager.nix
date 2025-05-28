@@ -38,6 +38,14 @@
         hs.hotkey.bind({"cmd", "shift"}, "C", function()
           spoon.AClock:toggleShow()
         end)
+
+        hs.hotkey.bind({"cmd", "shift"}, "H", function()
+          local win = hs.window.focusedWindow()
+          local f = win:frame()
+
+          f.x = f.x - 10
+          win:setFrame(f)
+        end)
       '';
   };
 
