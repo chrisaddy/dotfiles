@@ -34,9 +34,10 @@
     text =
       # lua
       ''
-        # hs.loadSpoon("AClock")
-        hs.hotkey.bind({"cmd"}, "8", function()
+        hs.loadSpoon("AClock")
+        hs.hotkey.bind({"cmd", "alt"}, "w", function()
           hs.alert.show("Hello World!")
+          spoon.AClock.toggleShow()
         end)
       '';
   };
