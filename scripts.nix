@@ -7,7 +7,9 @@
   home.packages = with pkgs; [
     (pkgs.writeShellScriptBin "book" ''
       #!/usr/bin/env nu
-      ls
+      def main [] \{
+        print "hello"
+      \}
     '')
   ];
 }
