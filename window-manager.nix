@@ -2,7 +2,6 @@
   home.packages = with pkgs; [
     yabai
     skhd
-    hammerspoon
   ];
 
   home.file.yabai = {
