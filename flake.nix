@@ -30,15 +30,6 @@
 
     overlays = [
       (final: prev: {
-        nushell = prev.nushell.overrideAttrs (old: {
-          version = "nightly";
-          src = nixpkgs.fetchFromGitHub {
-            owner = "nushell";
-            repo = "nushell";
-            rev = "main";
-            sha256 = "ff4907ed3b7a2b96ba8d9929911691d74186f432";
-          };
-        });
       })
     ];
 

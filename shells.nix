@@ -49,7 +49,7 @@
   };
 
   programs.nushell = {
-    enable = true;
+    enable = false;
 
     environmentVariables = {
       EDITOR = "hx";
