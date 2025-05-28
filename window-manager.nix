@@ -36,7 +36,7 @@
       ''
         hs.loadSpoon("AClock")
         hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
-          spoon.AClock.toggleShow()
+          spoon.AClock:toggleShow()
         end)
       '';
   };
