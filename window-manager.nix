@@ -34,6 +34,10 @@
     text =
       # lua
       ''
+        hs.hotkey.bind({"cmd", "shift"}, "B", function()
+          hs.application.launchOrFocus("qutebrowser")
+        end)
+
         hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
           hs.reload()
         end)
