@@ -1,1 +1,6 @@
 #!/usr/env/bin nu
+
+
+main [url: string] {
+	$"getting ($url)"
+}
