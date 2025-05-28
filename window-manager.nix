@@ -34,7 +34,7 @@
     text =
       # lua
       ''
-        hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+        hs.hotkey.bind({"cmd"}, "enter", function()
           hs.alert.show("Hello World!")
         end)
       '';
