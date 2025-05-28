@@ -17,6 +17,7 @@
     # ./obs.nix
     ./python.nix
     ./rust.nix
+    ./scripts.nix
     ./shells.nix
     ./terminal.nix
     # ./theme.nix
