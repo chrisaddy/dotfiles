@@ -17,7 +17,6 @@
     # ./obs.nix
     ./python.nix
     ./rust.nix
-    ./scripts.nix
     ./shells.nix
     ./terminal.nix
     # ./theme.nix
@@ -65,6 +64,12 @@
       pager = "less -FR";
       theme = "TwoDark";
     };
+  };
+
+  home.file.".local/bin" = {
+    source = ./scripts;
+    recursive = true;
+    executable = true;
   };
 
   nix = {
