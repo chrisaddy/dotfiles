@@ -35,7 +35,7 @@
       # lua
       ''
         hs.loadSpoon("AClock")
-        hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+        hs.hotkey.bind({"cmd", "shift"}, "C", function()
           spoon.AClock:toggleShow()
         end)
       '';
