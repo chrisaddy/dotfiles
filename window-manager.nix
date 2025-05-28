@@ -44,11 +44,18 @@
           spoon.AClock:toggleShow()
         end)
 
-        hs.hotkey.bind({"cmd", "shift"}, "H", function()
-          hs.execute("yabai -m window --focus west")
+        hs.hotkey.bind({"cmd"}, "h", function()
+          hs.execute:new("yabai -m window --focus west")
+
         end)
       '';
   };
+
+  # focus window
+  #     alt - h : yabai -m window --focus west
+  #     alt - j : yabai -m window --focus south
+  #     alt - k : yabai -m window --focus north
+  #     alt - l : yabai -m window --focus east
 
   home.file.skhd = {
     target = ".config/skhd/skhdrc";
@@ -57,11 +64,6 @@
       alt - return : /usr/bin/open -na "Ghostty"
       alt - b : /usr/bin/open /Applications/qutebrowser.app/
 
-      # focus window
-      alt - h : yabai -m window --focus west
-      alt - j : yabai -m window --focus south
-      alt - k : yabai -m window --focus north
-      alt - l : yabai -m window --focus east
 
       # swap managed window
       shift + alt - h : yabai -m window --swap west
