@@ -31,12 +31,13 @@
 
   home.file.hammerspoon = {
     target = ".hammerspoon/init.lua";
-    text = ''
+    text =
       # lua
-      hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
-        hs.alert.show("Hello World!")
-      end)
-    '';
+      ''
+        hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+          hs.alert.show("Hello World!")
+        end)
+      '';
   };
 
   home.file.skhd = {
