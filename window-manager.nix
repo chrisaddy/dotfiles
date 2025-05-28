@@ -45,8 +45,16 @@
         end)
 
         hs.hotkey.bind({"cmd"}, "h", function()
-          hs.execute:new("yabai -m window --focus west")
-
+          hs.execute("yabai -m window --focus west")
+        end)
+        hs.hotkey.bind({"cmd"}, "j", function()
+          hs.execute("yabai -m window --focus south")
+        end)
+        hs.hotkey.bind({"cmd"}, "k", function()
+          hs.execute("yabai -m window --focus north")
+        end)
+        hs.hotkey.bind({"cmd"}, "l", function()
+          hs.execute("yabai -m window --focus east")
         end)
       '';
   };
