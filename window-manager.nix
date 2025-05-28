@@ -38,7 +38,7 @@
           hs.application.launchOrFocus("qutebrowser")
         end)
 
-        hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
+        hs.hotkey.bind({"cmd", "shift"}, "R", function()
           hs.reload()
         end)
 
