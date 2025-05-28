@@ -1,6 +1,15 @@
-#!/usr/env/bin nu
+#!/usr/bin/env -S nu --stdin
 
+def main [url: string] {
+  let title = http get $url
+    | lines
+    | find --regex '.*?(<title>*>.*?</title>).*'
+    | split row '<title>'
+    | split row '</title>'
+    | get 1
 
-main [url: string] {
-	$"getting ($url)"
+  {
+    url: $url
+    title: $title
+  } | to json
 }
