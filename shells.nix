@@ -49,7 +49,10 @@
   };
 
   programs.nushell = {
-    enable = false;
+    enable = true;
+    package = pkgs.writeShellScriptBin "nu" ''
+      exec ${pkgs.coreutils}/bin/env ~/.local/bin/nu "$@"
+    '';
 
     environmentVariables = {
       EDITOR = "hx";
