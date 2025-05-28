@@ -34,6 +34,10 @@
     text =
       # lua
       ''
+        hs.loadSpoon("Seal")
+        spoon.Seal:loadPlugins({ "useractions" })
+        spoon.Seal:start()
+
         hs.hotkey.bind({"cmd", "shift"}, "B", function()
           hs.application.launchOrFocus("qutebrowser")
         end)
