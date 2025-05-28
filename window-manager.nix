@@ -4,6 +4,7 @@
     skhd
     hammerspoon
   ];
+
   home.file.yabai = {
     executable = true;
     target = ".config/yabai/yabairc";
@@ -26,6 +27,16 @@
       yabai -m rule --add app="^System Preferences$" manage=off
 
       echo "yabai configuration loaded.."
+    '';
+  };
+
+  home.file.hammerspoon = {
+    target = ".hammerspoon/init.lua";
+    text = ''
+      # lua
+      hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
+        hs.alert.show("Hello World!")
+      end)
     '';
   };
 
