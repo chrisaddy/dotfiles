@@ -70,39 +70,6 @@
       home-manager.darwinModules.home-manager
 
       {
-        services.yabai = {
-          enable = true;
-          enableScriptingAddition = true;
-          config = {
-            layout = "bsp";
-            auto_balance = "on";
-            focus_follows_mouse = "autoraise";
-            mouse_follows_focus = "off";
-            window_gap = 10;
-            top_padding = 10;
-            bottom_padding = 10;
-            left_padding = 10;
-            right_padding = 10;
-          };
-        };
-
-        services.skhd = {
-          enable = true;
-          skhdConfig = ''
-            alt - h : yabai -m window --focus west
-            alt - l : yabai -m window --focus east
-            alt - j : yabai -m window --focus south
-            alt - k : yabai -m window --focus north
-
-            shift + alt - h : yabai -m window --swap west
-            shift + alt - l : yabai -m window --swap east
-            shift + alt - j : yabai -m window --swap south
-            shift + alt - k : yabai -m window --swap north
-          '';
-        };
-      }
-
-      {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
 
@@ -113,6 +80,16 @@
         };
       }
     ];
+
+    nixosConfigurations = {
+      aion = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/aion/ocnfiguration.nix
+          ./hosts/aion/hardware-configuration.nix
+        ];
+      }
+    };
 
     mkHost = name: {
       darwinConfigurations.${name} = nix-darwin.lib.darwinSystem {
