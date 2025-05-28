@@ -34,7 +34,7 @@
     text =
       # lua
       ''
-        hs.loadSpoon("AClock")
+        # hs.loadSpoon("AClock")
         hs.hotkey.bind({"cmd"}, "8", function()
           hs.alert.show("Hello World!")
         end)
