@@ -6,7 +6,7 @@ in {
     readOnly = true;
   };
 
-  mkvalue = default: mkOption {
+  mkValue = default: mkOption {
     inherit default;
   };
 }

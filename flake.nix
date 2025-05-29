@@ -71,9 +71,5 @@
 
   in hostsByType // hostConfigs // {
     inherit lib;
-
-    herculesCI = { ... }: {
-      ciSystems = [ "aarch64-linux" "x86_64-linux"];
-    };
   };
 }
