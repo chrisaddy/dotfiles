@@ -46,7 +46,7 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.users.chrisaddy = import ./home.nix;
+                home-manager.users.chrisaddy = import ./home/aion.nix;
               }
             ];
           };
@@ -62,7 +62,7 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.users.chrisaddy = import ./home.nix;
+                home-manager.users.chrisaddy = import ./home/m4.nix;
               }
             ];
           };
