@@ -23,7 +23,7 @@ inputs: self: super: let
   };
 
 in {
-  nixoSystem' = module: super.nixosSystem {
+  nixosSystem' = module: super.nixosSystem {
     inherit specialArgs;
 
     modules = [
