@@ -48,9 +48,11 @@ def main [url: string] {
   let storage = $env.HOME
     | path join "marks"
     | ensure-db
-  create-bookmark $url false
-  | into sqlite $storage -t bookmarks
-  | print
+
+  let bookmark = create-bookmark $url false
+
+  $bookmark | into sqlite $storage -t bookmarks
+  $bookmark | print
 }
 
 def "main mark" [url: string] {
