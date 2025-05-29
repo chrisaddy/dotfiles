@@ -18,5 +18,5 @@ in {
 
   system.stateVersion = 5;
   
-};
+}
 )
