@@ -56,7 +56,7 @@
           m4 = inputs.nix-darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             modules = [
-              ./hosts/m4/configuration.nix
+              ./hosts/m4/darwin-configuration.nix
 
               home-manager.darwinModules.home-manager
               {
