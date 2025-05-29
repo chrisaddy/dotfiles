@@ -14,4 +14,11 @@
     userName = "chrisaddy";
     userEmail = "chris.william.addy@gmail.com";
   };
+
+  nix = {
+    gc = {
+      automatic = true;
+      frequency = "daily";
+    };
+  };
 }

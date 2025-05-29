@@ -13,6 +13,20 @@
     fselect
   ];
 
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [
+      batdiff
+      batgrep
+      batman
+      batpipe
+    ];
+    config = {
+      pager = "less -FR";
+      theme = "TwoDark";
+    };
+  };
+
   programs.eza = {
     enable = true;
     enableNushellIntegration = true;
