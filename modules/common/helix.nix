@@ -1,4 +1,22 @@
-{pkgs, ...}: {
+{config, lib, pkgs, ...}: {
+
+  environment = {
+    variables.EDITOR = "hx";
+    shellAliases.x = "hx";
+  };
+  environment.systemPackages = with pkgs; [
+    vscode-langservers-extracted
+    markdown-oxide
+    nil
+    nixd
+    basedpyright
+    ruff
+    rust-analyzer-nightly
+    lldb
+    yaml-language-server
+  ];
+
+  home-manager.sharedModules = [{
   programs.helix = {
     enable = true;
     defaultEditor = true;
@@ -21,15 +39,6 @@
             command = "${pkgs.alejandra}/bin/alejandra";
           };
           auto-format = true;
-        }
-        {
-          name = "nut";
-          scope = "source.nut";
-          file-types = ["nut"];
-          auto-format = true;
-          formatter = {
-            command = "${pkgs.parinfer-rust}/bin/parinfer-rust";
-          };
         }
         {
           name = "python";
@@ -143,4 +152,5 @@
       rust-analyzer
     ];
   };
+  }];
 }
