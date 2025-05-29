@@ -17,7 +17,7 @@ in {
   home-manager.sharedModules = [
     {
       programs.bat = {
-        enabled = true;
+        enable = true;
 
         extraPackages = with pkgs.bat-extras; [
           batdiff
