@@ -20,9 +20,8 @@
       "aarch64-darwin"
       "x86_64-linux"
     ];
-
     lib = import ./lib/default.nix inputs self {
-      inherit (nixpkgs) lib;
+      lib = nixpkgs.lib // nix-darwin.lib;
       darwinSystem = nix-darwin.lib.darwinSystem;
       nixosSystem = nixpkgs.lib.nixosSystem;
     };
