@@ -1,4 +1,8 @@
-{ config, lib, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (lib) last mkConst mkValue splitString;
 in {
   options = {

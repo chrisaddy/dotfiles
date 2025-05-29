@@ -1,4 +1,11 @@
-lib: lib.nixosSystem' ({ config, pkgs, keys, lib, ...}: let
+lib:
+lib.nixosSystem' ({
+  config,
+  pkgs,
+  keys,
+  lib,
+  ...
+}: let
   inherit (lib) collectNix remove;
 in {
   imports = collectNix ./. |> remove ./default.nix;
@@ -6,7 +13,7 @@ in {
   users.users.chrisaddy = {
     isNormalUser = true;
     description = "chrisaddy";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
     ];
   };
@@ -15,5 +22,4 @@ in {
     stateVersion = "25.05";
     homeDirectory = "/home/chrisaddy";
   };
-
 })

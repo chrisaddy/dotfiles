@@ -1,19 +1,25 @@
-{ self, config, inputs, lib, pkgs, ...}: let
+{
+  self,
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) attrValues attrsToList concatStringsSep disabled filter filterAttrs flip id isType mapAttrs mapAttrsToList match merge mkAfter optionalAttrs optionals;
   inherit (lib.strings) toJSON;
 in {
-  nix.gc = merge {
-    automatic = true;
-    options = "--delete-older-than 3d";
-  } <| optionalAttrs config.isLinux {
-    dates = "weekly";
-    persistent = true;
-  }
-
-  nix.optimize.automatic = true;
+  nix.gc =
+    merge {
+      automatic = true;
+      options = "--delete-older-than 3d";
+    }
+    <| optionalAttrs config.isLinux {
+      dates = "weekly";
+      persistent = true;
+    };
 
   environment.systemPackages = with pkgs; [
-
     nh
     alejandra
 
@@ -26,8 +32,5 @@ in {
       ${pkgs.nh}/bin/nh darwin switch .
       git push
     '')
-    
   ];
-
-
 }

@@ -7,43 +7,52 @@ inputs: self: super: let
 
   collectInputs = let
     inputs' = attrValues inputs;
-  in path: inputs'
-    |> filter (hasAttrByPath path)
-    |> map (getAttrFromPath path);
+  in
+    path:
+      inputs'
+      |> filter (hasAttrByPath path)
+      |> map (getAttrFromPath path);
 
-  inputLinux  = collectInputs ["nixosModules" "default"];
+  inputLinux = collectInputs ["nixosModules" "default"];
   inputDarwin = collectInputs ["darwinModules" "default"];
   inputOverlays = collectInputs ["overlays" "defaults"];
 
-  overlayModule = { nixpkgs.overlays = inputOverlays;};
+  overlayModule = {nixpkgs.overlays = inputOverlays;};
 
-  specialArgs = inputs // {
-    inherit inputs;
+  specialArgs =
+    inputs
+    // {
+      inherit inputs;
 
-    keys = import ../keys.nix;
-    lib = self;
-  };
-
+      keys = import ../keys.nix;
+      lib = self;
+    };
 in {
-  nixosSystem' = module: super.nixosSystem {
-    inherit specialArgs;
+  nixosSystem' = module:
+    super.nixosSystem {
+      inherit specialArgs;
 
-    modules = [
-      module
-      overlayModule
-    ] ++ common
-      ++ linux
-      ++ inputLinux;
-  };
+      modules =
+        [
+          module
+          overlayModule
+        ]
+        ++ common
+        ++ linux
+        ++ inputLinux;
+    };
 
-  darwinSystem' = module: super.darwinSystem {
-    inherit specialArgs;
+  darwinSystem' = module:
+    super.darwinSystem {
+      inherit specialArgs;
 
-    modules = [
-      module
-      overlayModule
-    ] ++ common
-      ++ darwin
-      ++ inputDarwin;
-  };
+      modules =
+        [
+          module
+          overlayModule
+        ]
+        ++ common
+        ++ darwin
+        ++ inputDarwin;
+    };
 }
