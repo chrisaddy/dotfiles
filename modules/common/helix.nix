@@ -11,7 +11,7 @@
     nixd
     basedpyright
     ruff
-    rust-analyzer-nightly
+    rust-analyzer
     lldb
     yaml-language-server
   ];
