@@ -1,4 +1,5 @@
 #!/usr/bin/env nu
+
 def open-files [files: list] {
   # TODO: handle other types of files/dirs
   ^$env.EDITOR ...($files | get name)
@@ -15,37 +16,41 @@ def delete-files [files: list] {
     _ => {
       print $"(ansi yellow)cancelled"
     }
-    
   }
 }
 
-let result = (
-  ls **/*
-  | where type == "file"
-  | sk
-      --multi
-      --preview {
+loop {
+  let result = (
+    ls **/*
+    | where type == "file"
+    | sk
+        --multi
+        --preview {
           # TODO: different colors depending on size and age?
           let size = $"[(ansi yellow)size(ansi reset)=($in.size)]"
           let modified = $"[(ansi cyan)modified(ansi reset)=($in.modified | date humanize)]"
-          let body = ^bat --style=plain --color=always $in.name
+          let body = (^bat --style=plain --color=always $in.name | complete)
           $"($size) ($modified)\n($body)"
+        }
+        --format { $in.name }
+        --preview-window "right:60%"
+        --bind { ctrl-d: accept, enter: accept, ctrl-c: abort }
+        --expect [ctrl-d enter ctrl-c]
+  )
 
-      }
-      --format { $in.name }
-      --preview-window "right:60%"
-      --bind { ctrl-d: accept enter: accept}
-      --expect [ctrl-d enter]
-)
+  if ($result.action == "ctrl-c") {
+    break
+  }
 
-match ($result | get --ignore-errors action) {
-  "enter" => {
-    open-files $result.selected
-  }
-  "ctrl-d" => {
-    delete-files $result.selected
-  }
-  _ => {
-    print $"(ansi yellow)no action selected"
+  match ($result | get --ignore-errors action) {
+    "enter" => {
+      open-files $result.selected
+    }
+    "ctrl-d" => {
+      delete-files $result.selected
+    }
+    _ => {
+      print $"(ansi yellow)no action selected"
+    }
   }
 }
