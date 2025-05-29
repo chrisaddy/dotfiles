@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+sudo nix run \
+  'nix-darwin/master#darwin-rebuild'-- \
+  switch .#Mac

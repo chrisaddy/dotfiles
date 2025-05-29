@@ -4,9 +4,9 @@
   pkgs,
   lib,
   ...
-}: let 
-email = "chris.william.addy@gmail.com";
-username = "chrisaddy";
+}: let
+  email = "chris.william.addy@gmail.com";
+  username = "chrisaddy";
 in {
   # home.packages = with pkgs; [
   #   lazygit
