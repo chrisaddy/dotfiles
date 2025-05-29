@@ -1,8 +1,5 @@
-_: self: super: let
-  inherit (self) filter hasSuffix;
-  inherit (self.filesystem) listFilesRecursive;
-in {
+_: self: {lib, ...}: {
   collectNix = path:
-    listFilesRecursive path
-    |> filter (hasSuffix ".nix");
+    lib.filesystem.listFilesRecursive path
+    |> lib.filter (lib.hasSuffix ".nix");
 }

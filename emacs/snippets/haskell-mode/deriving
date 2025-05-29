@@ -1,4 +1,0 @@
-# name: deriving JSON
-# key: deriving
-# --
- (Show, Generic, FromJSON, ToJSON)

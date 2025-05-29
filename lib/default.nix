@@ -1,8 +1,21 @@
 inputs: self: super: let
-  colors = import ./colors.nix inputs self super;
+  # Pre-load just the pieces that don’t depend on `self` fully yet
   filesystem = import ./filesystem.nix inputs self super;
-  option = import ./option.nix inputs self super;
-  system = import ./system.nix inputs self super;
-  values = import ./values.nix inputs self super;
+  collectNix = filesystem.collectNix;
+
+  # Now load the rest with `collectNix` available in `self`
+  baseLib = {
+    inherit collectNix;
+  };
+
+  colors = import ./colors.nix inputs (self // baseLib) super;
+  option = import ./option.nix inputs (self // baseLib) super;
+  system = import ./system.nix inputs (self
+    // baseLib
+    // {
+      collectNix = baseLib.collectNix;
+    })
+  super;
+  values = import ./values.nix inputs (self // baseLib) super;
 in
-  colors // filesystem // option // system // values
+  baseLib // colors // filesystem // option // system // values
