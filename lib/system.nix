@@ -3,7 +3,7 @@ inputs: self: super: let
 
   common = collectNix ../modules/common;
   linux = collectNix ../modules/linux;
-  darwin = collectnix ../modules/darwin;
+  darwin = collectNix ../modules/darwin;
 
   collectInputs = let
     inputs' = attrValues inputs;
@@ -11,8 +11,8 @@ inputs: self: super: let
     |> filter (hasAttrByPath path)
     |> map (getAttrFromPath path);
 
-  inputLinux  = collectInput ["nixosModules" "default"];
-  inputDarwin = collectInput ["darwinModules" "default"];
+  inputLinux  = collectInputs ["nixosModules" "default"];
+  inputDarwin = collectInputs ["darwinModules" "default"];
   inputOverlays = collectInputs ["overlays" "defaults"];
 
   overlayModule = { nixpkgs.overlays = inputOverlays;};
@@ -20,7 +20,7 @@ inputs: self: super: let
   specialArgs = inputs // {
     inherit inputs;
     lib = self;
-  }
+  };
 
 in {
   nixoSystem' = module: super.nixosSystem {

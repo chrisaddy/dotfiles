@@ -8,5 +8,5 @@ _: self: _: {
     0.7152 * g +
     0.0722 * b;
   isDark = { base00, base07, ... }: self.luminance base00 < self.luninance base07;
-  isLight = them: !self.isDark theme;
+  isLight = theme: !self.isDark theme;
 }

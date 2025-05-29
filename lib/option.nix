@@ -8,5 +8,5 @@ in {
 
   mkvalue = default: mkOption {
     inherit default;
-  }
+  };
 }
