@@ -36,7 +36,7 @@
     ripgrep
     tree
     zoxide
-    eza
+    # eza
   ];
 
   programs.tealdeer = {

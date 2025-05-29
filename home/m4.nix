@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./common.nix
+    ../modules/git.nix
     ../modules/helix.nix
     ../modules/ghostty.nix
     ../modules/nushell.nix

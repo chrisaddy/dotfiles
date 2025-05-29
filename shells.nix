@@ -14,7 +14,7 @@
   ];
 
   programs.eza = {
-    enable = true;
+    enable = false;
     enableNushellIntegration = true;
     colors = "always";
     extraOptions = [

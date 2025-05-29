@@ -23,6 +23,12 @@ in {
     name = gitUsername;
   };
 
+  home.file.".local/bin" = {
+    source = ./scripts;
+    recursive = true;
+    executable = true;
+  };
+
   nix = {
     gc = {
       automatic = true;

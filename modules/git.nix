@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib ? null,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     lazygit
     lazyjj

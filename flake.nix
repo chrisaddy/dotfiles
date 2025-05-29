@@ -1,8 +1,13 @@
 {
-  description = "hyperprior";
+  description = "hyperprior flake with fenix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -14,44 +19,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     flake-parts.url = "github:hercules-ci/flake-parts";
-
-    themes.url = "github:RGBCube/ThemeNix";
   };
 
   outputs = inputs @ {
     self,
     nixpkgs,
+    fenix,
     flake-parts,
     home-manager,
     nix-darwin,
-    fenix,
     ...
-  }: let
-    overlay = final: prev: {
-      rust-toolchain = inputs.fenix.complete.withComponents [
-        "cargo"
-        "clippy"
-        "rust-src"
-        "rustc"
-        "rustfmt"
-      ];
-    };
-  in
+  }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-darwin"];
-
-      perSystem = {pkgs, ...}: {
-        _module.args.pkgs = import nixpkgs {
-          system = pkgs.system;
-          overlays = [overlay];
-        };
-      };
 
       flake = {
         nixosConfigurations.aion = nixpkgs.lib.nixosSystem {
@@ -69,8 +50,16 @@
             }
 
             ({pkgs, ...}: {
+              nixpkgs.overlays = [fenix.overlays.default];
+
               environment.systemPackages = with pkgs; [
-                rust-toolchain
+                (fenix.packages.${pkgs.system}.complete.withComponents [
+                  "cargo"
+                  "clippy"
+                  "rust-src"
+                  "rustc"
+                  "rustfmt"
+                ])
                 rust-analyzer-nightly
               ];
             })
@@ -91,8 +80,16 @@
             }
 
             ({pkgs, ...}: {
+              nixpkgs.overlays = [fenix.overlays.default];
+
               environment.systemPackages = with pkgs; [
-                rust-toolchain
+                (fenix.packages.${pkgs.system}.complete.withComponents [
+                  "cargo"
+                  "clippy"
+                  "rust-src"
+                  "rustc"
+                  "rustfmt"
+                ])
                 rust-analyzer-nightly
               ];
             })
