@@ -2,9 +2,7 @@
   pkgs,
   lib ? null,
   ...
-}: let
-  userConfig = import ./config.nix {inherit lib;};
-in {
+}: {
   home.packages = with pkgs; [
     lazygit
     lazyjj
@@ -15,10 +13,6 @@ in {
     jujutsu = {
       enable = true;
       settings = {
-        user = {
-          email = userConfig.email;
-          name = userConfig.username;
-        };
         ui = {
           diff-editor = ["nvim" "-c" "DiffEditor $left $right $output"];
         };
@@ -43,7 +37,6 @@ in {
       enable = true;
       settings = {
         git_protocol = "ssh";
-
         prompt = "enabled";
       };
     };

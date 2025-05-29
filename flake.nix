@@ -18,6 +18,7 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     themes.url = "github:RGBCube/ThemeNix";
@@ -32,45 +33,70 @@
     fenix,
     ...
   }: let
-    lib = import ./lib/default.nix {inherit inputs;} self nixpkgs.lib;
+    overlay = final: prev: {
+      rust-toolchain = inputs.fenix.complete.withComponents [
+        "cargo"
+        "clippy"
+        "rust-src"
+        "rustc"
+        "rustfmt"
+      ];
+    };
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-darwin"];
 
-      imports = [];
+      perSystem = {pkgs, ...}: {
+        _module.args.pkgs = import nixpkgs {
+          system = pkgs.system;
+          overlays = [overlay];
+        };
+      };
 
       flake = {
-        nixosConfigurations = {
-          aion = inputs.nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              ./hosts/aion/configuration.nix
-              ./hosts/aion/hardware.nix
+        nixosConfigurations.aion = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
 
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.chrisaddy = import ./home/aion.nix;
-              }
-            ];
-          };
+          modules = [
+            ./hosts/aion/configuration.nix
+            ./hosts/aion/hardware.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.chrisaddy = import ./home/aion.nix;
+            }
+
+            ({pkgs, ...}: {
+              environment.systemPackages = with pkgs; [
+                rust-toolchain
+                rust-analyzer-nightly
+              ];
+            })
+          ];
         };
 
-        darwinConfigurations = {
-          m4 = inputs.nix-darwin.lib.darwinSystem {
-            system = "aarch64-darwin";
-            modules = [
-              ./hosts/m4/darwin-configuration.nix
+        darwinConfigurations.m4 = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
 
-              home-manager.darwinModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.chrisaddy = import ./home/m4.nix;
-              }
-            ];
-          };
+          modules = [
+            ./hosts/m4/darwin-configuration.nix
+
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.chrisaddy = import ./home/m4.nix;
+            }
+
+            ({pkgs, ...}: {
+              environment.systemPackages = with pkgs; [
+                rust-toolchain
+                rust-analyzer-nightly
+              ];
+            })
+          ];
         };
       };
     };
