@@ -31,7 +31,9 @@
     })
     // {
       darwinConfigurations = {
-        m4 = lib.darwinSystem' ./hosts/m4/default.nix;
+        m4 = lib.darwinSystem' ({lib, ...}: {
+          imports = [./hosts/m4/configuration.nix];
+        });
       };
 
       nixosConfigurations = {

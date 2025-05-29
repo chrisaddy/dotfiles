@@ -1,5 +1,4 @@
-lib:
-lib.darwinSystem' ({lib, ...}: {
+{lib, ...}: {
   networking.hostName = "m4";
 
   users.users.chrisaddy = {
@@ -13,4 +12,4 @@ lib.darwinSystem' ({lib, ...}: {
   };
 
   system.stateVersion = "25.05";
-})
+}

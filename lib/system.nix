@@ -1,5 +1,6 @@
 inputs: self: super: let
-  inherit (self) attrValues filter getAttrFromPath hasAttrByPath collectNix;
+  inherit (super.lib) attrValues filter getAttrFromPath hasAttrByPath;
+  inherit (self) collectNix;
 
   common = collectNix ../modules/common;
   linux = collectNix ../modules/linux;
@@ -23,7 +24,6 @@ inputs: self: super: let
     inputs
     // {
       inherit inputs;
-
       keys = import ../keys.nix;
       lib = self;
     };
@@ -31,28 +31,12 @@ in {
   nixosSystem' = module:
     super.nixosSystem {
       inherit specialArgs;
-
-      modules =
-        [
-          module
-          overlayModule
-        ]
-        ++ common
-        ++ linux
-        ++ inputLinux;
+      modules = [module overlayModule] ++ common ++ linux ++ inputLinux;
     };
 
   darwinSystem' = module:
     super.darwinSystem {
       inherit specialArgs;
-
-      modules =
-        [
-          module
-          overlayModule
-        ]
-        ++ common
-        ++ darwin
-        ++ inputDarwin;
+      modules = [module overlayModule] ++ common ++ darwin ++ inputDarwin;
     };
 }
