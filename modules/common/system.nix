@@ -2,7 +2,7 @@
   inherit (lib) last mkConst mkValue splitString;
 in {
   options = {
-    os = mkConst = <| last <| splitString "-" config.nixpkgs.hostPlatform.system;
+    os = mkConst <| last <| splitString "-" config.nixpkgs.hostPlatform.system;
     isLinux = mkConst <| config.os == "linux";
     isDarwin = mkConst <| config.os == "darwin";
 

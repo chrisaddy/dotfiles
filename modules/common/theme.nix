@@ -23,7 +23,7 @@ in {
       icons = {
         name = "Gruvbox-Plus-Dark";
         package = pkgs.gruvbox-plus-icons;
-      }
+      };
     };
-  }
+  };
 }
