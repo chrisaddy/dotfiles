@@ -13,14 +13,14 @@
     ./helix.nix
     ./media.nix
     ./nix.nix
-    ./notes.nix
+    # ./notes.nix
     # ./obs.nix
-    ./python.nix
+    # ./python.nix
     ./rust.nix
     ./shells.nix
     ./terminal.nix
     # ./theme.nix
-    ./tmux.nix
+    # ./tmux.nix
     # ./vim.nix
     # ./vscode.nix
     # ./web.nix
@@ -31,12 +31,12 @@
 
   home.packages = with pkgs; [
     direnv
-    dysk
     dust
     fd
     ripgrep
     tree
     zoxide
+    eza
   ];
 
   programs.tealdeer = {
@@ -66,11 +66,11 @@
     };
   };
 
-  home.file.".local/bin" = {
-    source = ./scripts;
-    recursive = true;
-    executable = true;
-  };
+  # home.file.".local/bin" = {
+  #   source = ./scripts;
+  #   recursive = true;
+  #   executable = true;
+  # };
 
   nix = {
     gc = {

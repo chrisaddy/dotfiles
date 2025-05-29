@@ -26,7 +26,9 @@
     home-manager,
     nix-darwin,
     ...
-  }:
+  }: let
+    lib = import ./lib/default.nix {inherit inputs;} self nixpkgs.lib;
+  in
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-darwin"];
 
@@ -36,11 +38,6 @@
         nixosConfigurations = {
           aion = inputs.nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            specialArgs = {
-              inherit inputs;
-              keys = import ./keys.nix;
-              lib = import ./lib/default.nix inputs;
-            };
             modules = [
               ./hosts/aion/configuration.nix
               ./hosts/aion/hardware.nix
@@ -58,11 +55,6 @@
         darwinConfigurations = {
           m4 = inputs.nix-darwin.lib.darwinSystem {
             system = "aarch64-darwin";
-            specialArgs = {
-              inherit inputs;
-              keys = import ./keys.nix;
-              lib = import ./lib/default.nix inputs;
-            };
             modules = [
               ./hosts/m4/configuration.nix
 
