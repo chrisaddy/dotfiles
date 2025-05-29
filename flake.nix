@@ -14,6 +14,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     themes.url = "github:RGBCube/ThemeNix";
@@ -25,6 +29,7 @@
     flake-parts,
     home-manager,
     nix-darwin,
+    fenix,
     ...
   }: let
     lib = import ./lib/default.nix {inherit inputs;} self nixpkgs.lib;

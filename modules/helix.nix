@@ -23,15 +23,6 @@
           auto-format = true;
         }
         {
-          name = "nut";
-          scope = "source.nut";
-          file-types = ["nut"];
-          auto-format = true;
-          formatter = {
-            command = "${pkgs.parinfer-rust}/bin/parinfer-rust";
-          };
-        }
-        {
           name = "python";
           roots = [
             "pyproject.toml"
@@ -40,15 +31,12 @@
           scope = "source.python";
           language-servers = [
             "ruff"
-            "pyright"
+            "basedpyright"
           ];
           formatter = {
             command = "${pkgs.ruff}/bin/ruff";
             args = ["format" "--line-length" "88" "-"];
           };
-          # debugger = {
-          #   command = "${pkgs.}."
-          # };
           auto-format = true;
         }
         {
@@ -138,7 +126,7 @@
       nixd
       # python
       ruff
-      pyright
+      basedpyright
       # rust
       rust-analyzer
     ];

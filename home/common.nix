@@ -18,7 +18,7 @@ in {
     userEmail = gitEmail;
   };
 
-  programs.jujutsu.user = {
+  programs.jujutsu.settings.user = {
     email = gitEmail;
     name = gitUsername;
   };
