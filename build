@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-sudo nix run \
-  'nix-darwin/master#darwin-rebuild'-- \
-  switch .#Mac
+
+HOST=$(scutil --get ComputerName)
+sudo nix run 'nix-darwin/master#darwin-rebuild' -- switch --flake .#"$HOST" --show-trace

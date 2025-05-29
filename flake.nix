@@ -6,14 +6,7 @@
       "https://nix-community.cachix.org"
       "https://hyprland.cachix.org"
     ];
-
-    experimental-features = [
-      "cgroups"
-      "flakes"
-      "nix-command"
-      "pipe-operators"
-    ];
-
+    experimental-features = ["cgroups" "flakes" "nix-command" "pipe-operators"];
     trusted-users = ["root" "@build" "@wheel" "@admin"];
   };
 
@@ -48,37 +41,59 @@
     ...
   }: let
     inherit (builtins) readDir;
-    inherit (nixpkgs.lib) attrsToList const groupBy listToAttrs mapAttrs nameValuePair;
+    inherit (nixpkgs.lib) attrsToList groupBy listToAttrs mapAttrs nameValuePair isFunction;
+
     lib' = nixpkgs.lib.extend (_: _: nix-darwin.lib);
     lib = lib'.extend <| import ./lib inputs;
 
-    hostsByType =
+    rawHosts =
       readDir ./hosts
-      |> mapAttrs (name: const <| import ./hosts/${name} lib)
+      |> mapAttrs (name: _: let
+        imported = import ./hosts/${name};
+        host =
+          if isFunction imported
+          then imported lib
+          else imported;
+      in {
+        class = host.class;
+        config = host.config lib;
+      });
+
+    hostsByType =
+      rawHosts
       |> attrsToList
-      |> groupBy ({
-        name,
-        value,
-      }:
+      |> groupBy ({value, ...}:
         if value ? class && value.class == "nixos"
         then "nixosConfigurations"
         else "darwinConfigurations")
-      |> mapAttrs (const listToAttrs);
+      |> mapAttrs (_: listToAttrs);
+  in {
+    darwinConfigurations = hostsByType.darwinConfigurations or {};
+    nixosConfigurations = hostsByType.nixosConfigurations or {};
+    lib = lib;
+  };
+}
+### hosts/m4/default.nix
+{
+  class = "darwin";
+  config = lib:
+    lib.darwinSystem' (
+      {lib, ...}: {
+        imports = [];
 
-    hostConfigs =
-      hostsByType.darwinConfigurations
-      // hostsByType.nixosConfigurations
-      |> attrsToList
-      |> map ({
-        name,
-        value,
-      }:
-        nameValuePair name value.config)
-      |> listToAttrs;
-  in
-    hostsByType
-    // hostConfigs
-    // {
-      inherit lib;
-    };
+        networking.hostName = "m4";
+
+        users.users.chrisaddy = {
+          name = "chrisaddy";
+          home = "/Users/chrisaddy";
+        };
+
+        home-manager.users.chrisaddy.home = {
+          stateVersion = "25.05";
+          homeDirectory = "/Users/chrisaddy";
+        };
+
+        system.stateVersion = "25.05";
+      }
+    );
 }
