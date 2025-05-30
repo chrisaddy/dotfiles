@@ -1,5 +1,4 @@
 #!/usr/bin/env nu
-
 def open-files [files: list] {
   # TODO: handle other types of files/dirs
   ^$env.EDITOR ...($files | get name)

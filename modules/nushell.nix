@@ -12,6 +12,7 @@
     tmux
     fselect
     nufmt
+    entr
   ];
 
   programs.bat = {
