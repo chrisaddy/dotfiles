@@ -4,5 +4,6 @@
     mpv
     rmpc
     ffmpeg
+    kew
   ];
 }
