@@ -70,6 +70,8 @@
       exec ${pkgs.coreutils}/bin/env ~/.local/bin/nu "$@"
     '';
 
+    # SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
+    # NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
     environmentVariables = {
       EDITOR = "hx";
     };

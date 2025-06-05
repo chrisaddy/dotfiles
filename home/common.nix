@@ -10,6 +10,8 @@ in {
   home.packages = with pkgs; [
     nh
     alejandra
+    # cacert
+    espanso
   ];
   programs.git = {
     userName = gitUsername;
@@ -20,6 +22,7 @@ in {
     email = gitEmail;
     name = gitUsername;
   };
+
   home.file.".local/bin" = {
     source = ./scripts;
     recursive = true;

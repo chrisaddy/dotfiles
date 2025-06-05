@@ -37,7 +37,6 @@
       flake = {
         nixosConfigurations.aion = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-
           modules = [
             ./hosts/aion/configuration.nix
             ./hosts/aion/hardware.nix
