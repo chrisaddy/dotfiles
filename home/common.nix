@@ -10,7 +10,6 @@ in {
   home.packages = with pkgs; [
     nh
     alejandra
-    # cacert
     espanso
   ];
   programs.git = {
@@ -28,6 +27,8 @@ in {
     recursive = true;
     executable = true;
   };
+
+  programs.lazydocker.enable = true;
 
   nix = {
     gc = {

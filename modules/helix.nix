@@ -23,6 +23,17 @@
           auto-format = true;
         }
         {
+          name = "ocaml";
+          scope = "source.ml";
+          language-servers = [
+            "ocamllsp"
+          ];
+          formatter = {
+            command = "${pkgs.ocamlformat}/bin/ocamlformat";
+          };
+          auto-format = true;
+        }
+        {
           name = "python";
           roots = [
             "pyproject.toml"
@@ -45,10 +56,6 @@
           language-servers = [
             "rust-analyzer"
           ];
-          # formatter = {
-          #   command = "${pkgs.cargo}/bin/cargo";
-          #   args = ["fmt"];
-          # };
           auto-format = true;
           roots = ["Cargo.toml"];
         }

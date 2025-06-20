@@ -95,16 +95,31 @@
       };
     };
     extraConfig = ''
-      $env.PATH = ($env.PATH
-        | split row (char esep)
-        | append /nix/var/nix/profiles/default/bin
-        | append /etc/profiles/per-user/${config.home.username}/bin
-        | append /run/current-system/sw/bin
-        | append /usr/local/bin
-        | append ~/.local/bin
-      )
+        $env.PATH = ($env.PATH
+          | split row (char esep)
+          | append /nix/var/nix/profiles/default/bin
+          | append /etc/profiles/per-user/${config.home.username}/bin
+          | append /run/current-system/sw/bin
+          | append /usr/local/bin
+          | append ~/.local/bin
+          | append /opt/homebrew/bin
+        )
+        $env.config = {
+          hooks: {
+            pre_prompt: [{ ||
+              if (which direnv | is-empty) {
+                return
+              }
 
-      source ~/.secrets.nu
+              direnv export json | from json | default {} | load-env
+              if 'ENV_CONVERSIONS' in $env and 'PATH' in $env.ENV_CONVERSIONS {
+                $env.PATH = do $env.ENV_CONVERSIONS.PATH.from_string $env.PATH
+              }
+          }]
+        }
+      }
+
+        source ~/.secrets.nu
     '';
     shellAliases = {
       vi = "hx";

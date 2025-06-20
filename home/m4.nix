@@ -8,6 +8,8 @@
     ../modules/helix.nix
     ../modules/media.nix
     ../modules/nushell.nix
+    ../modules/ocaml.nix
+    ../modules/tasks.nix
     ../modules/tmux.nix
   ];
   home.username = "chrisaddy";
