@@ -1,0 +1,2 @@
+brew bundle
+open nushell/config.nu | save $nu.config-path --force
