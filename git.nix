@@ -6,10 +6,8 @@
   userConfig = import ./config.nix {inherit lib;};
 in {
   home.packages = with pkgs; [
-    lazygit
     lazyjj
     jujutsu
-    radicle-node
   ];
   programs = {
     jujutsu = {
@@ -27,9 +25,6 @@ in {
     git = {
       enable = true;
       difftastic.enable = true;
-      # hooks = {
-      #   pre-commit = ./pre-commit-script;
-      # };
       ignores = [
         "*~"
         "*.swp"

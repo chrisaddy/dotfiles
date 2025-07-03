@@ -1,2 +1,7 @@
+let config_path = $env.HOME | path join .config
+
 brew bundle
-open nushell/config.nu | save $nu.config-path --force
+
+cp nushell/config.nu $nu.config-path
+stow ghostty
+stow nvim

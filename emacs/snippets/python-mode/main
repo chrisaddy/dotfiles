@@ -1,5 +1,0 @@
-# name: main guard
-# key: main
-# --
-if __name__ == "__main__":
-    
