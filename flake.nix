@@ -34,7 +34,7 @@
     nixvim,
     ...
   }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+    flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-darwin"];
 
       flake = {
@@ -51,11 +51,16 @@
               home-manager.users.chrisaddy = import ./home/aion.nix;
             }
 
-            ({ pkgs, ... }: {
-              nixpkgs.overlays = [ fenix.overlays.default ];
+            ({pkgs, ...}: {
+              nixpkgs.overlays = [fenix.overlays.default];
               environment.systemPackages = with pkgs; [
                 (fenix.packages.${pkgs.system}.complete.withComponents [
-                  "cargo" "clippy" "rust-src" "rustc" "rustfmt" "rust-analyzer"
+                  "cargo"
+                  "clippy"
+                  "rust-src"
+                  "rustc"
+                  "rustfmt"
+                  "rust-analyzer"
                 ])
               ];
             })
@@ -74,7 +79,7 @@
               home-manager.users.chrisaddy = import ./home/m4.nix;
             }
 
-            ({ pkgs, ... }: {
+            ({pkgs, ...}: {
               nixpkgs.overlays = [
                 fenix.overlays.default
                 (self: super: {
@@ -88,7 +93,11 @@
               ];
               environment.systemPackages = with pkgs; [
                 (fenix.packages.${pkgs.system}.complete.withComponents [
-                  "cargo" "clippy" "rust-src" "rustc" "rustfmt"
+                  "cargo"
+                  "clippy"
+                  "rust-src"
+                  "rustc"
+                  "rustfmt"
                 ])
                 rust-analyzer-nightly
               ];
@@ -96,16 +105,16 @@
           ];
         };
 
-darwinConfigurations.olympus = nix-darwin.lib.darwinSystem {
-  system = "aarch64-darwin";
-  modules = [
-    ./hosts/olympus/darwin-configuration.nix
-    ./hosts/olympus
-  ];
-  specialArgs = {
-    inherit inputs;
-  };
-};
+        darwinConfigurations.olympus = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/olympus/darwin-configuration.nix
+            ./hosts/olympus
+          ];
+          specialArgs = {
+            inherit inputs;
+          };
+        };
       };
     };
 }

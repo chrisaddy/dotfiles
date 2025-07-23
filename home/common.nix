@@ -26,7 +26,6 @@ in {
 
   programs.lazydocker.enable = true;
 
-
   nix = {
     gc = {
       automatic = true;

@@ -1,4 +1,8 @@
-{pkgs, nixvim, ...}: {
+{
+  pkgs,
+  nixvim,
+  ...
+}: {
   imports = [
     ./common.nix
     ../modules/ai.nix
