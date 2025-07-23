@@ -34,7 +34,7 @@
     nixvim,
     ...
   }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
+    flake-parts.lib.mkFlake { inherit inputs; } {
       systems = ["x86_64-linux" "aarch64-darwin"];
 
       flake = {
@@ -51,17 +51,11 @@
               home-manager.users.chrisaddy = import ./home/aion.nix;
             }
 
-            ({pkgs, ...}: {
-              nixpkgs.overlays = [fenix.overlays.default];
-
+            ({ pkgs, ... }: {
+              nixpkgs.overlays = [ fenix.overlays.default ];
               environment.systemPackages = with pkgs; [
                 (fenix.packages.${pkgs.system}.complete.withComponents [
-                  "cargo"
-                  "clippy"
-                  "rust-src"
-                  "rustc"
-                  "rustfmt"
-                  "rust-analyzer"
+                  "cargo" "clippy" "rust-src" "rustc" "rustfmt" "rust-analyzer"
                 ])
               ];
             })
@@ -70,7 +64,6 @@
 
         darwinConfigurations.m4 = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-
           modules = [
             ./hosts/m4/darwin-configuration.nix
 
@@ -81,11 +74,9 @@
               home-manager.users.chrisaddy = import ./home/m4.nix;
             }
 
-            ({pkgs, ...}: {
+            ({ pkgs, ... }: {
               nixpkgs.overlays = [
                 fenix.overlays.default
-
-                # force doc-gen=false on nix & nix-dev-shell
                 (self: super: {
                   nix = super.nix.overrideAttrs (old: {
                     mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
@@ -95,65 +86,26 @@
                   });
                 })
               ];
-
               environment.systemPackages = with pkgs; [
                 (fenix.packages.${pkgs.system}.complete.withComponents [
-                  "cargo"
-                  "clippy"
-                  "rust-src"
-                  "rustc"
-                  "rustfmt"
+                  "cargo" "clippy" "rust-src" "rustc" "rustfmt"
                 ])
                 rust-analyzer-nightly
               ];
             })
           ];
         };
+
 darwinConfigurations.olympus = nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-
-          modules = [
-            ./hosts/olympus/darwin-configuration.nix
-
-            home-manager.darwinModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.chrisaddy = import ./home/olympus.nix {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-                inherit (inputs) nixvim;
-              };
-            }
-
-            ({pkgs, ...}: {
-              #nixpkgs.overlays = [
-              #  fenix.overlays.default
-
-                # force doc-gen=false on nix & nix-dev-shell
-              #  (self: super: {
-              #    nix = super.nix.overrideAttrs (old: {
-              #      mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
-              #    });
-              #    nix-dev-shell = super.nix-dev-shell.overrideAttrs (old: {
-              #      mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
-              #    });
-              #  })
-              #];
-
-              #environment.systemPackages = with pkgs; [
-              #  (fenix.packages.${pkgs.system}.complete.withComponents [
-              #    "cargo"
-              #    "clippy"
-              #    "rust-src"
-              #    "rustc"
-              #    "rustfmt"
-              #  ])
-              #  rust-analyzer-nightly
-              #];
-            })
-          ];
-        };
-
+  system = "aarch64-darwin";
+  modules = [
+    ./hosts/olympus/darwin-configuration.nix
+    ./hosts/olympus
+  ];
+  specialArgs = {
+    inherit inputs;
+  };
+};
       };
     };
 }

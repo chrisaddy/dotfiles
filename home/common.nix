@@ -12,6 +12,7 @@ in {
     alejandra
     espanso
     tree
+    home-manager
   ];
   programs.git = {
     userName = gitUsername;
@@ -24,6 +25,7 @@ in {
   };
 
   programs.lazydocker.enable = true;
+
 
   nix = {
     gc = {

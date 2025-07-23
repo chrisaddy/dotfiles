@@ -1,16 +1,22 @@
-lib:
-lib.darwinSystem' ({lib, ...}: {
-  networking.hostName = "olympus";
+{ inputs, pkgs, ... }: {
+  imports = [
+    inputs.home-manager.darwinModules.home-manager
+  ];
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.chrisaddy = import ../../home/olympus.nix {
+      inherit pkgs;
+      inherit (inputs) nixvim;
+    };
+  };
 
   users.users.chrisaddy = {
-    name = "chrisaddy";
     home = "/Users/chrisaddy";
+    shell = pkgs.nushell;
   };
 
-  home-manager.users.chrisaddy.home = {
-    stateVersion = "25.05";
-    homeDirectory = "/Users/chrisaddy";
-  };
+  programs.zsh.enable = true;
+}
 
-  system.stateVersion = "25.05";
-})
