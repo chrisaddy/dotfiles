@@ -11,6 +11,7 @@ in {
     nh
     alejandra
     espanso
+    tree
   ];
   programs.git = {
     userName = gitUsername;

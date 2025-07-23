@@ -5,27 +5,22 @@
 }: {
   home.packages = with pkgs; [
     vale
-    markdownlint-cli
     markdownlint-cli2
     jq
-    hadolint
-    hlint
     ruff
   ];
 
   programs.nixvim = {
     enable = true;
-    # colorschemes.tokyonight.enable = true;
+    colorschemes.tokyonight.enable = true;
     globals.mapleader = " ";
     globals.maplocalleader = " ";
 
     extraPlugins = [
-      pkgs.vimPlugins.haskell-tools-nvim
       pkgs.vimPlugins.FixCursorHold-nvim
       pkgs.vimPlugins.neotest-plenary
       pkgs.vimPlugins.plenary-nvim
       pkgs.vimPlugins.nvim-nio
-      pkgs.vimPlugins.neotest-haskell
       pkgs.vimPlugins.limelight-vim
     ];
     opts = {
@@ -110,7 +105,6 @@
               "shfmt"
             ];
             cpp = ["clang_format"];
-            haskell = ["hlint"];
             javascript = {
               __unkeyed-1 = "prettierd";
               __unkeyed-2 = "prettier";
@@ -161,28 +155,6 @@
       dap = {
         enable = true;
         settings = {
-          adapters.ghc = {
-            type = "executable";
-            command = "haskell-debug-adapter";
-            args = [];
-          };
-
-          configurations.haskell = [
-            {
-              type = "ghc";
-              request = "launch";
-              name = "Debug Haskell";
-              workspace = "\${workspaceFolder}";
-              startup = "\${file}";
-              stopOnEntry = true;
-              logFile = "/tmp/haskell-dap.log";
-              logLevel = "DEBUG";
-              ghciEnv = {};
-              ghciPrompt = "λ: ";
-              ghciInitialPrompt = "λ: ";
-              ghciCmd = "cabal repl";
-            }
-          ];
           configurations.python = [
             {
               type = "python";
@@ -407,7 +379,6 @@
         enable = true;
         lintersByFt = {
           dockerfile = ["hadolint"];
-          haskell = ["hlint"];
           json = ["jq"];
           markdown = [
             "markdownlint"
@@ -621,66 +592,11 @@
           };
         };
         adapters = {
-          haskell = {
-            enable = true;
-            settings = {
-              command = "neotest-haskell";
-            };
-          };
           plenary = {
             enable = true;
           };
           python = {
             enable = true;
-          };
-        };
-      };
-      obsidian = {
-        enable = true;
-        autoLoad = true;
-        settings = {
-          ui.enable = false;
-          completion = {
-            min_chars = 2;
-            nvim_cmp = true;
-          };
-          disable_frontmatter = true;
-          follow_url_func = ''
-            function(url)
-              vim.fn.jobstart({"open", url})
-            end
-          '';
-          workspaces = [
-            {
-              name = "zettelkasten";
-              path = "$HOME/vaults/zettelkasten";
-              overrides = {
-                disable_frontmatter = true;
-              };
-            }
-          ];
-          daily_notes = {
-            folder = "calendar/daily";
-          };
-          picker = {
-            name = "fzf-lua";
-          };
-          note_id_func = ''
-            function(title)
-              if title ~= nil then
-                return title:lower()
-              else
-                return 'untitled'
-              end
-            end
-          '';
-          note_path = {
-            __raw = ''
-              function(spec)
-                local path = spec.dir / tostring(spec.id)
-                return path:with_suffix('.md')
-              end
-            '';
           };
         };
       };
@@ -856,16 +772,6 @@
       }
       {
         mode = "n";
-        key = "<leader>tm";
-        action.__raw = "function()
-          -- Make sure changes are saved before running tests
-          vim.cmd('silent! wall')
-          require('neotest').run.run({vim.fn.expand('%'), adapter = 'haskell'})
-        end";
-        options.desc = "Run Haskell module tests";
-      }
-      {
-        mode = "n";
         key = "<leader>hr";
         action = "<cmd>Haskell repl toggle<cr>";
         options.desc = "[h]askell [r]epl";
@@ -980,12 +886,6 @@
         key = "<leader>ca";
         action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
         options.desc = "[c]ode action";
-      }
-      {
-        mode = "n";
-        key = "<leader>hs";
-        action = "<cmd>lua require('haskell-tools').hoogle.hoogle_signature()<cr>";
-        options.desc = "[h]askell [signature]";
       }
       {
         mode = "n";

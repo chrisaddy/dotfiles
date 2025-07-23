@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, nixvim, ...}: {
   imports = [
     ./common.nix
     ../modules/ai.nix
@@ -11,6 +11,7 @@
     ../modules/ocaml.nix
     ../modules/tmux.nix
     ../modules/vim.nix
+    nixvim.homeManagerModules.nixvim
   ];
   home.username = "chrisaddy";
   home.homeDirectory = "/Users/chrisaddy";

@@ -14,6 +14,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixvim.url = "github:nix-community/nixvim";
+
     nix-darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,6 +31,7 @@
     flake-parts,
     home-manager,
     nix-darwin,
+    nixvim,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -116,7 +119,10 @@ darwinConfigurations.olympus = nix-darwin.lib.darwinSystem {
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.chrisaddy = import ./home/olympus.nix;
+              home-manager.users.chrisaddy = import ./home/olympus.nix {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+                inherit (inputs) nixvim;
+              };
             }
 
             ({pkgs, ...}: {
