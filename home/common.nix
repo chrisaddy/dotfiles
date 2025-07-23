@@ -22,12 +22,6 @@ in {
     name = gitUsername;
   };
 
-  home.file.".local/bin" = {
-    source = ./scripts;
-    recursive = true;
-    executable = true;
-  };
-
   programs.lazydocker.enable = true;
 
   nix = {

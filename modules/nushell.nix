@@ -66,9 +66,6 @@
 
   programs.nushell = {
     enable = true;
-    package = pkgs.writeShellScriptBin "nu" ''
-      exec ${pkgs.coreutils}/bin/env ~/.local/bin/nu "$@"
-    '';
 
     # SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
     # NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
@@ -100,9 +97,6 @@
           | append /nix/var/nix/profiles/default/bin
           | append /etc/profiles/per-user/${config.home.username}/bin
           | append /run/current-system/sw/bin
-          | append /usr/local/bin
-          | append ~/.local/bin
-          | append /opt/homebrew/bin
         )
         $env.config = {
           hooks: {
