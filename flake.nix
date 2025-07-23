@@ -1,9 +1,11 @@
 {
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+  description = "hyperprior flake with fenix";
 
-    nix-darwin = {
-      url = "github:lnl7/nix-darwin/master";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    fenix = {
+      url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -12,118 +14,107 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    themes.url = "github:RGBCube/ThemeNix";
+    nixvim.url = "github:nix-community/nixvim";
+
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
-    nix-darwin,
+    fenix,
+    flake-parts,
     home-manager,
-    themes,
+    nix-darwin,
+    nixvim,
     ...
-  }: let
-    lib = nixpkgs.lib;
-    system = "aarch64-darwin";
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux" "aarch64-darwin"];
 
-    userConfig = import ./config.nix {inherit lib;};
+      flake = {
+        nixosConfigurations.aion = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/aion/configuration.nix
+            ./hosts/aion/hardware.nix
 
-    overlays = [
-      (final: prev: {
-      })
-    ];
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.chrisaddy = import ./home/aion.nix;
+            }
 
-    pkgs = import nixpkgs {
-      inherit system overlays;
-    };
-
-    baseModules = [
-      {
-        nix.enable = false;
-
-        system.primaryUser = userConfig.username;
-
-        nixpkgs = {
-          hostPlatform = system;
-          overlays = overlays;
-          config.allowBroken = true;
-          config.allowUnsupportedSystem = true;
-          config.allowUnfreePredicate = pkg:
-            builtins.elem (lib.getName pkg) [
-              "claude-code"
-            ];
-        };
-
-        nix.settings = {
-          experimental-features = "nix-command flakes pipe-operators";
-        };
-
-        users.users.${userConfig.username} = {
-          home = userConfig.homeDirectory;
-          shell = pkgs.nushell;
-        };
-
-        system.stateVersion = 6;
-        system.configurationRevision = self.rev or self.dirtyRev or null;
-      }
-
-      home-manager.darwinModules.home-manager
-
-      {
-        services.yabai = {
-          enable = true;
-          enableScriptingAddition = true;
-          config = {
-            layout = "bsp";
-            auto_balance = "on";
-            focus_follows_mouse = "autoraise";
-            mouse_follows_focus = "off";
-            window_gap = 10;
-            top_padding = 10;
-            bottom_padding = 10;
-            left_padding = 10;
-            right_padding = 10;
-          };
-        };
-
-        services.skhd = {
-          enable = true;
-          skhdConfig = ''
-            alt - h : yabai -m window --focus west
-            alt - l : yabai -m window --focus east
-            alt - j : yabai -m window --focus south
-            alt - k : yabai -m window --focus north
-
-            shift + alt - h : yabai -m window --swap west
-            shift + alt - l : yabai -m window --swap east
-            shift + alt - j : yabai -m window --swap south
-            shift + alt - k : yabai -m window --swap north
-          '';
-        };
-      }
-
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-
-        home-manager.users.${userConfig.username} = {
-          imports = [
-            ./home.nix
+            ({pkgs, ...}: {
+              nixpkgs.overlays = [fenix.overlays.default];
+              environment.systemPackages = with pkgs; [
+                (fenix.packages.${pkgs.system}.complete.withComponents [
+                  "cargo"
+                  "clippy"
+                  "rust-src"
+                  "rustc"
+                  "rustfmt"
+                  "rust-analyzer"
+                ])
+              ];
+            })
           ];
         };
-      }
-    ];
 
-    mkHost = name: {
-      darwinConfigurations.${name} = nix-darwin.lib.darwinSystem {
-        inherit system;
-        modules = baseModules;
+        darwinConfigurations.m4 = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/m4/darwin-configuration.nix
+
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.chrisaddy = import ./home/m4.nix;
+            }
+
+            ({pkgs, ...}: {
+              nixpkgs.overlays = [
+                fenix.overlays.default
+                (self: super: {
+                  nix = super.nix.overrideAttrs (old: {
+                    mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
+                  });
+                  nix-dev-shell = super.nix-dev-shell.overrideAttrs (old: {
+                    mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
+                  });
+                })
+              ];
+              environment.systemPackages = with pkgs; [
+                (fenix.packages.${pkgs.system}.complete.withComponents [
+                  "cargo"
+                  "clippy"
+                  "rust-src"
+                  "rustc"
+                  "rustfmt"
+                ])
+                rust-analyzer-nightly
+              ];
+            })
+          ];
+        };
+
+        darwinConfigurations.olympus = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/olympus/darwin-configuration.nix
+            ./hosts/olympus
+          ];
+          specialArgs = {
+            inherit inputs;
+          };
+        };
       };
     };
-
-    hosts = [
-      "Chriss-MacBook-Air"
-    ];
-  in
-    lib.foldl' (acc: name: acc // (mkHost name)) {} hosts;
 }
