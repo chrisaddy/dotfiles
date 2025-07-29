@@ -110,6 +110,13 @@
           modules = [
             ./hosts/olympus/darwin-configuration.nix
             ./hosts/olympus
+    home-manager.darwinModules.home-manager
+    {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.users.chrisaddy = import ./home/olympus.nix;
+      home-manager.extraSpecialArgs = { inherit inputs nixvim; }; # ← Add this
+    }
           ];
           specialArgs = {
             inherit inputs;

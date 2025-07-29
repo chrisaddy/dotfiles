@@ -112,7 +112,7 @@
         };
       };
       keys.normal = {
-        Z.Z = ":wq!";
+        Z.Z = ":write-quit-all!";
         H = ["extend_to_line_start" "yank_main_selection_to_clipboard"];
         L = ["extend_to_line_end" "yank_main_selection_to_clipboard"];
       };
@@ -124,10 +124,9 @@
 
       [keys.normal."]"]
       b = ":buffer-next"
+
     '';
     extraPackages = with pkgs; [
-      # haskell
-      haskell-language-server
       # nix
       nil
       nixd

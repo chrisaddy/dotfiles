@@ -10,7 +10,7 @@ lib.mkMerge [
       font-size = 24
       theme = tokyonight-storm
       cursor-style = block
-      shell-integration = nu
+      shell-integration = zsh
       shell-integration-features = cursor,no-title
       background-opacity = 0.9
       macos-titlebar-style = transparent

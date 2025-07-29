@@ -1,8 +1,12 @@
 {
   lib,
   pkgs,
+  inputs,
   ...
 }: {
+  imports = [
+    inputs.nixvim.homeManagerModules.nixvim
+  ];
   home.packages = with pkgs; [
     vale
     markdownlint-cli2
@@ -17,11 +21,11 @@
     globals.maplocalleader = " ";
 
     extraPlugins = [
-      pkgs.vimPlugins.FixCursorHold-nvim
-      pkgs.vimPlugins.neotest-plenary
-      pkgs.vimPlugins.plenary-nvim
-      pkgs.vimPlugins.nvim-nio
-      pkgs.vimPlugins.limelight-vim
+      # pkgs.vimPlugins.FixCursorHold-nvim
+      # pkgs.vimPlugins.neotest-plenary
+      # pkgs.vimPlugins.plenary-nvim
+      # pkgs.vimPlugins.nvim-nio
+      # pkgs.vimPlugins.limelight-vim
     ];
     opts = {
       number = true;
@@ -600,41 +604,10 @@
           };
         };
       };
-      octo = {
-        enable = true;
-      };
+      #octo = {
+      #  enable = true;
+      #};
       oil.enable = true;
-      projections = {
-        enable = true;
-        settings = {
-          patterns = [".git"];
-          workspaces = [
-            "~/vaults/zettelkasten"
-            "~/projects/pocketsizefund/pocketsizefund"
-            "~/projects/pocketsizefund/pocketsizefund"
-          ];
-        };
-      };
-      # project-nvim = {
-      #   enable = true;
-      #   settings = {
-      #     detection_methods = [
-      #       "lsp"
-      #       "pattern"
-      #     ];
-      #     patterns = [
-      #       ".git"
-      #       "package.yaml"
-      #       "stack.yaml"
-      #       "Cargo.toml"
-      #       "pyproject.toml"
-      #     ];
-      #     showHidden = true;
-      #     # silent_chdir = false;
-      #     # scope_chdir = "win";
-      #     # manual_mode = true;
-      #   };
-      # };
       scope = {
         enable = true;
       };

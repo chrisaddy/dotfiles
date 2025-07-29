@@ -13,6 +13,7 @@ in {
     espanso
     tree
     home-manager
+    glow
   ];
   programs.git = {
     userName = gitUsername;

@@ -67,8 +67,6 @@
   programs.nushell = {
     enable = true;
 
-    # SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
-    # NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
     environmentVariables = {
       EDITOR = "hx";
     };
@@ -91,13 +89,14 @@
         };
       };
     };
-    extraConfig = ''
-        $env.PATH = ($env.PATH
-          | split row (char esep)
-          | append /nix/var/nix/profiles/default/bin
-          | append /etc/profiles/per-user/${config.home.username}/bin
-          | append /run/current-system/sw/bin
-        )
+    configFile.text = ''
+        $env.PATH = $env.PATH
+          | append "/nix/var/nix/profiles/default/bin"
+          | append "/etc/profiles/per-user/${config.home.username}/bin"
+          | append "/etc/profiles/per-user/chrisaddy/bin"
+          | append "/run/current-system/sw/bin"
+          | append "/opt/homebrew/bin"
+
         $env.config = {
           hooks: {
             pre_prompt: [{ ||
@@ -113,7 +112,7 @@
         }
       }
 
-        source ~/.secrets.nu
+      source ~/.secrets.nu
     '';
     shellAliases = {
       vi = "hx";
