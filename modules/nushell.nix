@@ -115,9 +115,9 @@
       source ~/.secrets.nu
     '';
     shellAliases = {
-      vi = "hx";
-      vim = "hx";
-      nano = "hx";
+      vi = "vim";
+      vim = "nvim";
+      nano = "nvim";
       lj = "lazyjj";
       jh = "jj --help";
       je = "jj edit";

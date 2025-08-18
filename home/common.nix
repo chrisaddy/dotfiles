@@ -8,12 +8,16 @@
 in {
   home.stateVersion = "25.05";
   home.packages = with pkgs; [
-    nh
     alejandra
+    commitizen
     espanso
-    tree
-    home-manager
     glow
+    home-manager
+    mask
+    httpie
+    just
+    nh
+    tree
   ];
   programs.git = {
     userName = gitUsername;

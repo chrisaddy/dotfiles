@@ -6,6 +6,7 @@
   userConfig = import ./config.nix {inherit lib;};
 in {
   home.packages = with pkgs; [
+    ghstack
     lazygit
     lazyjj
     jujutsu

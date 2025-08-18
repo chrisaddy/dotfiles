@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
   ];
   home.packages = with pkgs; [
     vale
@@ -643,7 +643,6 @@
         ];
         settings = {
           auto_install = false;
-          ensure_installed = "all";
           highlight.enable = true;
           indent.enable = true;
         };
