@@ -9,11 +9,14 @@ in {
   home.stateVersion = "25.05";
   home.packages = with pkgs; [
     alejandra
+    argocd
+    commitizen
     espanso
     glow
     mask
     just
     nh
+    okta-aws-cli
     tree
   ];
   programs.git = {

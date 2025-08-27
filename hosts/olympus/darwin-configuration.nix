@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{}: {
   networking.hostName = "olympus";
   system.stateVersion = 6;
 
