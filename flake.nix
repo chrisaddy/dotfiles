@@ -47,71 +47,74 @@
       systems = ["x86_64-linux" "aarch64-darwin"];
 
       flake = {
-        nixosConfigurations.aion = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/aion/configuration.nix
-            ./hosts/aion/hardware.nix
+        # nixosConfigurations.aion = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   modules = [
+        #     ./hosts/aion/configuration.nix
+        #     ./hosts/aion/hardware.nix
 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.chrisaddy = import ./home/aion.nix;
-            }
+        #     home-manager.nixosModules.home-manager
+        #     {
+        #       home-manager.useGlobalPkgs = true;
+        #       home-manager.useUserPackages = true;
+        #       home-manager.users.chrisaddy = import ./home/aion.nix;
+        #     }
 
-            ({pkgs, ...}: {
-              nixpkgs.overlays = [fenix.overlays.default];
-              environment.systemPackages = with pkgs; [
-                (fenix.packages.${pkgs.system}.complete.withComponents [
-                  "cargo"
-                  "clippy"
-                  "rust-src"
-                  "rustc"
-                  "rustfmt"
-                  "rust-analyzer"
-                ])
-              ];
-            })
-          ];
-        };
+        # darwinConfigurations.m4 = nix-darwin.lib.darwinSystem {
+        #   system = "aarch64-darwin";
+        #   modules = [
+        #     ./hosts/m4/darwin-configuration.nix
+
+        #     home-manager.darwinModules.home-manager
+        #     {
+        #       home-manager.useGlobalPkgs = true;
+        #       home-manager.useUserPackages = true;
+        #       home-manager.users.chrisaddy = import ./home/m4.nix;
+        #     }
+
+        # ({pkgs, ...}: {
+        #   nixpkgs.overlays = [
+        #     fenix.overlays.default
+        #     (self: super: {
+        #       nix = super.nix.overrideAttrs (old: {
+        #         mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
+        #       });
+        #       nix-dev-shell = super.nix-dev-shell.overrideAttrs (old: {
+        #         mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
+        #       });
+        #     })
+        #   ];
+        # };
 
         darwinConfigurations.m4 = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
-            ./hosts/m4/darwin-configuration.nix
+            ({...}: {
+              environment.systemPackages = [
+                inputs.flox.packages.aarch64-darwin.default
+              ];
+              nix.settings = {
+                experimental-features = "nix-command flakes";
+                substituters = ["https://cache.flox.dev"];
+                trusted-public-keys = [
+                  "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+                ];
+              };
+            })
 
+            ./hosts/m4/darwin-configuration.nix
+            ./hosts/m4
             home-manager.darwinModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.chrisaddy = import ./home/m4.nix;
+              home-manager.extraSpecialArgs = {inherit inputs nixvim;};
             }
-
-            ({pkgs, ...}: {
-              nixpkgs.overlays = [
-                fenix.overlays.default
-                (self: super: {
-                  nix = super.nix.overrideAttrs (old: {
-                    mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
-                  });
-                  nix-dev-shell = super.nix-dev-shell.overrideAttrs (old: {
-                    mesonFlags = (old.mesonFlags or []) ++ ["-Ddoc-gen=false"];
-                  });
-                })
-              ];
-              environment.systemPackages = with pkgs; [
-                (fenix.packages.${pkgs.system}.complete.withComponents [
-                  "cargo"
-                  "clippy"
-                  "rust-src"
-                  "rustc"
-                  "rustfmt"
-                ])
-                rust-analyzer-nightly
-              ];
-            })
           ];
+          specialArgs = {
+            inherit inputs;
+          };
         };
 
         darwinConfigurations.olympus = nix-darwin.lib.darwinSystem {

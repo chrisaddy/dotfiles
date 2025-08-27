@@ -9,7 +9,6 @@
     # ../modules/helix.nix
     ../modules/media.nix
     ../modules/nushell.nix
-    ../modules/ocaml.nix
     ../modules/python.nix
     ../modules/tmux.nix
     ../modules/vim.nix

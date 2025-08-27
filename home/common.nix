@@ -9,12 +9,9 @@ in {
   home.stateVersion = "25.05";
   home.packages = with pkgs; [
     alejandra
-    commitizen
     espanso
     glow
-    home-manager
     mask
-    httpie
     just
     nh
     tree
@@ -34,7 +31,7 @@ in {
   nix = {
     gc = {
       automatic = true;
-      frequency = "daily";
+      dates = "daily";
     };
   };
 }

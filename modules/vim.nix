@@ -78,6 +78,9 @@
           layout.default_direction = "left";
         };
       };
+      bacon = {
+        enable = true;
+      };
       barbar = {
         enable = true;
         settings = {
@@ -120,6 +123,7 @@
               "nixpkgs-fmt"
             ];
             python = ["ruff"];
+            rust = ["rustfmt"];
             "_" = [
               "squeeze_blanks"
               "trim_whitespace"
