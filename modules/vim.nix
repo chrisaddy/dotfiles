@@ -405,14 +405,11 @@
           dockerls.enable = true;
           docker_compose_language_service.enable = true;
           html.enable = true;
-          htmx.enable = true;
-          idris2_lsp.enable = true;
           jqls.enable = true;
           lsp_ai.enable = true;
           markdown_oxide.enable = true;
           nixd.enable = true;
           nushell.enable = true;
-          ocamllsp.enable = true;
           postgres_lsp.enable = true;
           ruff.enable = true;
           rust_analyzer = {
