@@ -3,6 +3,7 @@
     ./common.nix
     ../modules/ai.nix
     ../modules/docker.nix
+    ../modules/emacs.nix
     ../modules/gcloud.nix
     ../modules/ghostty.nix
     ../modules/git.nix

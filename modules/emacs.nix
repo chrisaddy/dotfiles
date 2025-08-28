@@ -55,6 +55,6 @@
         envrc
         helm-org-rifle
       ];
-    extraConfig = builtins.readFile ../emacs/init.el;
+    extraConfig = builtins.readFile ./init.el;
   };
 }

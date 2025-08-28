@@ -10,6 +10,7 @@ in {
   home.packages = with pkgs; [
     alejandra
     argocd
+    bottom
     commitizen
     espanso
     glow
