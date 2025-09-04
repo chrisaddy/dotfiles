@@ -80,6 +80,11 @@
       };
       bacon = {
         enable = true;
+        settings = {
+          quickfix = {
+            enabled = true;
+          };
+        };
       };
       barbar = {
         enable = true;
