@@ -4,11 +4,12 @@
     package = pkgs.emacs;
     extraPackages = epkgs:
       with epkgs; [
-        dashboard
-        doom-themes
         all-the-icons
-        rainbow-delimiters
+        dashboard
         doom-modeline
+        doom-themes
+        evil-leader
+        rainbow-delimiters
         hl-todo
         diff-hl
         dirvish
@@ -16,8 +17,6 @@
         lsp-ui
         lsp-treemacs
         elpy
-        haskell-mode
-        lsp-haskell
         magit
         magit-section
         projectile
@@ -29,17 +28,14 @@
         evil-commentary
         evil-org
         general
-        org-roam
         helm-org-rifle
         keycast
         ess
         nix-mode
-        vterm
         yasnippet
         yasnippet-snippets
         org
-        org-roam
-        dash
+        org-jira
         f
         s
         emacsql
