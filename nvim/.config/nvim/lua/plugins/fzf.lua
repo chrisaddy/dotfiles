@@ -2,7 +2,7 @@ return {
 	"ibhagwan/fzf-lua",
 	dependencies = { "nvim-mini/mini.icons" },
 	opts = {},
-	config = function(_, opts)
+	config = function()
 		local wk = require("which-key")
 		require("fzf-lua").setup({
 			winopts = {

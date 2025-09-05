@@ -66,6 +66,24 @@ return {
 		end,
 	},
 	{
+		"mfussenegger/nvim-lint",
+		config = function()
+			require("lint").linters_by_ft = {
+				linters_by_ft = {
+					actionlint = { "actionlint" },
+					dockerfile = { "hadolint" },
+					haskell = { "hlint" },
+					json = { "jq" },
+					lua = { "luacheck" },
+					markdown = { "markdownlint-cli2" },
+					python = { "ruff" },
+					text = { "vale" },
+					rust = { "clippy" },
+				},
+			}
+		end,
+	},
+	{
 		"stevearc/conform.nvim",
 		config = function()
 			require("conform").setup({
@@ -104,5 +122,57 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"AckslD/nvim-FeMaco.lua",
+		config = function()
+			require("femaco").setup({})
+			require("which-key").add({ "<leader>cb", "<cmd>FeMaco<cr>", desc = "code block editor" })
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				auto_install = true,
+				ensure_installed = {
+					"bash",
+					"c",
+					"diff",
+					"html",
+					"json",
+					"latex",
+					"lua",
+					"luadoc",
+					"make",
+					"markdown",
+					"markdown_inline",
+					"nix",
+					"regex",
+					"rust",
+					"query",
+					"sql",
+					"terraform",
+					"toml",
+					"vim",
+					"vimdoc",
+					"xml",
+					"yaml",
+				},
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = false,
+				},
+				indent = {
+					enable = true,
+				},
+			})
+		end,
+		--       treesitter-textobjects = {
+		--         enable = true;
+		--         lspInterop.enable = true;
+		--         move.enable = true;
+		--         select.enable = true;
+		--       };
 	},
 }
