@@ -44,6 +44,7 @@ alias vi = vim
 alias vim = nvim
 alias nano = nvim
 alias lj = lazyjj
+alias sioyek = sioyek --shared-database-path `/Volumes/X10 Pro/sioyek/shared.db`
 # alias jh = 'jj --help'
 # alias je = 'jj edit'
 # alias js = 'jj st'
