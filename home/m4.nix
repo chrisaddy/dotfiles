@@ -2,7 +2,6 @@
   imports = [
     ./common.nix
     ../modules/ai.nix
-    ../modules/gcloud.nix
     ../modules/ghostty.nix
     ../modules/git.nix
     ../modules/helix.nix

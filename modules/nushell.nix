@@ -4,16 +4,6 @@
   lib,
   ...
 }: {
-  home.packages = with pkgs; [
-    fd
-    fzf
-    ripgrep
-    direnv
-    tmux
-    fselect
-    nufmt
-    entr
-  ];
 
   programs.bat = {
     enable = true;

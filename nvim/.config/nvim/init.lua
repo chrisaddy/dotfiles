@@ -1,0 +1,558 @@
+require("config.lazy")
+
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.mouse = "a"
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+vim.o.showmode = false
+vim.schedule(function()
+	vim.o.clipboard = "unnamedplus"
+end)
+vim.o.breakindent = true
+vim.o.undofile = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.signcolumn = "yes"
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.list = true
+vim.opt.listchars = {
+	tab = "» ",
+	trail = "·",
+	nbsp = "␣",
+}
+vim.o.inccommand = "split"
+vim.o.cursorline = true
+vim.o.scrolloff = 10
+vim.o.termguicolors = true
+
+require("lazy").setup({
+	spec = {
+		{ import = "plugins" },
+	},
+	checker = { enabled = true },
+})
+
+-- {
+-- }: {
+--
+--   programs.nixvim = {
+--     extraPlugins = [
+--       # pkgs.vimPlugins.FixCursorHold-nvim
+--       # pkgs.vimPlugins.neotest-plenary
+--       # pkgs.vimPlugins.plenary-nvim
+--       # pkgs.vimPlugins.nvim-nio
+--       # pkgs.vimPlugins.limelight-vim
+--     ];
+--     opts = {
+--    --     };
+--     plugins = {
+--       aerial = {
+--         enable = true;
+--         settings = {
+--           attach_mode = "global";
+--           backends = [
+--             "treesitter"
+--             "lsp"
+--             "markdown"
+--             "man"
+--           ];
+--           disable_max_lines = 5000;
+--           highlight_on_hover = true;
+--           ignore = {
+--             filetypes = [
+--               "gomod"
+--             ];
+--           };
+--           layout.default_direction = "left";
+--         };
+--       };
+--       bacon = {
+--         enable = true;
+--         settings = {
+--           quickfix = {
+--             enabled = true;
+--           };
+--         };
+--       };
+--       barbar = {
+--         enable = true;
+--         settings = {
+--           hide = {
+--             inactive = true;
+--             current = true;
+--           };
+--         };
+--       };
+--       cmp = {
+--         enable = true;
+--         autoEnableSources = true;
+--         settings.sources = [
+--           {name = "nvim_lsp";}
+--           {name = "path";}
+--           {name = "buffer";}
+--         ];
+--       };
+--       cmp-latex-symbols.enable = true;
+--       cmp-nvim-lsp.enable = true;
+--       codecompanion.enable = true;
+--       dap = {
+--         enable = true;
+--         settings = {
+--           configurations.python = [
+--             {
+--               type = "python";
+--               request = "launch";
+--               name = "Debug Python";
+--               program = "${pkgs.python3.interpreter}";
+--               console = "integratedTerminal";
+--               justMyCode = false;
+--             }
+--           ];
+--         };
+--       };
+--       dap-python = {
+--         enable = true;
+--         settings = {
+--           python_path = "${pkgs.python311}/bin/python";
+--         };
+--       };
+--       dap-ui = {
+--         enable = true;
+--         settings = {
+--           icons = {
+--             expanded = "▾";
+--             collapsed = "▸";
+--             current_frame = "*";
+--           };
+--           controls = {
+--             icons = {
+--               pause = "⏸";
+--               play = "▶";
+--               step_into = "⏎";
+--               step_over = "⏭";
+--               step_out = "⏮";
+--               step_back = "b";
+--               run_last = "▶▶";
+--               terminate = "⏹";
+--               disconnect = "⏏";
+--             };
+--           };
+--         };
+--       };
+--       femaco = {enable = true;};
+--       --       glance = {
+--         enable = true;
+--         settings = {
+--           border = {
+--             enable = true;
+--           };
+--           height = 40;
+--           use_trouble_qf = true;
+--           zindex = 50;
+--         };
+--       };
+--       goyo = {
+--         enable = true;
+--       };
+--       hlchunk = {
+--         enable = true;
+--         settings = {
+--           blank = {
+--             enable = false;
+--           };
+--           chunk = {
+--             chars = {
+--               horizontal_line = "─";
+--               left_bottom = "╰";
+--               left_top = "╭";
+--               right_arrow = "─";
+--               vertical_line = "│";
+--             };
+--             enable = true;
+--             exclude_filetypes = {
+--               lazyterm = true;
+--               neo-tree = true;
+--             };
+--             style = {
+--               fg = "#91bef0";
+--             };
+--             use_treesitter = true;
+--           };
+--           indent = {
+--             chars = [
+--               "│"
+--             ];
+--             exclude_filetypes = {
+--               lazyterm = true;
+--               neo-tree = true;
+--             };
+--             style = {
+--               fg = "#45475a";
+--             };
+--             use_treesitter = false;
+--           };
+--           line_num = {
+--             style = "#91bef0";
+--             use_treesitter = true;
+--           };
+--         };
+--       };
+--       hunk = {
+--         enable = true;
+--         settings = {
+--           hooks = {
+--             on_diff_mount.__raw = ''
+--               ---@param _context { buf: number, win: number }
+--               function(_context) end
+--             '';
+--           };
+--           on_tree_mount.__raw = ''
+--             ---@param _context { buf: number, tree: NuiTree, opts: table }
+--             function(_context) end
+--           '';
+--           keys = {
+--             global = {
+--               quit = [
+--                 "x"
+--               ];
+--             };
+--           };
+--           ui = {
+--             layout = "horizontal";
+--             tree = {
+--               mode = "flat";
+--               width = 40;
+--             };
+--           };
+--         };
+--       };
+--       illuminate.enable = true;
+--       lint = {
+--         enable = true;
+--         lintersByFt = {
+--           dockerfile = ["hadolint"];
+--           json = ["jq"];
+--           markdown = [
+--             "markdownlint"
+--           ];
+--           python = ["ruff"];
+--           rst = ["vale"];
+--           text = ["vale"];
+--         };
+--       };
+--       --       lualine.enable = true;
+--       magma-nvim.enable = true;
+--       mark-radar.enable = true;
+--       marks = {
+--         enable = true;
+--       };
+--       mini = {
+--         enable = true;
+--         modules = {
+--           ai = {
+--             enable = true;
+--             n_lines = 50;
+--             search_method = "cover_or_next";
+--           };
+--           bracketed = {
+--             enable = true;
+--             buffer = {
+--               suffix = "b";
+--             };
+--             comment = {suffix = "c";};
+--             conflict = {suffix = "x";};
+--             diagnostic = {suffix = "d";};
+--             file = {suffix = "f";};
+--             indent = {suffix = "i";};
+--             jump = {suffix = "j";};
+--             location = {suffix = "l";};
+--             oldfile = {suffix = "o";};
+--             quickfix = {suffix = "q";};
+--             treesitter = {suffix = "t";};
+--             undo = {suffix = "u";};
+--             window = {suffix = "w";};
+--             yank = {suffix = "y";};
+--           };
+--           comment = {
+--             enable = true;
+--             mappings = {
+--               comment = "<leader>/";
+--               comment_line = "<leader>/";
+--               comment_visual = "<leader>/";
+--               textobject = "<leader>/";
+--             };
+--           };
+--           diff = {
+--             enable = true;
+--             view = {
+--               style = "sign";
+--             };
+--           };
+--           icons = {
+--             enable = true;
+--             style = "glyph";
+--           };
+--           notify.enable = true;
+--           pairs = {
+--             enable = true;
+--             modes = {
+--               insert = true;
+--               command = false;
+--               terminal = false;
+--             };
+--           };
+--           snippets = {
+--             enable = true;
+--             gen_loader.from_file = "~/.config/nvim/snippets/global.json";
+--             gen_loader.from_lang = true;
+--           };
+--           surround = {
+--             enable = true;
+--             mappings = {
+--               add = "gsa";
+--               delete = "gsd";
+--               find = "gsf";
+--               find_left = "gsF";
+--               highlight = "gsh";
+--               replace = "gsr";
+--               update_n_lines = "gsn";
+--             };
+--           };
+--         };
+--       };
+--       nabla.enable = true;
+--       --       neotest = {
+--         enable = true;
+--         settings = {
+--           diagnostic = {
+--             enabled = true;
+--             severity = "warn";
+--           };
+--           discovery = {
+--             enabled = true;
+--             concurrent = 0;
+--           };
+--           output = {
+--             enabled = true;
+--             open_on_run = "short";
+--           };
+--           quickfix = {
+--             enabled = true;
+--             open = true;
+--           };
+--         };
+--         adapters = {
+--           plenary = {
+--             enable = true;
+--           };
+--           python = {
+--             enable = true;
+--           };
+--         };
+--       };
+--       #octo = {
+--       #  enable = true;
+--       #};
+--       oil.enable = true;
+--       scope = {
+--         enable = true;
+--       };
+--       snacks = {
+--         enable = true;
+--       };
+--       treesitter = {
+--         enable = true;
+--         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+--           bash
+--           c
+--           diff
+--           html
+--           json
+--           latex
+--           lua
+--           luadoc
+--           make
+--           markdown
+--           markdown_inline
+--           nix
+--           regex
+--           rust
+--           query
+--           sql
+--           terraform
+--           toml
+--           vim
+--           vimdoc
+--           xml
+--           yaml
+--         ];
+--         settings = {
+--           auto_install = false;
+--           highlight.enable = true;
+--           indent.enable = true;
+--         };
+--       };
+--       treesitter-textobjects = {
+--         enable = true;
+--         lspInterop.enable = true;
+--         move.enable = true;
+--         select.enable = true;
+--       };
+--       trouble.enable = true;
+--       twilight = {
+--         enable = true;
+--         settings = {
+--           context = 20;
+--           dimming = {
+--             alpha = 0.4;
+--           };
+--           expand = [
+--             "function"
+--             "method"
+--           ];
+--           treesitter = true;
+--         };
+--       };
+--       undotree = {
+--         enable = true;
+--       };
+--       web-devicons.enable = true;
+--       which-key = {
+--         enable = true;
+--       };
+--       wtf.enable = true;
+--       zen-mode = {
+--         enable = true;
+--         settings.plugins.options = {
+--           number = false;
+--           signcolumn = "no";
+--           tmux = {
+--             enabled = false;
+--           };
+--         };
+--       };
+--     };
+--     keymaps = [
+--       {
+--         mode = "n";
+--         key = "<leader>tf";
+--         action.__raw = "function()
+--           vim.cmd('silent! wall')
+--           require('neotest').run.run(vim.fn.expand('%'))
+--         end";
+--         options.desc = "Run current file";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>tl";
+--         action = "<cmd>wall<cr><cmd>Neotest run last<cr>";
+--         options.desc = "[t]est run [l]ast";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>mp";
+--         action = "<cmd>lua require('nabla').popup()<cr>";
+--         options.desc = "[m]ath [p]opup";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>ta";
+--         action.__raw = "function()
+--           vim.cmd('silent! wall')
+--           require('neotest').run.run({vim.fn.getcwd(), strategy = 'dap'})
+--         end";
+--         options.desc = "[t]est run [a]ll";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>tj";
+--         action = "<cmd>Neotest jump next<cr>";
+--         options.desc = "[t]est [j]ump next";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>tk";
+--         action = "<cmd>Neotest jump prev<cr>";
+--         options.desc = "[t]est [k]ump previous";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>to";
+--         action = "<cmd>Neotest output-panel toggle<cr>";
+--         options.desc = "[t]est [o]utput panel";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>ts";
+--         action = "<cmd>Neotest summary toggle<cr>";
+--         options.desc = "[t]est [s]ummary";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>hr";
+--         action = "<cmd>Haskell repl toggle<cr>";
+--         options.desc = "[h]askell [r]epl";
+--       }
+--       {
+--         mode = "n";
+--         key = "<Esc>";
+--         action = "<cmd>nohlsearch<CR>";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>c";
+--         action = "";
+--         options.desc = "[c]ode";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>f";
+--         action = "";
+--         options.desc = "[f]ind";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>q";
+--         action.__raw = "vim.diagnostic.setloclist";
+--         options.desc = "[q]uickfix list open";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>sf";
+--         action = "<cmd>w<cr>";
+--         options.desc = "[f]ile [s]ave";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>wj";
+--         action = "<cmd>split<cr>";
+--         options.desc = "[w]indow split down";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>wl";
+--         action = "<cmd>vsplit<cr>";
+--         options.desc = "Split window right";
+--       }
+--
+--       {
+--         mode = "n";
+--         key = "<leader>cl";
+--         action = "<cmd>lua vim.lsp.codelens.run()<cr>";
+--         options.desc = "[c]ode [l]ens";
+--       }
+--       {
+--         mode = "n";
+--         key = "<leader>ca";
+--         action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+--         options.desc = "[c]ode action";
+--       }
+--       {
+--       }
+--     ];
+--   };
+-- }

@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-HOST=$(scutil --get ComputerName)
-sudo nix run 'nix-darwin/master#darwin-rebuild' -- switch --flake .#"$HOST" --show-trace
