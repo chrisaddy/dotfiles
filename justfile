@@ -10,6 +10,7 @@ stow:
     stow -t ~ nushell
     stow nvim
     stow emacs
+    stow -t ~ doom
     stow -t ~ tmux
 
 mac: brew stow rust
