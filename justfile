@@ -9,6 +9,7 @@ stow:
     stow ghostty
     stow -t ~ nushell
     stow nvim
+    stow emacs
     stow -t ~ tmux
 
 mac: brew stow rust

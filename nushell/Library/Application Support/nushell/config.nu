@@ -43,6 +43,7 @@ source $"($nu.home-path)/.cargo/env.nu"
 alias vi = vim
 alias vim = nvim
 alias nano = nvim
+alias emacs = emacs -nw
 alias lj = lazyjj
 alias sioyek = sioyek --shared-database-path `/Volumes/X10 Pro/sioyek/shared.db`
 # alias jh = 'jj --help'
