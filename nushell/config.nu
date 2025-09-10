@@ -22,13 +22,11 @@ $env.config = {
       { ||
         if (which direnv | is-empty) { return }
 
-        # Load environment from direnv as JSON
         direnv export json
         | from json
         | default {}
         | load-env
 
-        # Ensure PATH stays a list if ENV_CONVERSIONS exists
         if ('ENV_CONVERSIONS' in $env) and ('PATH' in $env.ENV_CONVERSIONS) {
           $env.PATH = do $env.ENV_CONVERSIONS.PATH.from_string $env.PATH
         }
@@ -51,6 +49,12 @@ alias sioyek = sioyek --shared-database-path `/Volumes/X10 Pro/sioyek/shared.db`
 # alias js = 'jj st'
 # alias jsq = 'jj squash'
 
-
-
 source ~/.cache/carapace/init.nu
+
+
+
+def clean [] {
+  ^docker system prune --force --all --volumes
+  cd projects
+  ^cargo sweep --time 1 --recursive
+}
