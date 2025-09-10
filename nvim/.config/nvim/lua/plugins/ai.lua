@@ -8,7 +8,6 @@ return {
 	{
 		"yetone/avante.nvim",
 		dependencies = {
-
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 			-- "echasnovski/mini.pick", -- for file_selector provider mini.pick
@@ -22,7 +21,6 @@ return {
 				"HakonHarnes/img-clip.nvim",
 				event = "VeryLazy",
 				opts = {
-					-- recommended settings
 					default = {
 						embed_image_as_base64 = false,
 						prompt_for_file_name = false,
