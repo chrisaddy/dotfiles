@@ -6,7 +6,6 @@ return {
 	config = function()
 		vim.g.rustaceanvim = {
 			tools = {
-				-- Options for hover actions
 				hover_actions = {
 					auto_focus = false,
 				},

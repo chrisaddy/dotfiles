@@ -49,12 +49,6 @@ return {
 					local opts = { buffer = ev.buf }
 					vim.keymap.set(
 						"n",
-						"gD",
-						vim.lsp.buf.declaration,
-						vim.tbl_extend("force", opts, { desc = "go to declaration" })
-					)
-					vim.keymap.set(
-						"n",
 						"gd",
 						vim.lsp.buf.definition,
 						vim.tbl_extend("force", opts, { desc = "go to definition" })
@@ -71,21 +65,21 @@ return {
 			require("mini.completion").setup({})
 		end,
 	},
-	{
-		"mfussenegger/nvim-lint",
-		config = function()
-			require("lint").linters_by_ft = {
-				actionlint = { "actionlint" },
-				dockerfile = { "hadolint" },
-				haskell = { "hlint" },
-				json = { "jq" },
-				lua = { "luacheck" },
-				markdown = { "markdownlint-cli2" },
-				python = { "ruff" },
-				text = { "vale" },
-			}
-		end,
-	},
+	-- {
+	-- 	"mfussenegger/nvim-lint",
+	-- 	config = function()
+	-- 		require("lint").linters_by_ft = {
+	-- 			actionlint = { "actionlint" },
+	-- 			dockerfile = { "hadolint" },
+	-- 			haskell = { "hlint" },
+	-- 			json = { "jq" },
+	-- 			lua = { "luacheck" },
+	-- 			markdown = { "markdownlint-cli2" },
+	-- 			python = { "ruff" },
+	-- 			text = { "vale" },
+	-- 		}
+	-- 	end,
+	-- },
 	{
 		"stevearc/conform.nvim",
 		config = function()
