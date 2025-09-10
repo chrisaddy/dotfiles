@@ -55,7 +55,12 @@ return {
 		opts = {},
 		config = function()
 			require("undotree").setup({})
-			require("which-key").add({ "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" })
+			require("which-key").add({
+				"<leader>u",
+				"<cmd>lua require('undotree').toggle()<cr>",
+				desc =
+				"Toggle undotree"
+			})
 		end,
 	},
 	{

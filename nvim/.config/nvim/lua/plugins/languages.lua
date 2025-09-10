@@ -13,6 +13,23 @@ return {
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 		},
 		config = function()
+			require("mason").setup()
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"bashls",
+					"dockerls",
+					"docker_compose_language_service",
+					"lua_ls",
+					"html",
+					"markdown_oxide",
+					"postgres_lsp",
+					"ruff",
+					"yamlls",
+					"basedpyright",
+				},
+				automatic_installation = true,
+			})
+
 			local lspconfig = require("lspconfig")
 
 			lspconfig.bashls.setup({})
@@ -20,23 +37,12 @@ return {
 			lspconfig.docker_compose_language_service.setup({})
 			lspconfig.lua_ls.setup({})
 			lspconfig.html.setup({})
-			lspconfig.jqls.setup({})
 			lspconfig.markdown_oxide.setup({})
-			lspconfig.nixd.setup({})
-			lspconfig.nushell.setup({})
 			lspconfig.postgres_lsp.setup({})
-			lspconfig.ruff.setup({})
-			lspconfig.sqls.setup({})
 			lspconfig.yamlls.setup({})
 			-- python
 			lspconfig.basedpyright.setup({})
 			lspconfig.ruff.setup({})
-			-- rust
-			lspconfig.rust_analyzer.setup({
-				settings = {
-					["rust-analyzer"] = {},
-				},
-			})
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
@@ -69,17 +75,14 @@ return {
 		"mfussenegger/nvim-lint",
 		config = function()
 			require("lint").linters_by_ft = {
-				linters_by_ft = {
-					actionlint = { "actionlint" },
-					dockerfile = { "hadolint" },
-					haskell = { "hlint" },
-					json = { "jq" },
-					lua = { "luacheck" },
-					markdown = { "markdownlint-cli2" },
-					python = { "ruff" },
-					text = { "vale" },
-					rust = { "clippy" },
-				},
+				actionlint = { "actionlint" },
+				dockerfile = { "hadolint" },
+				haskell = { "hlint" },
+				json = { "jq" },
+				lua = { "luacheck" },
+				markdown = { "markdownlint-cli2" },
+				python = { "ruff" },
+				text = { "vale" },
 			}
 		end,
 	},
@@ -149,7 +152,6 @@ return {
 					"markdown_inline",
 					"nix",
 					"regex",
-					"rust",
 					"query",
 					"sql",
 					"terraform",
@@ -175,4 +177,38 @@ return {
 		--         select.enable = true;
 		--       };
 	},
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
+		config = function()
+			require("trouble").setup({})
+			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+			end
+
+			vim.diagnostic.config({
+				virtual_text = true,
+				signs = true,
+				update_in_insert = false,
+				underline = true,
+				severity_sort = true,
+				float = {
+					focusable = false,
+					style = "minimal",
+					border = "rounded",
+					source = "always",
+					header = "",
+					prefix = "",
+				},
+			})
+		end,
+		keys = {
+			{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",              desc = "Diagnostics (Trouble)" },
+			{ "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
+			{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>",                   desc = "Quickfix List (Trouble)" },
+		},
+	}
 }

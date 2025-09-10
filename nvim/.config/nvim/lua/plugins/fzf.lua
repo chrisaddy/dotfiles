@@ -1,6 +1,9 @@
 return {
 	"ibhagwan/fzf-lua",
-	dependencies = { "nvim-mini/mini.icons" },
+	dependencies = {
+		"nvim-mini/mini.icons",
+		"folke/which-key.nvim",
+	},
 	opts = {},
 	config = function()
 		local wk = require("which-key")
@@ -27,15 +30,15 @@ return {
 			},
 		})
 		wk.add({
-			{ "<leader>f", group = "find" },
-			{ "<leader>f<leader>", "<cmd>FzfLua<CR>", desc = "fzf menu" },
-			{ "<leader><leader>", "<cmd>FzfLua buffers<CR>", desc = "buffers" },
-			{ "<leader>fc", "<cmd>FzfLua command_history<CR>", desc = "command history" },
-			{ "<leader>ff", "<cmd>FzfLua files<CR>", desc = "files" },
-			{ "<leader>fg", "<cmd>FzfLua live_grep<CR>", desc = "grep" },
-			{ "<leader>fk", "<cmd>FzfLua keymaps<CR>", desc = "keymaps" },
-			{ "<leader>fm", "<cmd>FzfLua marks<CR>", desc = "marks" },
-			{ "<leader>fr", "<cmd>FzfLua registers<CR>", desc = "registers" },
+			{ "<leader>f",         group = "find" },
+			{ "<leader>f<leader>", "<cmd>FzfLua<CR>",                 desc = "fzf menu" },
+			{ "<leader><leader>",  "<cmd>FzfLua buffers<CR>",         desc = "buffers" },
+			{ "<leader>fc",        "<cmd>FzfLua command_history<CR>", desc = "command history" },
+			{ "<leader>ff",        "<cmd>FzfLua files<CR>",           desc = "files" },
+			{ "<leader>fg",        "<cmd>FzfLua live_grep<CR>",       desc = "grep" },
+			{ "<leader>fk",        "<cmd>FzfLua keymaps<CR>",         desc = "keymaps" },
+			{ "<leader>fm",        "<cmd>FzfLua marks<CR>",           desc = "marks" },
+			{ "<leader>fr",        "<cmd>FzfLua registers<CR>",       desc = "registers" },
 		})
 	end,
 }
