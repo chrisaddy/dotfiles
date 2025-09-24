@@ -21,6 +21,7 @@ cups-pdf
 docker
 docker-buildx
 docker-compose
+dpkg
 dust
 efibootmgr
 evince
@@ -125,6 +126,7 @@ swaybg
 swayosd
 system-config-printer
 tldr
+tmux
 tree
 tree-sitter-cli
 ttf-cascadia-mono-nerd
@@ -155,3 +157,4 @@ yaru-icon-theme
 yay
 zoxide
 zram-generator
+zsh
