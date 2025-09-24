@@ -1,5 +1,5 @@
-font-size = 24
-theme = tokyonight-storm
+font-size = 14
+theme = TokyoNight Storm
 cursor-style = block
 shell-integration = zsh
 shell-integration-features = cursor,no-title

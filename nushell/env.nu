@@ -17,10 +17,10 @@ carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
 
 
 
-^zoxide init nushell --cmd cd | save -f ~/.zoxide.nu
-source ~/.zoxide.nu
 
 if ("~/.secrets.nu" | path exists) {
   source ~/.secrets.nu
 }
 
+zoxide init nushell --cmd cd | save -f ~/.zoxide.nu
+source ~/.zoxide.nu

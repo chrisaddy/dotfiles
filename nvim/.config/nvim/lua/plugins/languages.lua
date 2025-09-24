@@ -12,7 +12,7 @@ return {
 			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 		},
-		config = function()
+		config = function() --
 			require("mason").setup()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -30,19 +30,52 @@ return {
 				automatic_installation = true,
 			})
 
-			local lspconfig = require("lspconfig")
+			-- local lspconfig = require("lspconfig")
+			vim.lsp.config["bashls"] = {
+				cmd = { "bash-language-server", "start" },
+			}
 
-			lspconfig.bashls.setup({})
-			lspconfig.dockerls.setup({})
-			lspconfig.docker_compose_language_service.setup({})
-			lspconfig.lua_ls.setup({})
-			lspconfig.html.setup({})
-			lspconfig.markdown_oxide.setup({})
-			lspconfig.postgres_lsp.setup({})
-			lspconfig.yamlls.setup({})
-			-- python
-			lspconfig.basedpyright.setup({})
-			lspconfig.ruff.setup({})
+			vim.lsp.config["dockerls"] = {
+				cmd = { "docker-langserver", "--stdio" },
+				filetypes = { "dockerfile" },
+				root_markers = { { "compose.yaml", "compose.yml", "Dockerfile" }, ".git" },
+			}
+
+			vim.lsp.config["docker_compose_language_service"] = {
+				cmd = { "docker-compose-language-server", "--stdio" },
+				filetypes = { "yaml" },
+				root_markers = { { "compose.yaml", "compose.yml", "Dockerfile" }, ".git" },
+			}
+
+			vim.lsp.config["lua_ls"] = {
+				cmd = { "lua-language-server" },
+				filetypes = { "lua" },
+				root_markers = { { ".luarc.json", ".luarc.jsonc", ".stylua.toml", ".luacheckrc" }, ".git" },
+			}
+
+			vim.lsp.config["markdown_oxide"] = {
+				cmd = { "oxi" },
+				filetypes = { "markdown" },
+				root_markers = { {}, ".git" },
+			}
+
+			vim.lsp.config["yamlls"] = {
+				cmd = { "yaml-language-server", "--stdio" },
+				filetypes = { "yaml" },
+				root_markers = { { ".yamllint", ".yamllint.yml", ".yamllint.yaml" }, ".git" },
+			}
+			vim.lsp.config["basedpyright"] = {
+				cmd = { "basedpyright", "--lsp" },
+				filetypes = { "python" },
+				root_markers = { { "pyproject.toml" }, ".git" },
+			}
+
+			vim.lsp.config["ruff"] = {
+				cmd = { "ruff", "check" },
+				filetypes = { "python" },
+				root_markers = { { "pyproject.toml" }, ".git" },
+			}
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
@@ -200,9 +233,9 @@ return {
 			})
 		end,
 		keys = {
-			{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",              desc = "Diagnostics (Trouble)" },
+			{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
 			{ "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
-			{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>",                   desc = "Quickfix List (Trouble)" },
+			{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
 		},
-	}
+	},
 }
