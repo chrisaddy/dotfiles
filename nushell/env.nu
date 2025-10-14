@@ -6,6 +6,7 @@ $env.PATH = ($env.PATH
   | append "/run/current-system/sw/bin"
   | append "/opt/homebrew/bin"
   | append "/usr/local/bin"
+  | append $"($env.HOME)/.radicle/bin"
 )
 
 mkdir ($nu.data-dir | path join "vendor/autoload")
