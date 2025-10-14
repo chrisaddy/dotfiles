@@ -23,7 +23,7 @@ stow-common:
     stow -t ~ tmux
 
 stow-nushell-mac:
-    stow -t "$$HOME/Library/Application Support/nushell" nushell
+    stow -t "$HOME/Library/Application Support/nushell" nushell
 
 stow-nushell-arch:
     stow -t "$HOME/.config/nushell" nushell

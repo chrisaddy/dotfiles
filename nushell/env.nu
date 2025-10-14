@@ -5,6 +5,7 @@ $env.PATH = ($env.PATH
   | append $"/etc/profiles/per-user/($env.USER)/bin"
   | append "/run/current-system/sw/bin"
   | append "/opt/homebrew/bin"
+  | append "/usr/local/bin"
 )
 
 mkdir ($nu.data-dir | path join "vendor/autoload")
