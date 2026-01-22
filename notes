@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-# take in input from user
-# append to file at ~/.notes.txt
