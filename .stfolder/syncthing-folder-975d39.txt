@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: gvs43-cfkwy
+created: 2025-12-09T21:47:46-05:00
