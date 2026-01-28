@@ -1,0 +1,68 @@
+# Tokyo Night Storm Theme
+# Based on folke/tokyonight.nvim
+
+[meta]
+name = "Tokyo Night"
+variant = "dark"
+
+[palette]
+# Backgrounds
+bg = "#24283b"
+bg_dark = "#1f2335"
+bg_light = "#3b4261"
+
+# Foregrounds
+fg = "#c0caf5"
+fg_dark = "#a9b1d6"
+fg_muted = "#565f89"
+
+# Accents
+accent = "#7aa2f7"
+secondary = "#bb9af7"
+
+# Semantic colors
+red = "#f7768e"
+orange = "#ff9e64"
+yellow = "#e0af68"
+green = "#9ece6a"
+cyan = "#7dcfff"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+
+# Bright variants
+bright_red = "#ff7a93"
+bright_orange = "#ffb86c"
+bright_yellow = "#f0c674"
+bright_green = "#b9f27c"
+bright_cyan = "#89ddff"
+bright_blue = "#82aaff"
+bright_magenta = "#c792ea"
+
+# UI elements
+border = "#3b4261"
+selection = "#33467c"
+cursor = "#c0caf5"
+cursor_text = "#24283b"
+
+# Git colors
+git_add = "#9ece6a"
+git_change = "#e0af68"
+git_delete = "#f7768e"
+
+[terminal]
+black = "#15161e"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#a9b1d6"
+bright_black = "#414868"
+bright_red = "#ff7a93"
+bright_green = "#b9f27c"
+bright_yellow = "#f0c674"
+bright_blue = "#82aaff"
+bright_magenta = "#c792ea"
+bright_cyan = "#89ddff"
+bright_white = "#c0caf5"
