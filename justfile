@@ -19,8 +19,8 @@ pacman:
 stow-common:
     stow ghostty
     stow nvim
-    stow emacs
     stow -t ~ tmux
+    stow -t ~ zoxide
 
 stow-nushell-mac:
     stow -t "$HOME/Library/Application Support/nushell" nushell
@@ -28,10 +28,7 @@ stow-nushell-mac:
 stow-nushell-arch:
     stow -t "$HOME/.config/nushell" nushell
 
-stow-doom:
-    stow -t ~ doom
-
-stow-mac: stow-common stow-doom stow-nushell-mac
+stow-mac: stow-common stow-nushell-mac
 
 stow-arch: stow-common stow-nushell-arch
     stow hypr
@@ -40,15 +37,12 @@ stow-arch: stow-common stow-nushell-arch
 unstow-mac:
     stow -D ghostty || true
     stow -D nvim || true
-    stow -D emacs || true
     stow -D -t ~ tmux || true
-    stow -D -t ~ doom || true
     stow -D -t "$$HOME/Library/Application Support/nushell" nushell || true
 
 unstow-arch:
     stow -D ghostty || true
     stow -D nvim || true
-    stow -D emacs || true
     stow -D hypr || true
     stow -D -t ~ tmux || true
     stow -D -t "$$HOME/.config/nushell" nushell || true
@@ -56,11 +50,8 @@ unstow-arch:
 check-stow-mac:
     mkdir -p "$$HOME/Library/Application Support/nushell"
     stow -n -v -t "$$HOME/Library/Application Support/nushell" nushell
-    stow -n -v ghostty nvim emacs
-    stow -n -v -t ~ doom tmux
 
 check-stow-arch:
     mkdir -p "$$HOME/.config/nushell"
     stow -n -v -t "$$HOME/.config/nushell" nushell
-    stow -n -v ghostty nvim emacs hypr
     stow -n -v -t ~ tmux
