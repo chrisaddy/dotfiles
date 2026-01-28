@@ -1,3 +1,4 @@
+command = flox activate -- nu
 font-size = 16
 theme = TokyoNight Storm
 cursor-style = block

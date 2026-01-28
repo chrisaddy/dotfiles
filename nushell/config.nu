@@ -42,6 +42,7 @@ alias nano = nvim
 alias emacs = emacs -nw
 alias lj = lazyjj
 alias sioyek = sioyek --shared-database-path `/Volumes/X10 Pro/sioyek/shared.db`
+alias "flox activate" = ^flox activate -- nu
 # alias jh = 'jj --help'
 # alias je = 'jj edit'
 # alias js = 'jj st'
@@ -60,13 +61,6 @@ def clean [] {
 
 export-env {
 
-  $env.MISE_SHELL = "nu"
-  let mise_hook = {
-    condition: { "MISE_SHELL" in $env }
-    code: { mise_hook }
-  }
-  add-hook hooks.pre_prompt $mise_hook
-  add-hook hooks.env_change.PWD $mise_hook
 }
 
 def --env add-hook [field: cell-path new_hook: any] {
@@ -80,39 +74,4 @@ def "parse vars" [] {
   $in | from csv --noheaders --no-infer | rename 'op' 'name' 'value'
 }
 
-export def --env --wrapped main [command?: string, --help, ...rest: string] {
-  let commands = ["deactivate", "shell", "sh"]
-
-  if ($command == null) {
-    ^"/opt/homebrew/bin/mise"
-  } else if ($command == "activate") {
-    $env.MISE_SHELL = "nu"
-  } else if ($command in $commands) {
-    ^"/opt/homebrew/bin/mise" $command ...$rest
-    | parse vars
-    | update-env
-  } else {
-    ^"/opt/homebrew/bin/mise" $command ...$rest
-  }
-}
-
-def --env "update-env" [] {
-  for $var in $in {
-    if $var.op == "set" {
-      if ($var.name | str upcase) == 'PATH' {
-        $env.PATH = ($var.value | split row (char esep))
-      } else {
-        load-env {($var.name): $var.value}
-      }
-    } else if $var.op == "hide" {
-      hide-env $var.name
-    }
-  }
-}
-
-def --env mise_hook [] {
-  ^"/opt/homebrew/bin/mise" hook-env -s nu
-    | parse vars
-    | update-env
-}
-
+source ~/.zoxide.nu

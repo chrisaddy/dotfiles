@@ -1,0 +1,25 @@
+# Starship configuration
+
+# Disable the git_commit module which shows commit email
+[git_commit]
+disabled = true
+
+# Configure git_status to not show email
+[git_status]
+disabled = false
+
+# Disable the username module to hide user@host format
+[username]
+disabled = true
+
+# Disable hostname to hide the email-like hostname
+[hostname]
+disabled = true
+
+# Disable gcloud module which may show email
+[gcloud]
+disabled = true
+
+# Disable AWS module which may show account info
+[aws]
+disabled = true
