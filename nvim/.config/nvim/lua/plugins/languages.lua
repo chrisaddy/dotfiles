@@ -162,47 +162,41 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				auto_install = true,
-				ensure_installed = {
-					"bash",
-					"c",
-					"diff",
-					"html",
-					"json",
-					"latex",
-					"lua",
-					"luadoc",
-					"make",
-					"markdown",
-					"markdown_inline",
-					"nix",
-					"regex",
-					"query",
-					"sql",
-					"terraform",
-					"toml",
-					"vim",
-					"vimdoc",
-					"xml",
-					"yaml",
-				},
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = false,
-				},
-				indent = {
-					enable = true,
-				},
-			})
-		end,
-		--       treesitter-textobjects = {
-		--         enable = true;
-		--         lspInterop.enable = true;
-		--         move.enable = true;
-		--         select.enable = true;
-		--       };
+		build = ":TSUpdate",
+		main = "nvim-treesitter.configs",
+		opts = {
+			auto_install = true,
+			ensure_installed = {
+				"bash",
+				"c",
+				"diff",
+				"html",
+				"json",
+				"latex",
+				"lua",
+				"luadoc",
+				"make",
+				"markdown",
+				"markdown_inline",
+				"nix",
+				"regex",
+				"query",
+				"sql",
+				"terraform",
+				"toml",
+				"vim",
+				"vimdoc",
+				"xml",
+				"yaml",
+			},
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = false,
+			},
+			indent = {
+				enable = true,
+			},
+		},
 	},
 	{
 		"folke/trouble.nvim",
@@ -233,9 +227,9 @@ return {
 			})
 		end,
 		keys = {
-			{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+			{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",              desc = "Diagnostics (Trouble)" },
 			{ "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
-			{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
+			{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>",                   desc = "Quickfix List (Trouble)" },
 		},
 	},
 }

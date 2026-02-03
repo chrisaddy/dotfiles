@@ -1,0 +1,132 @@
+sudo pacman -Syyu carapace
+sudo pacman -Syyu zoxide
+carapce
+carapace
+sudo pacman -Syyu carapace
+yay -Syyu carapace
+ls
+git status
+carapace
+carapace nushell
+nuj
+touch ~/.secrets.nu
+carapace _carapace nushell
+mkdir carapace
+mkdir carapace/.config
+mkdir carapace/.config/carapace
+carapace _carapace nushell | save --force carapace/.config/carapace/init.nu
+stow carapace
+vim nu-linux/.config/nushell/config.nu
+zoxide
+zoxide init
+zoxide init --help
+zoxide init nushell
+mkdir zoxide
+mkdir zoxide/.config
+mkdir zoxide/.config/zoxide
+zoxide init nushell | save --force zoxide/.config/zoxide/config.nu
+vim ~/.config/nushell/env.nu
+vim ~/.config/nushell/config.nu
+stow zoxide
+vim niri/.config/niri/config.kdl 
+vim nvim/.config/nvim/
+vim
+exit
+ls
+cd dotfiles/
+vim niri/.config/niri/config.kdl 
+niri validate
+sudo pacman -Syyu obsidian
+vim niri/.config/niri/config.kdl 
+cd
+mkdir projects
+gh repo clone aither-board
+gh repo clone aither-computer/aither-board
+cd aither-boar
+cd aither-board
+gh repo clone aither-computer/aither
+gh repo clone aither-computer/aither-sdk
+sudo pacman -Syyu ttf-nerd-fonts-symbols
+sudo pacman -Syyu ttf-jetbrains-mono-nerd
+killall waybar
+waybar &
+waybar
+waybar |<\n>
+waybar ||<\n>
+bash<\n>
+claude
+vim niri/.config/niri/config.kdl 
+sudo pacman -Syyu swaybg
+cd
+cd Downloads/
+ls
+mv piqsels.com-id-sbtzo.jpg christ.jpg
+cd
+cd Downloads/
+ls
+mv christ.jpg ~/.config/wallpapers/
+open piqsels.com-id-fhkih.jpg
+ls
+mv ark.jpg ~/.config/wallpapers/
+mv creation.jpg ~/.config/wallpapers/
+mv handkerchief.jpg ~/.config/wallpapers/
+sudo pacman -Syyu bash-language-server ccls clang vscode-css-languageserver dockerfile-language-server 
+sudo pacman -Syyu bash-language-server ccls clang vscode-css-languageserver
+yay -Syyu dockerfile-language-server nodejs-compose-language-server
+sudo pacman -Syyu gopls
+sudo pacman -Syyu haskell-language-server
+sudo pacman -Syyu deno vscode-json-langujage-server vscode-html-languageserver lua-language-server
+sudo pacman -Syyu deno vscode-json-language-server vscode-html-languageserver lua-language-server
+sudo pacman -Syyu deno vscode-json-languageserver vscode-html-languageserver lua-language-server
+yay -Syyu lean-language-server
+sudo pacman -Syyu marksman
+ls
+rm -rf .flox
+cd aitgher
+cd aither
+rm -rf .flox
+cd ../aither-sdk
+rm -rf .flox
+cd ../
+test
+./test
+ls
+vim test
+chmod +x test
+yay -Syyu nimlsp nil-git nixd ocaml-lsp-git odinls-bin
+cd dotiles
+cd dotfiles
+ls
+sudo pacman -Syyu ruff ty
+sudo pacman -Syyu ruff ty uv
+sudo pacman -Syyu rust-analyzer texlab tinymist yaml-language-server zls
+yay -Syyu basedpyright r-languageserver ruby-solargraph metals sqls swift-language terraform-ls
+vim
+mv ~/Downloads/piqsels.com-id-oguso.jpg ~/.config/wallpapers/iconostasis.jpg
+mv ~/Downloads/wallpaperflare.com_wallpaper.jpg ~/.config/wallpapers/christ-peter-paul.jpg
+mv ~/Downloads/wp9014251-orthodox-icons-wallpapers.jpg ~/.config/wallpapers/dormition.jpg
+vim
+pulse
+pavucontrol
+curl -L -o qbit_x64.app.tar.gz \<\n>  https://github.com/qbit-ai/qbit/releases/download/v0.2.13/qbit_x64.app.tar.gz<\n><\n>mkdir -p qbit-release<\n><\n>tar -xzf qbit_x64.app.tar.gz -C qbit-release
+bash
+cd qbit-release/
+sudo install -m 755 qbit-release/qbit /usr/local/bin/qbit
+cargo build
+ls
+cd ..
+rm -rf qbit-release/
+rm -rf qbit_x64.app.tar.gz
+gh repo clone qbit-ai/qbit
+cd qbit/
+just install
+sudo pacman -Syyu pnpm
+vim nvim/.config/nvim/init.lua 
+pavucontrol
+git status
+git add .
+rm -rf qbit
+git status
+git add .
+rm -rf qbit
+git status

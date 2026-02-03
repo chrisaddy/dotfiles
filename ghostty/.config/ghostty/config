@@ -5,8 +5,11 @@ shell-integration = zsh
 shell-integration-features = cursor,no-title
 background-opacity = 0.9
 macos-titlebar-style = transparent
+window-decoration = false
 
 window-position-x = 5
 window-position-y = 5
 window-width = 100
 window-height = 100
+
+confirm-close-surface = false

@@ -48,7 +48,7 @@ alias "flox activate" = ^flox activate -- nu
 # alias js = 'jj st'
 # alias jsq = 'jj squash'
 
-source ~/.cache/carapace/init.nu
+source ~/.config/carapace/init.nu
 
 
 
@@ -74,4 +74,4 @@ def "parse vars" [] {
   $in | from csv --noheaders --no-infer | rename 'op' 'name' 'value'
 }
 
-source ~/.zoxide.nu
+source ~/.config/zoxide/config.nu
