@@ -54,7 +54,7 @@ def --env --wrapped __zoxide_zi [...rest:string] {
 #
 
 alias cd = __zoxide_z
-alias c = __zoxide_zi
+alias cdi = __zoxide_zi
 
 # =============================================================================
 #
