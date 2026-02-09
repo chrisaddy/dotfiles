@@ -6,6 +6,7 @@ $env.PATH = ($env.PATH
   | append "/opt/zerobrew/prefix/bin"
   | append "/opt/homebrew/bin"
   | append $"($env.HOME)/.cargo/bin"
+  | append $"($env.HOME)/.bun/bin"
 )
 
 $env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense'
