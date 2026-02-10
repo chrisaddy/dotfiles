@@ -37,21 +37,25 @@ stow-arch: stow-common stow-nushell-arch
 unstow-mac:
     stow -D ghostty || true
     stow -D nvim || true
+    stow -D yazi || true
     stow -D -t ~ tmux || true
     stow -D -t "$$HOME/Library/Application Support/nushell" nushell || true
 
 unstow-arch:
     stow -D ghostty || true
     stow -D nvim || true
+    stow -D yazi || true
     stow -D hypr || true
     stow -D -t ~ tmux || true
     stow -D -t "$$HOME/.config/nushell" nushell || true
 
 check-stow-mac:
     mkdir -p "$$HOME/Library/Application Support/nushell"
+    stow -n -v yazi
     stow -n -v -t "$$HOME/Library/Application Support/nushell" nushell
 
 check-stow-arch:
     mkdir -p "$$HOME/.config/nushell"
+    stow -n -v yazi
     stow -n -v -t "$$HOME/.config/nushell" nushell
     stow -n -v -t ~ tmux
