@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Conventional Commits commit-msg hook
+# Format: type(scope): description  OR  type: description
+# Allowed types: feat fix chore docs style refactor test ci build perf
+
+commit_msg_file="$1"
+commit_msg=$(head -1 "$commit_msg_file")
+
+# Allow merge commits, reverts, fixups, and squashes
+if echo "$commit_msg" | grep -qE '^(Merge |Revert |fixup! |squash! |amend! )'; then
+  exit 0
+fi
+
+types="feat|fix|chore|docs|style|refactor|test|ci|build|perf"
+pattern="^($types)(\(.+\))?: .+"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "ERROR: Commit message does not follow Conventional Commits format."
+  echo ""
+  echo "  Expected: type(scope): description"
+  echo "       or:  type: description"
+  echo ""
+  echo "  Allowed types: feat fix chore docs style refactor test ci build perf"
+  echo ""
+  echo "  Examples:"
+  echo "    feat(nvim): add telescope keybinding"
+  echo "    fix: correct stow target path"
+  echo "    chore: update package list"
+  echo ""
+  echo "  Your message: $commit_msg"
+  exit 1
+fi
