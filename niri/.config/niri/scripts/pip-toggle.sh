@@ -7,8 +7,6 @@ PADDING=20
 
 # Get screen dimensions (assumes single monitor or uses focused)
 SCREEN_WIDTH=1920
-SCREEN_HEIGHT=1080
-
 # Calculate top-right position
 POS_X=$((SCREEN_WIDTH - WIDTH - PADDING))
 POS_Y=$PADDING

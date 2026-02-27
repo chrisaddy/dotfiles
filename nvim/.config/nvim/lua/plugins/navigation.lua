@@ -58,8 +58,7 @@ return {
 			require("which-key").add({
 				"<leader>u",
 				"<cmd>lua require('undotree').toggle()<cr>",
-				desc =
-				"Toggle undotree"
+				desc = "Toggle undotree",
 			})
 		end,
 	},
