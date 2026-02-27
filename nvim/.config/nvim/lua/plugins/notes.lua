@@ -1,15 +1,15 @@
 return {
-	'renerocksai/telekasten.nvim',
+	"renerocksai/telekasten.nvim",
 	dependencies = {
-		'nvim-telescope/telescope.nvim',
-		'nvim-telescope/telescope-media-files.nvim',
-		'folke/which-key.nvim',
+		"nvim-telescope/telescope.nvim",
+		"nvim-telescope/telescope-media-files.nvim",
+		"folke/which-key.nvim",
 	},
 	config = function()
 		local notes_home = vim.fn.expand("~/wiki")
 
 		-- Telekasten
-		require('telekasten').setup({
+		require("telekasten").setup({
 			home = notes_home,
 		})
 
@@ -32,7 +32,7 @@ return {
 
 		wk.add({
 			-- top-level notes group
-			{ "<leader>n",  group = "notes" },
+			{ "<leader>n", group = "notes" },
 
 			{
 				"<leader>np",

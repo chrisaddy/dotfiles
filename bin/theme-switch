@@ -80,28 +80,48 @@ generate_ghostty() {
     info "Updating Ghostty config..."
 
     # Read colors from theme
-    local bg=$(get_toml_value "$theme_file" "bg")
-    local fg=$(get_toml_value "$theme_file" "fg")
-    local cursor=$(get_toml_value "$theme_file" "cursor")
-    local selection=$(get_toml_value "$theme_file" "selection")
+    local bg
+    bg=$(get_toml_value "$theme_file" "bg")
+    local fg
+    fg=$(get_toml_value "$theme_file" "fg")
+    local cursor
+    cursor=$(get_toml_value "$theme_file" "cursor")
+    local selection
+    selection=$(get_toml_value "$theme_file" "selection")
 
     # Terminal colors
-    local black=$(get_toml_value "$theme_file" "black")
-    local red=$(get_toml_value "$theme_file" "red")
-    local green=$(get_toml_value "$theme_file" "green")
-    local yellow=$(get_toml_value "$theme_file" "yellow")
-    local blue=$(get_toml_value "$theme_file" "blue")
-    local magenta=$(get_toml_value "$theme_file" "magenta")
-    local cyan=$(get_toml_value "$theme_file" "cyan")
-    local white=$(get_toml_value "$theme_file" "white")
-    local bright_black=$(get_toml_value "$theme_file" "bright_black")
-    local bright_red=$(get_toml_value "$theme_file" "bright_red")
-    local bright_green=$(get_toml_value "$theme_file" "bright_green")
-    local bright_yellow=$(get_toml_value "$theme_file" "bright_yellow")
-    local bright_blue=$(get_toml_value "$theme_file" "bright_blue")
-    local bright_magenta=$(get_toml_value "$theme_file" "bright_magenta")
-    local bright_cyan=$(get_toml_value "$theme_file" "bright_cyan")
-    local bright_white=$(get_toml_value "$theme_file" "bright_white")
+    local black
+    black=$(get_toml_value "$theme_file" "black")
+    local red
+    red=$(get_toml_value "$theme_file" "red")
+    local green
+    green=$(get_toml_value "$theme_file" "green")
+    local yellow
+    yellow=$(get_toml_value "$theme_file" "yellow")
+    local blue
+    blue=$(get_toml_value "$theme_file" "blue")
+    local magenta
+    magenta=$(get_toml_value "$theme_file" "magenta")
+    local cyan
+    cyan=$(get_toml_value "$theme_file" "cyan")
+    local white
+    white=$(get_toml_value "$theme_file" "white")
+    local bright_black
+    bright_black=$(get_toml_value "$theme_file" "bright_black")
+    local bright_red
+    bright_red=$(get_toml_value "$theme_file" "bright_red")
+    local bright_green
+    bright_green=$(get_toml_value "$theme_file" "bright_green")
+    local bright_yellow
+    bright_yellow=$(get_toml_value "$theme_file" "bright_yellow")
+    local bright_blue
+    bright_blue=$(get_toml_value "$theme_file" "bright_blue")
+    local bright_magenta
+    bright_magenta=$(get_toml_value "$theme_file" "bright_magenta")
+    local bright_cyan
+    bright_cyan=$(get_toml_value "$theme_file" "bright_cyan")
+    local bright_white
+    bright_white=$(get_toml_value "$theme_file" "bright_white")
 
     # Fallback for terminal colors if not in [terminal] section
     [[ -z "$black" ]] && black=$(get_toml_value "$theme_file" "bg_dark")
@@ -162,15 +182,24 @@ generate_tmux() {
     info "Updating Tmux config..."
 
     # Read colors
-    local bg=$(get_toml_value "$theme_file" "bg")
-    local bg_dark=$(get_toml_value "$theme_file" "bg_dark")
-    local bg_light=$(get_toml_value "$theme_file" "bg_light")
-    local fg=$(get_toml_value "$theme_file" "fg")
-    local fg_dark=$(get_toml_value "$theme_file" "fg_dark")
-    local fg_muted=$(get_toml_value "$theme_file" "fg_muted")
-    local accent=$(get_toml_value "$theme_file" "accent")
-    local border=$(get_toml_value "$theme_file" "border")
-    local selection=$(get_toml_value "$theme_file" "selection")
+    local bg
+    bg=$(get_toml_value "$theme_file" "bg")
+    local bg_dark
+    bg_dark=$(get_toml_value "$theme_file" "bg_dark")
+    local bg_light
+    bg_light=$(get_toml_value "$theme_file" "bg_light")
+    local fg
+    fg=$(get_toml_value "$theme_file" "fg")
+    local fg_dark
+    fg_dark=$(get_toml_value "$theme_file" "fg_dark")
+    local fg_muted
+    fg_muted=$(get_toml_value "$theme_file" "fg_muted")
+    local accent
+    accent=$(get_toml_value "$theme_file" "accent")
+    local border
+    border=$(get_toml_value "$theme_file" "border")
+    local selection
+    selection=$(get_toml_value "$theme_file" "selection")
 
     [[ -z "$border" ]] && border="$bg_light"
     [[ -z "$selection" ]] && selection="$bg_light"
@@ -261,7 +290,8 @@ EOF
 # Generate Neovim theme
 generate_nvim() {
     local theme_file="$1"
-    local theme_name=$(basename "$theme_file" .toml)
+    local theme_name
+    theme_name=$(basename "$theme_file" .toml)
     local themes_dir="$DOTFILES/nvim/.config/nvim/lua/themes"
     local palette_file="$themes_dir/palette.lua"
 
@@ -270,24 +300,42 @@ generate_nvim() {
     mkdir -p "$themes_dir"
 
     # Read all colors
-    local bg=$(get_toml_value "$theme_file" "bg")
-    local bg_dark=$(get_toml_value "$theme_file" "bg_dark")
-    local bg_light=$(get_toml_value "$theme_file" "bg_light")
-    local fg=$(get_toml_value "$theme_file" "fg")
-    local fg_dark=$(get_toml_value "$theme_file" "fg_dark")
-    local fg_muted=$(get_toml_value "$theme_file" "fg_muted")
-    local accent=$(get_toml_value "$theme_file" "accent")
-    local secondary=$(get_toml_value "$theme_file" "secondary")
-    local red=$(get_toml_value "$theme_file" "red")
-    local orange=$(get_toml_value "$theme_file" "orange")
-    local yellow=$(get_toml_value "$theme_file" "yellow")
-    local green=$(get_toml_value "$theme_file" "green")
-    local cyan=$(get_toml_value "$theme_file" "cyan")
-    local blue=$(get_toml_value "$theme_file" "blue")
-    local magenta=$(get_toml_value "$theme_file" "magenta")
-    local border=$(get_toml_value "$theme_file" "border")
-    local selection=$(get_toml_value "$theme_file" "selection")
-    local cursor=$(get_toml_value "$theme_file" "cursor")
+    local bg
+    bg=$(get_toml_value "$theme_file" "bg")
+    local bg_dark
+    bg_dark=$(get_toml_value "$theme_file" "bg_dark")
+    local bg_light
+    bg_light=$(get_toml_value "$theme_file" "bg_light")
+    local fg
+    fg=$(get_toml_value "$theme_file" "fg")
+    local fg_dark
+    fg_dark=$(get_toml_value "$theme_file" "fg_dark")
+    local fg_muted
+    fg_muted=$(get_toml_value "$theme_file" "fg_muted")
+    local accent
+    accent=$(get_toml_value "$theme_file" "accent")
+    local secondary
+    secondary=$(get_toml_value "$theme_file" "secondary")
+    local red
+    red=$(get_toml_value "$theme_file" "red")
+    local orange
+    orange=$(get_toml_value "$theme_file" "orange")
+    local yellow
+    yellow=$(get_toml_value "$theme_file" "yellow")
+    local green
+    green=$(get_toml_value "$theme_file" "green")
+    local cyan
+    cyan=$(get_toml_value "$theme_file" "cyan")
+    local blue
+    blue=$(get_toml_value "$theme_file" "blue")
+    local magenta
+    magenta=$(get_toml_value "$theme_file" "magenta")
+    local border
+    border=$(get_toml_value "$theme_file" "border")
+    local selection
+    selection=$(get_toml_value "$theme_file" "selection")
+    local cursor
+    cursor=$(get_toml_value "$theme_file" "cursor")
 
     # Fallbacks
     [[ -z "$border" ]] && border="$bg_light"
@@ -527,14 +575,22 @@ generate_starship() {
 
     mkdir -p "$config_dir"
 
-    local accent=$(get_toml_value "$theme_file" "accent")
-    local green=$(get_toml_value "$theme_file" "green")
-    local red=$(get_toml_value "$theme_file" "red")
-    local blue=$(get_toml_value "$theme_file" "blue")
-    local magenta=$(get_toml_value "$theme_file" "magenta")
-    local yellow=$(get_toml_value "$theme_file" "yellow")
-    local cyan=$(get_toml_value "$theme_file" "cyan")
-    local fg_muted=$(get_toml_value "$theme_file" "fg_muted")
+    local accent
+    accent=$(get_toml_value "$theme_file" "accent")
+    local green
+    green=$(get_toml_value "$theme_file" "green")
+    local red
+    red=$(get_toml_value "$theme_file" "red")
+    local blue
+    blue=$(get_toml_value "$theme_file" "blue")
+    local magenta
+    magenta=$(get_toml_value "$theme_file" "magenta")
+    local yellow
+    yellow=$(get_toml_value "$theme_file" "yellow")
+    local cyan
+    cyan=$(get_toml_value "$theme_file" "cyan")
+    local fg_muted
+    fg_muted=$(get_toml_value "$theme_file" "fg_muted")
 
     cat > "$config_file" <<EOF
 # Theme: $(basename "$theme_file" .toml)
@@ -600,14 +656,22 @@ generate_lazygit() {
 
     mkdir -p "$config_dir"
 
-    local accent=$(get_toml_value "$theme_file" "accent")
-    local border=$(get_toml_value "$theme_file" "border")
-    local selection=$(get_toml_value "$theme_file" "selection")
-    local fg=$(get_toml_value "$theme_file" "fg")
-    local red=$(get_toml_value "$theme_file" "red")
-    local green=$(get_toml_value "$theme_file" "green")
-    local yellow=$(get_toml_value "$theme_file" "yellow")
-    local magenta=$(get_toml_value "$theme_file" "magenta")
+    local accent
+    accent=$(get_toml_value "$theme_file" "accent")
+    local border
+    border=$(get_toml_value "$theme_file" "border")
+    local selection
+    selection=$(get_toml_value "$theme_file" "selection")
+    local fg
+    fg=$(get_toml_value "$theme_file" "fg")
+    local red
+    red=$(get_toml_value "$theme_file" "red")
+    local green
+    green=$(get_toml_value "$theme_file" "green")
+    local yellow
+    yellow=$(get_toml_value "$theme_file" "yellow")
+    local magenta
+    magenta=$(get_toml_value "$theme_file" "magenta")
 
     [[ -z "$border" ]] && border=$(get_toml_value "$theme_file" "bg_light")
     [[ -z "$selection" ]] && selection=$(get_toml_value "$theme_file" "bg_light")
@@ -647,8 +711,11 @@ reload_apps() {
 
     # Reload tmux if running
     if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null; then
-        tmux source-file "$DOTFILES/tmux/.tmux.conf" 2>/dev/null && \
-            success "Tmux reloaded" || warn "Tmux reload failed"
+        if tmux source-file "$DOTFILES/tmux/.tmux.conf" 2>/dev/null; then
+            success "Tmux reloaded"
+        else
+            warn "Tmux reload failed"
+        fi
     fi
 
     # Note: Ghostty requires restart

@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 export PATH=$PATH:/opt/homebrew/bin:/opt/zerobrew/prefix/bin
 
 eval "$(starship init zsh)"
