@@ -1,4 +1,4 @@
-export PATH=$PATH:/opt/homebrew/bin:/opt/zerobrew/prefix/bin
+export PATH=$PATH:/opt/homebrew/bin:/opt/zerobrew/prefix/bin:$HOME/.local/bin
 
 eval "$(starship init zsh)"
 
@@ -10,7 +10,6 @@ if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
         print -P "%F{33} %F{34}Installation successful.%f%b" || \
         print -P "%F{160} The clone has failed.%f%b"
 fi
-
 
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
@@ -25,7 +24,6 @@ export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 source <(carapace _carapace)
 
-
 alias vim=nvim
 
 # bun completions
@@ -34,3 +32,6 @@ alias vim=nvim
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+eval "$(~/.local/bin/mise activate zsh)"
+
+unalias br 2>/dev/null  # br installer - remove conflicting alias
