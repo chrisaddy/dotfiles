@@ -21,27 +21,6 @@ stow-common:
     stow nvim
     stow -t ~ tmux
     stow -t ~ zoxide
-    local_bin="$$HOME/.local/bin"
-    mkdir -p "$local_bin"
-
-    existing=""
-    for f in bin/*; do
-      [ -e "$local_bin/$(basename "$f")" ] || continue
-      name="$(basename "$f")"
-
-      escaped="$(printf '%s' "$name" | sed -e 's/[.\\^$*+?(){}|\[\]\\\\]/\\&/g')"
-      if [ -n "$existing" ]; then
-        existing+="|$escaped"
-      else
-        existing="$escaped"
-      fi
-    done
-
-    if [ -n "$existing" ]; then
-      stow -t "$local_bin" --ignore="^($existing)$" bin
-    else
-      stow -t "$local_bin" bin
-    fi
 
 stow-nushell-mac:
     stow -t "$HOME/Library/Application Support/nushell" nushell
