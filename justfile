@@ -2,9 +2,9 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 os := `uname -s`
 
-mac: brew stow-mac rust
+mac: brew stow-mac rust setup-hooks
 
-arch: pacman stow-arch rust
+arch: pacman stow-arch rust setup-hooks
 
 rust:
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -53,6 +53,9 @@ check-stow-mac:
     mkdir -p "$$HOME/Library/Application Support/nushell"
     stow -n -v yazi
     stow -n -v -t "$$HOME/Library/Application Support/nushell" nushell
+
+setup-hooks:
+    git config core.hooksPath git/hooks
 
 check-stow-arch:
     mkdir -p "$$HOME/.config/nushell"

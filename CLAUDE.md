@@ -44,6 +44,16 @@ stow -t ~ doom        # .doom.d to home
 - macOS: `~/Library/Application Support/nushell/`
 - Arch: `~/.config/nushell/`
 
+## Commit Convention
+
+This repo uses **Conventional Commits** enforced by a `commit-msg` hook in `git/hooks/`.
+
+Format: `type(scope): description` or `type: description`
+
+Allowed types: `feat` `fix` `chore` `docs` `style` `refactor` `test` `ci` `build` `perf`
+
+Run `just setup-hooks` (or `just mac` / `just arch`) to activate the hook via `core.hooksPath`.
+
 ## Architecture
 
 ### Directory Structure
