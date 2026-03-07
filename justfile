@@ -28,9 +28,14 @@ stow-nushell-mac:
 stow-nushell-arch:
     stow -t "$HOME/.config/nushell" nushell
 
-stow-mac: stow-common stow-nushell-mac
+stow-githooks:
+    mkdir -p "$HOME/.config/git/hooks"
+    stow githooks
+    git config --global core.hooksPath "$HOME/.config/git/hooks"
 
-stow-arch: stow-common stow-nushell-arch
+stow-mac: stow-common stow-nushell-mac stow-githooks
+
+stow-arch: stow-common stow-nushell-arch stow-githooks
     stow hypr
     stow uwsm
 

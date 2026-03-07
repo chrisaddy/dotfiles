@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# commit-msg hook: validates commit messages against conventional commit format
+
+set -euo pipefail
+
+COMMIT_MSG_FILE="$1"
+COMMIT_MSG=$(head -1 "$COMMIT_MSG_FILE")
+
+# Skip merge commits and fixup/squash commits
+if echo "$COMMIT_MSG" | grep -qE '^(Merge|Revert|fixup!|squash!)'; then
+    exit 0
+fi
+
+# Valid conventional commit types
+TYPES="feat|fix|docs|chore|refactor|style|test|build|ci|perf"
+
+# Conventional commit pattern: type(optional-scope): description
+PATTERN="^($TYPES)(\([a-zA-Z0-9_-]+\))?: .{1,}"
+
+if ! echo "$COMMIT_MSG" | grep -qE "$PATTERN"; then
+    # Check for vague one-word messages
+    VAGUE_PATTERNS="^(updates?|fix|fixes|fixed|changes?|changed|stuff|wip|tmp|temp|asdf|test|minor|misc|cleanup)$"
+    if echo "$COMMIT_MSG" | grep -iqE "$VAGUE_PATTERNS"; then
+        echo "ERROR: Commit message is too vague: '$COMMIT_MSG'"
+        echo ""
+        echo "Please use a descriptive conventional commit message."
+    else
+        echo "ERROR: Commit message does not follow conventional commit format."
+    fi
+    echo ""
+    echo "Expected format: type(scope): description"
+    echo ""
+    echo "Valid types: feat, fix, docs, chore, refactor, style, test, build, ci, perf"
+    echo ""
+    echo "Examples:"
+    echo "  feat: add user authentication"
+    echo "  fix(parser): handle empty input"
+    echo "  docs: update API reference"
+    echo "  chore(deps): bump lodash to 4.17.21"
+    exit 1
+fi

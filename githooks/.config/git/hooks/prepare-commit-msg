@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# prepare-commit-msg hook: prepopulates commit message template with conventional commit hint
+
+set -euo pipefail
+
+COMMIT_MSG_FILE="$1"
+COMMIT_SOURCE="${2:-}"
+
+# Only add template for new commits (not merges, amends, squashes, etc.)
+if [ -z "$COMMIT_SOURCE" ]; then
+    EXISTING=$(cat "$COMMIT_MSG_FILE")
+    cat > "$COMMIT_MSG_FILE" <<'EOF'
+
+# Conventional Commit Format: type(scope): description
+#
+# Types: feat, fix, docs, chore, refactor, style, test, build, ci, perf
+#
+# Examples:
+#   feat: add user authentication
+#   fix(parser): handle empty input
+#   docs: update API reference
+EOF
+    echo "$EXISTING" >> "$COMMIT_MSG_FILE"
+fi
