@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# commit-normalize: lint a commit message string against conventional commit format
+# Usage: commit-normalize "your commit message"
+#        echo "your commit message" | commit-normalize
+
+set -euo pipefail
+
+if [ $# -gt 0 ]; then
+    MSG="$1"
+elif [ ! -t 0 ]; then
+    MSG=$(head -1)
+else
+    echo "Usage: commit-normalize \"your commit message\""
+    echo "       echo \"your commit message\" | commit-normalize"
+    exit 1
+fi
+
+TYPES="feat|fix|docs|chore|refactor|style|test|build|ci|perf"
+PATTERN="^($TYPES)(\([a-zA-Z0-9_-]+\))?: .{1,}"
+
+VAGUE_PATTERNS="^(updates?|fix|fixes|fixed|changes?|changed|stuff|wip|tmp|temp|asdf|test|minor|misc|cleanup)$"
+if echo "$MSG" | grep -iqE "$VAGUE_PATTERNS"; then
+    echo "FAIL: Message is too vague: '$MSG'"
+    echo "Use a descriptive conventional commit message instead."
+    exit 1
+fi
+
+if echo "$MSG" | grep -qE "$PATTERN"; then
+    echo "OK: '$MSG'"
+    exit 0
+else
+    echo "FAIL: '$MSG'"
+    echo ""
+    echo "Expected format: type(scope): description"
+    echo "Valid types: feat, fix, docs, chore, refactor, style, test, build, ci, perf"
+    exit 1
+fi
