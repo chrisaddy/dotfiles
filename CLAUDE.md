@@ -4,61 +4,59 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal dotfiles repository for Arch Linux and macOS, using GNU Stow for symlink management and Flox for environment management.
+Personal dotfiles repository for Arch Linux and macOS, managed with Nix Home Manager via flakes.
 
 ## Commands
 
-### Setup
+### Home Manager
 ```bash
-# macOS full setup
-just mac
+# Build and activate (macOS Apple Silicon)
+nix run home-manager -- switch --flake '.#chrisaddy@darwin'
 
-# Arch Linux full setup
-just arch
+# Build and activate (Linux x86_64)
+nix run home-manager -- switch --flake '.#chrisaddy@linux'
 
-# Check stow links without applying (dry-run)
-just check-stow-mac
-just check-stow-arch
+# Dry-run build (no activation)
+nix build '.#homeConfigurations.chrisaddy@darwin.activationPackage' --dry-run
 ```
 
-### Stow Operations
+### Legacy Stow (still available)
 ```bash
-# Apply symlinks (macOS)
-just stow-mac
-
-# Apply symlinks (Arch)
-just stow-arch
-
-# Remove symlinks
-just unstow-mac
-just unstow-arch
-
-# Individual stow commands for specific configs
-stow ghostty          # to ~/.config/ghostty
-stow nvim             # to ~/.config/nvim
-stow -t ~ tmux        # .tmux.conf to home
-stow -t ~ doom        # .doom.d to home
+just mac    # macOS full setup with stow
+just arch   # Arch Linux full setup with stow
 ```
-
-### Nushell Location
-- macOS: `~/Library/Application Support/nushell/`
-- Arch: `~/.config/nushell/`
 
 ## Architecture
 
-### Directory Structure
-Each top-level directory is a stow package:
-- `bat/` - bat configuration
-- `ghostty/` - Ghostty terminal config (uses Flox + Nushell as shell)
-- `nvim/` - Neovim config with lazy.nvim plugin manager
-- `nushell/` - Shell configuration with carapace completions, direnv hooks, zoxide
-- `tmux/` - Tmux config with TPM plugins, prefix is `C-Space`
-- `starship/` - Prompt configuration
+### Home Manager Structure
+```
+flake.nix              # Flake with home-manager input
+home/
+  default.nix          # Main home config (packages, imports)
+  programs/
+    bat.nix            # bat config (HM native module)
+    ghostty.nix        # Ghostty terminal (xdg.configFile)
+    kitty.nix          # Kitty terminal (xdg.configFile)
+    lazygit.nix        # Lazygit TUI (HM native module)
+    neovim.nix         # Neovim config (xdg.configFile, recursive)
+    niri.nix           # Niri compositor (xdg.configFile, Linux only)
+    starship.nix       # Starship prompt (HM native module)
+    tmux.nix           # Tmux (HM native module)
+    waybar.nix         # Waybar (xdg.configFile, Linux only)
+    yazi.nix           # Yazi file manager (HM native module)
+    zellij.nix         # Zellij multiplexer (xdg.configFile)
+    zoxide.nix         # Zoxide (HM native module)
+    zsh.nix            # Zsh shell (HM native module)
+```
 
-### Environment
-- Flox is used for environment management (`.flox/`)
-- Default shell command in tmux/ghostty: `flox activate -- nu`
-- Editor: nvim
+### Raw Config Sources
+Original config files are still in stow-style directories and referenced by Home Manager:
+- `ghostty/.config/ghostty/` - Ghostty config (inlined in nix)
+- `kitty/.config/kitty/` - Kitty configs (sourced by HM)
+- `nvim/.config/nvim/` - Full Neovim config with lazy.nvim
+- `zellij/.config/zellij/` - Zellij config and layouts
+- `niri/.config/niri/` - Niri compositor config
+- `waybar/.config/waybar/` - Waybar config and styles
 
 ### Neovim Plugin Structure
 Plugins are in `nvim/.config/nvim/lua/plugins/`:
@@ -66,4 +64,9 @@ Plugins are in `nvim/.config/nvim/lua/plugins/`:
 - `fzf.lua` - Fuzzy finding
 - `navigation.lua` - File/buffer navigation
 - `git.lua` - Git integration
-- `ai.lua` - AI assistance
+- `which-key.lua` - Keymaps and Zellij integration
+
+### Environment
+- Editor: nvim
+- Shell: zsh with starship prompt
+- Tmux prefix: `C-Space`

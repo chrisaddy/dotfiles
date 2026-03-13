@@ -1,14 +1,1 @@
-return {
-	"folke/which-key.nvim",
-	event = "VeryLazy",
-	opts = {},
-	keys = {
-		{
-			"<leader>?",
-			function()
-				require("which-key").show({ global = false })
-			end,
-			desc = "Buffer Local Keymaps (which-key)",
-		},
-	},
-}
+/nix/store/zck8s5vps05qq6p6vlzh9bdk49q7v56y-home-manager-files/.config/nvim/lua/plugins/which-key.lua

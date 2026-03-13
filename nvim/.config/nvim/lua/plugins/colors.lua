@@ -1,7 +1,1 @@
-return {
-	"rose-pine/neovim",
-	name = "rose-pine",
-	config = function()
-		vim.cmd("colorscheme rose-pine-moon")
-	end
-}
+/nix/store/zck8s5vps05qq6p6vlzh9bdk49q7v56y-home-manager-files/.config/nvim/lua/plugins/colors.lua

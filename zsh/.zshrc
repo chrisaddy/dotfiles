@@ -35,3 +35,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 eval "$(~/.local/bin/mise activate zsh)"
 
 unalias br 2>/dev/null  # br installer - remove conflicting alias
+
+# OpenFang
+export PATH=/Users/chrisaddy/.openfang/bin:$PATH

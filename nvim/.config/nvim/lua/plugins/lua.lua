@@ -1,9 +1,1 @@
-return {
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-      },
-    },
-  }
+/nix/store/zck8s5vps05qq6p6vlzh9bdk49q7v56y-home-manager-files/.config/nvim/lua/plugins/lua.lua
