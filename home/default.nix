@@ -8,7 +8,6 @@ in
   imports = [
     ./programs/bat.nix
     ./programs/ghostty.nix
-    ./programs/kitty.nix
     ./programs/lazygit.nix
     ./programs/nixvim
     ./programs/starship.nix

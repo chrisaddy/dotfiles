@@ -29,12 +29,6 @@ nix run home-manager -- switch --flake '.#chrisaddy@linux'
 nix build '.#homeConfigurations.chrisaddy@darwin.activationPackage' --dry-run
 ```
 
-### Legacy Stow (still available)
-```bash
-just mac    # macOS full setup with stow
-just arch   # Arch Linux full setup with stow
-```
-
 ## Architecture
 
 ### Flake Structure
@@ -47,7 +41,6 @@ home/
   programs/
     bat.nix            # bat config
     ghostty.nix        # Ghostty terminal
-    kitty.nix          # Kitty terminal (config + theme inlined)
     lazygit.nix        # Lazygit TUI
     neovim.nix         # Neovim config (all lua inlined via xdg.configFile.*.text)
     niri.nix           # Niri compositor (Linux only, inlined)
