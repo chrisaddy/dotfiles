@@ -4,9 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal dotfiles repository for Arch Linux and macOS, managed with Nix Home Manager via flakes.
+Personal dotfiles repository for Arch Linux and macOS, managed with Nix Home Manager and nix-darwin via flakes.
 
 ## Commands
+
+### nix-darwin (macOS system config)
+```bash
+# Build and activate (requires sudo)
+sudo darwin-rebuild switch --flake ~/dotfiles#olympus-2
+
+# Or via nh
+sudo nh darwin switch ~/dotfiles
+```
 
 ### Home Manager
 ```bash
@@ -28,45 +37,35 @@ just arch   # Arch Linux full setup with stow
 
 ## Architecture
 
-### Home Manager Structure
+### Flake Structure
 ```
-flake.nix              # Flake with home-manager input
+flake.nix              # Flake with home-manager + nix-darwin inputs
+darwin/
+  default.nix          # nix-darwin system config (system packages, platform)
 home/
   default.nix          # Main home config (packages, imports)
   programs/
-    bat.nix            # bat config (HM native module)
-    ghostty.nix        # Ghostty terminal (xdg.configFile)
-    kitty.nix          # Kitty terminal (xdg.configFile)
-    lazygit.nix        # Lazygit TUI (HM native module)
-    neovim.nix         # Neovim config (xdg.configFile, recursive)
-    niri.nix           # Niri compositor (xdg.configFile, Linux only)
-    starship.nix       # Starship prompt (HM native module)
-    tmux.nix           # Tmux (HM native module)
-    waybar.nix         # Waybar (xdg.configFile, Linux only)
-    yazi.nix           # Yazi file manager (HM native module)
-    zellij.nix         # Zellij multiplexer (xdg.configFile)
-    zoxide.nix         # Zoxide (HM native module)
-    zsh.nix            # Zsh shell (HM native module)
+    bat.nix            # bat config
+    ghostty.nix        # Ghostty terminal
+    kitty.nix          # Kitty terminal (config + theme inlined)
+    lazygit.nix        # Lazygit TUI
+    neovim.nix         # Neovim config (all lua inlined via xdg.configFile.*.text)
+    niri.nix           # Niri compositor (Linux only, inlined)
+    starship.nix       # Starship prompt
+    tmux.nix           # Tmux
+    waybar.nix         # Waybar (Linux only, inlined)
+    yazi.nix           # Yazi file manager
+    zellij.nix         # Zellij multiplexer (config + layout inlined)
+    zoxide.nix         # Zoxide
+    zsh.nix            # Zsh shell
+    nixvim/            # NixVim config (alternative nvim setup)
 ```
 
-### Raw Config Sources
-Original config files are still in stow-style directories and referenced by Home Manager:
-- `ghostty/.config/ghostty/` - Ghostty config (inlined in nix)
-- `kitty/.config/kitty/` - Kitty configs (sourced by HM)
-- `nvim/.config/nvim/` - Full Neovim config with lazy.nvim
-- `zellij/.config/zellij/` - Zellij config and layouts
-- `niri/.config/niri/` - Niri compositor config
-- `waybar/.config/waybar/` - Waybar config and styles
-
-### Neovim Plugin Structure
-Plugins are in `nvim/.config/nvim/lua/plugins/`:
-- `languages.lua` - LSP and language support
-- `fzf.lua` - Fuzzy finding
-- `navigation.lua` - File/buffer navigation
-- `git.lua` - Git integration
-- `which-key.lua` - Keymaps and Zellij integration
+All program configurations are fully inlined in their .nix files using `xdg.configFile.*.text`.
 
 ### Environment
 - Editor: nvim
 - Shell: zsh with starship prompt
+- Keyboard layout: Colemak (m/n/e/i for vim-like navigation)
 - Tmux prefix: `C-Space`
+- Zellij default mode: locked (`Ctrl+Space` to toggle)
