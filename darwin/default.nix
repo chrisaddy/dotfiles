@@ -11,8 +11,11 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable nix-daemon
-  services.nix-daemon.enable = true;
+  # Declare the primary user
+  users.users.chrisaddy = {
+    name = "chrisaddy";
+    home = "/Users/chrisaddy";
+  };
 
   # Set system state version
   system.stateVersion = 6;

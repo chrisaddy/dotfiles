@@ -1,10 +1,14 @@
 {
-  description = "Home Manager configuration";
+  description = "Home Manager and nix-darwin configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
@@ -13,7 +17,7 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixvim, ... }:
+  outputs = { nixpkgs, home-manager, nix-darwin, nixvim, ... }:
     let
       forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       mkHome = system: username: home-manager.lib.homeManagerConfiguration {
@@ -31,6 +35,24 @@
       };
     in
     {
+      darwinConfigurations."olympus-2" = nix-darwin.lib.darwinSystem {
+        modules = [
+          ./darwin
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.chrisaddy = import ./home;
+            home-manager.extraSpecialArgs = {
+              username = "chrisaddy";
+            };
+            home-manager.sharedModules = [
+              nixvim.homeManagerModules.nixvim
+            ];
+          }
+        ];
+      };
+
       homeConfigurations = let
         darwinHome = mkHome "aarch64-darwin" "chrisaddy";
         linuxHome = mkHome "x86_64-linux" "chrisaddy";

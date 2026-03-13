@@ -45,15 +45,16 @@ keybinds {
         bind "Ctrl Space" { SwitchToMode "Normal"; }
         bind "Ctrl m" { MoveFocus "Left"; SwitchToMode "Locked"; }
         bind "Ctrl n" { MoveFocus "Down"; SwitchToMode "Locked"; }
-        bind "Ctrl e" MoveFocus "Up"; SwitchToMode "Locked"; }
-        bind "Ctrl I" { MoveFocus "Right"; SwitchToMode "Locked"; }
+        bind "Ctrl e" { MoveFocus "Up"; SwitchToMode "Locked"; }
+        bind "Ctrl i" { MoveFocus "Right"; SwitchToMode "Locked"; }
+        bind "Esc [105;5u" { MoveFocus "Right"; SwitchToMode "Locked"; }
     }
 
     move {
-        bind "h" { MovePane "Left"; SwitchToMode "Locked"; }
-        bind "j" { MovePane "Down"; SwitchToMode "Locked"; }
-        bind "k" { MovePane "Up"; SwitchToMode "Locked"; }
-        bind "l" { MovePane "Right"; SwitchToMode "Locked"; }
+        bind "m" { MovePane "Left"; SwitchToMode "Locked"; }
+        bind "n" { MovePane "Down"; SwitchToMode "Locked"; }
+        bind "e" { MovePane "Up"; SwitchToMode "Locked"; }
+        bind "i" { MovePane "Right"; SwitchToMode "Locked"; }
     }
 
     pane {

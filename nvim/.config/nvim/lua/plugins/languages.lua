@@ -1,1 +1,0 @@
-/nix/store/zck8s5vps05qq6p6vlzh9bdk49q7v56y-home-manager-files/.config/nvim/lua/plugins/languages.lua
