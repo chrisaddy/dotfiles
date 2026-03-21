@@ -16,14 +16,9 @@
         bash
         c
         dockerfile
-        go
-        gomod
-        gosum
         html
         json
-        jsonc
         just
-        lua
         markdown
         markdown_inline
         nix
