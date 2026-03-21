@@ -18,7 +18,6 @@
     ./plugins/dashboard.nix
     ./plugins/notes.nix
     ./plugins/rust.nix
-    ./plugins/lean.nix
   ];
 
   programs.nixvim = {

@@ -11,7 +11,40 @@
         };
         indent.enable = true;
       };
-      grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+      grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        # languages
+        bash
+        c
+        dockerfile
+        go
+        gomod
+        gosum
+        html
+        json
+        jsonc
+        just
+        lua
+        markdown
+        markdown_inline
+        nix
+        python
+        rust
+        sql
+        yaml
+
+        # foundational / support
+        comment
+        diff
+        git_config
+        git_rebase
+        gitcommit
+        gitignore
+        query
+        regex
+        toml
+        vim
+        vimdoc
+      ];
     };
   };
 }
