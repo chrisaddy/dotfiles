@@ -26,7 +26,7 @@
           config.allowUnfree = true;
         };
         modules = [
-          nixvim.homeManagerModules.nixvim
+          nixvim.homeModules.nixvim
           ./home
         ];
         extraSpecialArgs = {
@@ -47,7 +47,7 @@
               username = "chrisaddy";
             };
             home-manager.sharedModules = [
-              nixvim.homeManagerModules.nixvim
+              nixvim.homeModules.nixvim
             ];
           }
         ];

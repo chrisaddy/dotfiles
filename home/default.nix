@@ -105,6 +105,14 @@ in
     SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
   };
 
+  programs.git = {
+    enable = true;
+    settings.user = {
+      name = "chrisaddy";
+      email = "chris.william.addy@gmail.com";
+    };
+  };
+
   programs.home-manager.enable = true;
 
   xdg.enable = true;
