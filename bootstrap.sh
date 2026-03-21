@@ -18,13 +18,21 @@ else
   echo "==> Nix installed: $(nix --version)"
 fi
 
-# --- Enable flakes ---
+# --- Enable flakes (user config) ---
 mkdir -p ~/.config/nix
 if ! grep -q "experimental-features" ~/.config/nix/nix.conf 2>/dev/null; then
   echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
-  echo "==> Enabled flakes"
+  echo "==> Enabled flakes (user)"
 else
-  echo "==> Flakes already enabled"
+  echo "==> Flakes already enabled (user)"
+fi
+
+# --- Enable flakes (system config, needed for nix-collect-garbage etc.) ---
+if ! grep -q "experimental-features" /etc/nix/nix.conf 2>/dev/null; then
+  echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf >/dev/null
+  echo "==> Enabled flakes (system)"
+else
+  echo "==> Flakes already enabled (system)"
 fi
 
 # --- Determine platform ---
