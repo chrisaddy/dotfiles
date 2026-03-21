@@ -20,7 +20,7 @@
   outputs = { nixpkgs, home-manager, nix-darwin, nixvim, ... }:
     let
       forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
-      mkHome = system: username: home-manager.lib.homeManagerConfiguration {
+      mkHome = system: username: { headless ? false }: home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
@@ -30,7 +30,7 @@
           ./home
         ];
         extraSpecialArgs = {
-          inherit username;
+          inherit username headless;
         };
       };
     in
@@ -54,19 +54,19 @@
       };
 
       homeConfigurations = let
-        darwinHome = mkHome "aarch64-darwin" "chrisaddy";
-        linuxHome = mkHome "x86_64-linux" "chrisaddy";
+        darwinHome = mkHome "aarch64-darwin" "chrisaddy" {};
+        linuxHome = mkHome "x86_64-linux" "chrisaddy" {};
       in {
         # nh auto-detection (user@hostname)
         "chrisaddy@olympus-2" = darwinHome;
         "chrisaddy" = darwinHome;
         # Explicit platform targets
         "chrisaddy@darwin" = darwinHome;
-        "chrisaddy@darwin-x86" = mkHome "x86_64-darwin" "chrisaddy";
+        "chrisaddy@darwin-x86" = mkHome "x86_64-darwin" "chrisaddy" {};
         "chrisaddy@linux" = linuxHome;
-        "chrisaddy@linux-arm" = mkHome "aarch64-linux" "chrisaddy";
-        # exe.dev VM (use -c flag since hostname is ephemeral)
-        "exedev@linux" = mkHome "x86_64-linux" "exedev";
+        "chrisaddy@linux-arm" = mkHome "aarch64-linux" "chrisaddy" {};
+        # exe.dev VM (lightweight, headless)
+        "exedev@linux" = mkHome "x86_64-linux" "exedev" { headless = true; };
       };
     };
 }

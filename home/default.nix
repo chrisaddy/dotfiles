@@ -1,4 +1,4 @@
-{ config, pkgs, lib, username, ... }:
+{ config, pkgs, lib, username, headless ? false, ... }:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
@@ -7,15 +7,16 @@ in
 {
   imports = [
     ./programs/bat.nix
-    ./programs/ghostty.nix
     ./programs/lazygit.nix
     ./programs/nixvim
     ./programs/starship.nix
     ./programs/tmux.nix
     ./programs/yazi.nix
-    ./programs/zellij.nix
     ./programs/zoxide.nix
     ./programs/zsh.nix
+  ] ++ lib.optionals (!headless) [
+    ./programs/zellij.nix
+    ./programs/ghostty.nix
     ./programs/niri.nix
     ./programs/waybar.nix
   ];
@@ -42,15 +43,10 @@ in
       # Development
       git
       claude-code
-      codex
       lazygit
       delta
       gh
-      pre-commit
-      cmake
-      ninja
       gcc
-      go
       nodejs
       sqlite
 
@@ -60,12 +56,6 @@ in
       ruff
       basedpyright
 
-      # Rust
-      rust-analyzer
-
-      # Lean
-      elan
-
       # Shell tools
       starship
       zoxide
@@ -74,17 +64,7 @@ in
       eza
       gum
       just
-      stow
       direnv
-
-      # Media
-      ffmpeg
-
-      # Cloud
-      awscli2
-
-      # Data
-      duckdb
 
       # Nix
       nh
@@ -92,10 +72,23 @@ in
 
       # Terminal
       tmux
-      zellij
       yazi
-    ] ++ lib.optionals isLinux [
-      # Linux-only
+    ] ++ lib.optionals (!headless) [
+      # Full dev environment extras
+      codex
+      pre-commit
+      cmake
+      ninja
+      go
+      rust-analyzer
+      elan
+      stow
+      awscli2
+      duckdb
+      ffmpeg
+      zellij
+    ] ++ lib.optionals (isLinux && !headless) [
+      # Linux desktop only
       nyxt
     ];
   };

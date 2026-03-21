@@ -1,11 +1,10 @@
-{ ... }:
+{ lib, headless ? false, ... }:
 
 {
   imports = [
     ./options.nix
     ./keymaps.nix
     ./plugins/colorscheme.nix
-    ./plugins/dashboard.nix
     ./plugins/fzf.nix
     ./plugins/git.nix
     ./plugins/lsp.nix
@@ -14,10 +13,12 @@
     ./plugins/treesitter.nix
     ./plugins/trouble.nix
     ./plugins/navigation.nix
+    ./plugins/which-key.nix
+  ] ++ lib.optionals (!headless) [
+    ./plugins/dashboard.nix
     ./plugins/notes.nix
     ./plugins/rust.nix
     ./plugins/lean.nix
-    ./plugins/which-key.nix
   ];
 
   programs.nixvim = {
