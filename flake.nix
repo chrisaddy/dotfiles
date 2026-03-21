@@ -65,7 +65,7 @@
         "chrisaddy@darwin-x86" = mkHome "x86_64-darwin" "chrisaddy";
         "chrisaddy@linux" = linuxHome;
         "chrisaddy@linux-arm" = mkHome "aarch64-linux" "chrisaddy";
-        # exe.dev VM
+        # exe.dev VM (use -c flag since hostname is ephemeral)
         "exedev@linux" = mkHome "x86_64-linux" "exedev";
       };
     };

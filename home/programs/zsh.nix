@@ -10,7 +10,7 @@
 
     shellAliases = {
       vim = "nvim";
-      update = "pushd $HOME/dotfiles && nh home switch . && nh clean all; popd";
+      update = "pushd $HOME/dotfiles && nh home switch . -c $(whoami)@$(if [ $(uname) = Darwin ]; then echo darwin; else echo linux; fi) && nh clean all; popd";
     };
 
     initContent = ''
