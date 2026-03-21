@@ -26,5 +26,7 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+
+    plugins.web-devicons.enable = true;
   };
 }
