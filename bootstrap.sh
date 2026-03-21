@@ -50,4 +50,17 @@ echo "==> Activating home-manager for '${FLAKE_TARGET}' (${SYSTEM})"
 cd "${DOTFILES_DIR}"
 nix run home-manager -- switch --flake ".#${FLAKE_TARGET}"
 
+# --- Set zsh as default shell ---
+NIX_ZSH="$(which zsh 2>/dev/null || echo "")"
+if [ -n "${NIX_ZSH}" ] && [ "$(basename "${SHELL}")" != "zsh" ]; then
+  echo "==> Setting zsh as default shell (${NIX_ZSH})"
+  if ! grep -qF "${NIX_ZSH}" /etc/shells 2>/dev/null; then
+    echo "${NIX_ZSH}" | sudo tee -a /etc/shells >/dev/null
+  fi
+  sudo chsh -s "${NIX_ZSH}" "${USERNAME}"
+  echo "==> Default shell changed to zsh"
+else
+  echo "==> Shell already set to zsh"
+fi
+
 echo "==> Done! Open a new shell to pick up all changes."
