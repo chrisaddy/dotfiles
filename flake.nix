@@ -45,6 +45,7 @@
             home-manager.users.chrisaddy = import ./home;
             home-manager.extraSpecialArgs = {
               username = "chrisaddy";
+              headless = false;
             };
             home-manager.sharedModules = [
               nixvim.homeModules.nixvim

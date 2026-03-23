@@ -10,6 +10,8 @@
 
     shellAliases = {
       vim = "nvim";
+      ls = "exa -la";
+      ccc = "claude --dangerously-skip-permissions";
       update = "pushd $HOME/dotfiles && nh home switch . -c $(whoami)@$(if [ $(uname) = Darwin ]; then echo darwin; else echo linux; fi) && nh clean all; popd";
     };
 

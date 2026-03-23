@@ -31,13 +31,13 @@ in
       cacert
 
       # Core tools
-      ripgrep
-      fd
-      fzf
-      jq
-      tree
       cloc
       curl
+      dust
+      fd
+      jq
+      ripgrep
+      tree
       wget
 
       # Development
@@ -76,6 +76,7 @@ in
     ] ++ lib.optionals (!headless) [
       # Full dev environment extras
       codex
+      fzf
       pre-commit
       cmake
       ninja

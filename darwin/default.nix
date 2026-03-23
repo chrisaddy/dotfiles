@@ -6,7 +6,7 @@
   ];
 
   # Auto-upgrade nix package and the daemon service
-  nix.enable = true;
+  nix.enable = false;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
