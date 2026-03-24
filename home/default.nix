@@ -65,6 +65,7 @@ in
       gum
       just
       direnv
+      sesh
 
       # Nix
       nh
@@ -101,6 +102,7 @@ in
 
   programs.git = {
     enable = true;
+    signing.format = null;
     settings.user = {
       name = "chrisaddy";
       email = "chris.william.addy@gmail.com";
