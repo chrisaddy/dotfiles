@@ -60,6 +60,9 @@
       bind Space choose-session
       bind-key R command-prompt -I "#S" "rename-session '%%'"
       bind n command-prompt "new-session -s '%%'"
+      bind-key o display-popup -E -w 40% "sesh connect \"$(
+ sesh list -i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡'
+)\""
 
       # Status bar
       set -g status-position top
