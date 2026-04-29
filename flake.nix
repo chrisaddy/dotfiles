@@ -35,7 +35,7 @@
       };
     in
     {
-      darwinConfigurations."olympus-2" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."olympus-3" = nix-darwin.lib.darwinSystem {
         modules = [
           ./darwin
           home-manager.darwinModules.home-manager
@@ -59,7 +59,7 @@
         linuxHome = mkHome "x86_64-linux" "chrisaddy" {};
       in {
         # nh auto-detection (user@hostname)
-        "chrisaddy@olympus-2" = darwinHome;
+        "chrisaddy@olympus-3" = darwinHome;
         "chrisaddy" = darwinHome;
         # Explicit platform targets
         "chrisaddy@darwin" = darwinHome;

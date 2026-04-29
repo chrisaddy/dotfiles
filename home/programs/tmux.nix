@@ -41,6 +41,10 @@
       unbind '"'
       unbind %
 
+      # navigate windows
+      bind l next-window
+      bind h last-window
+
       # Navigate panes with vim-style keys
       bind -n C-h select-pane -L
       bind -n C-j select-pane -D

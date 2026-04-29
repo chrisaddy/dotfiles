@@ -11,7 +11,7 @@ Personal dotfiles repository for Arch Linux and macOS, managed with Nix Home Man
 ### nix-darwin (macOS system config)
 ```bash
 # Build and activate (requires sudo)
-sudo darwin-rebuild switch --flake ~/dotfiles#olympus-2
+sudo darwin-rebuild switch --flake ~/dotfiles#olympus-3
 
 # Or via nh
 sudo nh darwin switch ~/dotfiles
@@ -42,7 +42,6 @@ home/
     bat.nix            # bat config
     ghostty.nix        # Ghostty terminal
     lazygit.nix        # Lazygit TUI
-    neovim.nix         # Neovim config (all lua inlined via xdg.configFile.*.text)
     niri.nix           # Niri compositor (Linux only, inlined)
     starship.nix       # Starship prompt
     tmux.nix           # Tmux

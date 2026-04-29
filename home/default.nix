@@ -8,6 +8,7 @@ in
   imports = [
     ./programs/bat.nix
     ./programs/lazygit.nix
+    ./programs/helix.nix
     ./programs/nixvim
     ./programs/starship.nix
     ./programs/tmux.nix
@@ -67,6 +68,9 @@ in
       direnv
       sesh
 
+      # Rust
+      cargo-clean-recursive
+
       # Nix
       nh
       devenv
@@ -76,6 +80,7 @@ in
       yazi
     ] ++ lib.optionals (!headless) [
       # Full dev environment extras
+      anki
       codex
       fzf
       pre-commit
@@ -86,6 +91,7 @@ in
       elan
       stow
       awscli2
+      google-cloud-sdk
       duckdb
       ffmpeg
       zellij
