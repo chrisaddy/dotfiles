@@ -3,6 +3,21 @@
 let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
+  pi-coding-agent = pkgs.buildNpmPackage {
+    pname = "pi-coding-agent";
+    version = "0.72.1";
+    src = pkgs.fetchurl {
+      url = "https://registry.npmjs.org/@mariozechner/pi-coding-agent/-/pi-coding-agent-0.72.1.tgz";
+      hash = "sha256-lyvT1SyvfsQe2a5m71Hf+awOo7CPVNRwvSf3TCcWeUY=";
+      name = "pi-coding-agent-0.72.1.tgz";
+    };
+    sourceRoot = "package";
+    postPatch = ''
+      cp ${./packages/pi-coding-agent-package-lock.json} package-lock.json
+    '';
+    npmDepsHash = "sha256-4yl8bTUVZjJni9jPf/CbUNWfI+rQJBRcTvX7U4SH+EM=";
+    dontNpmBuild = true;
+  };
 in
 {
   imports = [
@@ -44,6 +59,7 @@ in
       # Development
       git
       claude-code
+      pi-coding-agent
       lazygit
       delta
       gh
