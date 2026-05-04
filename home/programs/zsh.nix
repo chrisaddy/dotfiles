@@ -52,6 +52,8 @@
         echo "✅ Setup complete! Connecting to $vm_name..."
         echo ""
         ssh "$vm_name.exe.xyz"
+
+	source $HOME/.secrets
       }
     '';
   };

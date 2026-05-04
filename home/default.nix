@@ -3,7 +3,7 @@
 let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
-  pi-coding-agent = pkgs.buildNpmPackage {
+  pi-coding-agent-unwrapped = pkgs.buildNpmPackage {
     pname = "pi-coding-agent";
     version = "0.72.1";
     src = pkgs.fetchurl {
@@ -17,6 +17,17 @@ let
     '';
     npmDepsHash = "sha256-4yl8bTUVZjJni9jPf/CbUNWfI+rQJBRcTvX7U4SH+EM=";
     dontNpmBuild = true;
+  };
+  pi-coding-agent = pkgs.symlinkJoin {
+    name = "pi-coding-agent-wrapped";
+    paths = [ pi-coding-agent-unwrapped ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/pi \
+        --run 'export NPM_CONFIG_PREFIX="$HOME/.npm-global"' \
+        --run 'mkdir -p "$HOME/.npm-global"' \
+        --run 'export PATH="$HOME/.npm-global/bin:$PATH"'
+    '';
   };
 in
 {
