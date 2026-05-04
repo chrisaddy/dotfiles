@@ -25,6 +25,7 @@
 
       # Enable focus events for vim/neovim
       set -g focus-events on
+      set -g extended-keys on
 
       set -g clock-mode-style 24
       set -g set-clipboard on
