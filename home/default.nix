@@ -101,6 +101,7 @@ in
       # Nix
       nh
       devenv
+      secretspec
 
       # Terminal
       tmux
