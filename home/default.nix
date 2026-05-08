@@ -108,8 +108,7 @@ in
       yazi
     ] ++ lib.optionals (!headless) [
       # Full dev environment extras
-      anki
-      codex
+codex
       fzf
       pre-commit
       cmake
