@@ -23,9 +23,9 @@
       };
       keys = {
         normal = {
-          space = {
-            z = ":w";
-          };
+          # space = {
+          #   z = ":w";
+          # };
           Z = {
             Z = ":write-quit-all!";
           };
