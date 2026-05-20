@@ -10,12 +10,12 @@
         insert = "bar";
         select = "underline";
       };
-    };
-    # languages.language = [{
-    #   name = "nix";
-    #   auto-format = true;
-    #   formatter.command = "${pkgs.nixfmt}/bin/nixfmt";
-    # }];
+    languages.language = [{
+    name = "nix";
+    auto-format = true;
+    formatter.command = "${pkgs.nixfmt}/bin/nixfmt";
+    }
+    ];
     # themes = {
     #   autumn_night_transparent = {
     #     "inherits" = "autumn_night";
@@ -23,4 +23,5 @@
     #   };
     # };
   };
+};
 }
