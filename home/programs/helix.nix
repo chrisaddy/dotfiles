@@ -10,10 +10,11 @@
         insert = "bar";
         select = "underline";
       };
+		};
     languages.language = [{
     name = "nix";
     auto-format = true;
-    formatter.command = "${pkgs.nixfmt}/bin/nixfmt";
+    formatter.command = "${pkgs.alejandra}/bin/alejandra";
     }
     ];
     # themes = {
@@ -22,6 +23,5 @@
     #     "ui.background" = { };
     #   };
     # };
-  };
 };
 }
