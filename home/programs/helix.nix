@@ -5,23 +5,42 @@
     enable = true;
     settings = {
       theme = "catppuccin_macchiato";
-      editor.cursor-shape = {
-        normal = "block";
-        insert = "bar";
-        select = "underline";
+      line-number = "relative";
+      editor = {
+        cursor-shape = {
+          normal = "block";
+          insert = "bar";
+          select = "underline";
+        };
+        indent-guides = {
+          render = true;
+          character = "┊";
+          skip-levels = 1;
+        };
       };
-		};
-    languages.language = [{
-    name = "nix";
-    auto-format = true;
-    formatter.command = "${pkgs.alejandra}/bin/alejandra";
-    }
+      lsp = {
+        enable = true;
+        auto-signature-help = true;
+        display-message = true;
+      };
+    };
+    languages.language = [
+      {
+        name = "nix";
+        auto-format = true;
+        formatter.command = "${pkgs.alejandra}/bin/alejandra";
+      }
+      {
+        name = "rust";
+        auto-format = true;
+        roots = [
+          "Cargo.lock"
+          "Cargo.toml"
+        ];
+        formatter = {
+          command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+        };
+      }
     ];
-    # themes = {
-    #   autumn_night_transparent = {
-    #     "inherits" = "autumn_night";
-    #     "ui.background" = { };
-    #   };
-    # };
-};
+  };
 }
