@@ -15,11 +15,11 @@
           character = "┊";
           skip-levels = 1;
         };
-      };
-      lsp = {
-        enable = true;
-        auto-signature-help = true;
-        display-message = true;
+        lsp = {
+          enable = true;
+          auto-signature-help = true;
+          display-message = true;
+        };
       };
     };
     languages.language = [
