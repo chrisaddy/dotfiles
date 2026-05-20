@@ -96,6 +96,8 @@ in
       sesh
 
       # Rust
+      cargo
+      rustc
       cargo-clean-recursive
 
       # Nix
