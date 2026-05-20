@@ -21,6 +21,13 @@
           display-messages = true;
         };
       };
+      keys = {
+        normal = {
+          "Z" = {
+            "Z" = "write-quit-all!";
+          };
+        };
+      };
     };
     languages.language = [
       {
