@@ -1,12 +1,10 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.helix = {
     enable = true;
     settings = {
       theme = "catppuccin_macchiato";
-      line-number = "relative";
       editor = {
+        line-number = "relative";
         cursor-shape = {
           normal = "block";
           insert = "bar";
