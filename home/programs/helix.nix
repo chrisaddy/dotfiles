@@ -18,7 +18,7 @@
         lsp = {
           enable = true;
           auto-signature-help = true;
-          display-message = true;
+          display-messages = true;
         };
       };
     };
