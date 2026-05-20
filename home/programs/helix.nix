@@ -24,7 +24,7 @@
       keys = {
         normal = {
           "Z" = {
-            "Z" = "write-quit-all!";
+            "Z" = ":write-quit-all!";
           };
         };
       };
