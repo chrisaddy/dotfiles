@@ -59,6 +59,6 @@ Headless mode (used for `exedev@linux`) strips graphical programs (Ghostty, Niri
 All program configurations are fully inlined in their .nix files using `xdg.configFile.*.text`.
 
 ### Environment
-- Editor: nvim
+- Editor: hx (helix)
 - Shell: zsh with starship prompt
 - Tmux prefix: `C-Space`

@@ -7,7 +7,7 @@
     enableCompletion = true;
 
     shellAliases = {
-      vim = "nvim";
+      vim = "hx";
       ls = "exa -la";
       lss = "yazi";
       ccc = "claude --dangerously-skip-permissions";
