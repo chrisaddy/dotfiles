@@ -23,32 +23,73 @@
       };
       keys = {
         normal = {
-          # space = {
-          #   z = ":w";
-          # };
+          space = {
+            z = ":w";
+          };
           Z = {
             Z = ":write-quit-all!";
           };
         };
       };
     };
-    languages.language = [
-      {
-        name = "nix";
-        auto-format = true;
-        formatter.command = "${pkgs.alejandra}/bin/alejandra";
-      }
-      {
-        name = "rust";
-        auto-format = true;
-        roots = [
-          "Cargo.lock"
-          "Cargo.toml"
-        ];
-        formatter = {
-          command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+    languages = {
+      language-server = {
+        nil = {
+          command = "${pkgs.nil}/bin/nil";
         };
-      }
-    ];
+        rust-analyzer = {
+          command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+          config = {
+            check.command = "clippy";
+          };
+        };
+        vscode-langservers-extracted = {
+          command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
+          args = ["--stdio"];
+        };
+        marksman = {
+          command = "${pkgs.marksman}/bin/marksman";
+          args = ["server"];
+        };
+      };
+      language = [
+        {
+          name = "nix";
+          language-servers = ["nil"];
+          auto-format = true;
+          formatter.command = "${pkgs.alejandra}/bin/alejandra";
+        }
+        {
+          name = "rust";
+          language-servers = ["rust-analyzer"];
+          auto-format = true;
+          roots = [
+            "Cargo.lock"
+            "Cargo.toml"
+          ];
+          formatter = {
+            command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+          };
+        }
+        {
+          name = "python";
+          language-servers = ["ruff"];
+          formatter = {
+            command = "${pkgs.ruff}/bin/ruff";
+            args = ["check" "fix"];
+          };
+        }
+        {
+          name = "json";
+          auto-format = true;
+          language-servers = ["vscode-langservers-extracted"];
+        }
+        {
+          name = "markdown";
+          auto-format = true;
+          language-servers = ["marksman"];
+        }
+      ];
+    };
   };
 }
