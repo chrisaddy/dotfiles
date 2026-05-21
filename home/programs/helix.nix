@@ -30,6 +30,13 @@
             l = {
               g = [":new" ":insert-output ${pkgs.lazygit}/bin/lazygit" ":buffer-close!" ":redraw"];
             };
+            o = [
+              ":sh rm -f /tmp/unique-file"
+              ":insert-output ${pkgs.yazi}/bin/yazi \"%{buffer_name}\" --chooser-file=/tmp/unique-file"
+              ":sh printf \"\x1b\[?1049h\x1b\[?2004h\" > /dev/tty"
+              ":open %sh{cat /tmp/unique-file}"
+              ":redraw'"
+            ];
             z = ":w";
           };
           Z = {
