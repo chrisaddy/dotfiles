@@ -39,7 +39,6 @@ in {
       ./programs/bat.nix
       ./programs/lazygit.nix
       ./programs/helix.nix
-      # ./programs/nixvim
       ./programs/starship.nix
       ./programs/tmux.nix
       ./programs/yazi.nix
@@ -47,7 +46,6 @@ in {
       ./programs/zsh.nix
     ]
     ++ lib.optionals (!headless) [
-      ./programs/zellij.nix
       ./programs/ghostty.nix
       ./programs/niri.nix
       ./programs/waybar.nix
@@ -128,18 +126,15 @@ in {
         # Full dev environment extras
         codex
         fzf
-        pre-commit
         cmake
         ninja
         go
         rust-analyzer
         elan
-        stow
         awscli2
         google-cloud-sdk
         duckdb
         ffmpeg
-        zellij
       ]
       ++ lib.optionals (isLinux && !headless) [
         # Linux desktop only

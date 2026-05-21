@@ -44,28 +44,8 @@ home/
     tmux.nix              # Terminal multiplexer
     waybar.nix            # Status bar (Linux)
     yazi.nix              # Terminal file manager
-    zellij.nix            # Terminal workspace
     zoxide.nix            # Smart cd
     zsh.nix               # Shell, aliases, functions
-    nixvim/               # Neovim via Nix
-      default.nix
-      options.nix         # Editor settings
-      keymaps.nix         # LSP keybindings
-      plugins/
-        colorscheme.nix   # Rose Pine Moon
-        completion.nix    # Autopairs, mini.completion
-        conform.nix       # Format on save
-        dashboard.nix     # Startup screen
-        fzf.nix           # Fuzzy finder
-        git.nix           # Neogit
-        lean.nix          # Lean theorem prover
-        lsp.nix           # Language servers
-        navigation.nix    # Oil, Aerial, Undotree
-        notes.nix         # Telekasten wiki
-        rust.nix          # Rustaceanvim
-        treesitter.nix    # Syntax highlighting
-        trouble.nix       # Diagnostics
-        which-key.nix     # Keymap discovery
 ```
 
 ## Targets
@@ -78,7 +58,7 @@ home/
 | `chrisaddy@linux-arm` | Linux aarch64 | ARM boards |
 | `exedev@linux` | Linux x86_64 | Headless VMs (minimal) |
 
-Headless mode strips graphical programs (Ghostty, Zellij, Niri, Waybar) and heavy Neovim plugins (dashboard, notes, Rust).
+Headless mode strips graphical programs (Ghostty, Niri, Waybar) and heavy Neovim plugins (dashboard, notes, Rust).
 
 ## Design Decisions
 
@@ -91,15 +71,12 @@ m n e i  (Colemak)
 h j k l  (QWERTY equivalent)
 ```
 
-This applies to Zellij pane navigation, resize bindings, and Niri window management. Tmux and Neovim use standard hjkl since Vi mode handles this at the keymap level.
-
 ### Theme
 
 Rose Pine Moon everywhere:
 
 - **Neovim** --- rose-pine moon colorscheme
 - **Tmux** --- Catppuccin-style status bar (`#1e1e2e` bg)
-- **Zellij** --- rose-pine-moon palette
 - **Ghostty** --- Rose Pine Moon
 - **Lazygit** --- Tokyonight variant
 - **Starship** --- Coordinated hex colors
@@ -113,8 +90,6 @@ Tmux is the primary multiplexer. Prefix is `C-Space`.
 - `C-h/j/k/l` navigate panes (no prefix)
 - `o` opens sesh session picker via gum
 - `Space` choose session
-
-Zellij is available as an alternative, defaulting to locked mode (`Ctrl+Space` to unlock).
 
 ### Neovim
 
@@ -154,8 +129,7 @@ Notable aliases:
 
 **Shell:** starship, zoxide, carapace, bat, eza, gum, just, direnv, sesh
 
-**Desktop (non-headless):** anki, codex, fzf, pre-commit, cmake, ninja, go, rust-analyzer, elan, stow, awscli2, google-cloud-sdk, duckdb, ffmpeg, zellij
-
+**Desktop (non-headless):** anki, codex, fzf, pre-commit, cmake, ninja, go, rust-analyzer, elan, stow, awscli2, google-cloud-sdk, duckdb, ffmpeg
 **Linux desktop:** nyxt
 
 </details>
