@@ -52,6 +52,7 @@
         echo ""
         ssh "$vm_name.exe.xyz"
 
+        eval "$(devenv hook zsh)"
         source $HOME/.secrets
       }
     '';
