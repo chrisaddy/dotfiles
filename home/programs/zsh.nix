@@ -9,6 +9,7 @@
     shellAliases = {
       vim = "nvim";
       ls = "exa -la";
+      lss = "yazi";
       ccc = "claude --dangerously-skip-permissions";
       update = "pushd $HOME/dotfiles && git pull && nh home switch . -c $(whoami)@$(if [ $(uname) = Darwin ]; then echo darwin; else echo linux; fi) && nh clean all && git add -A && git commit -m 'update' && git push; popd";
     };
