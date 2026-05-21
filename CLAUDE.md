@@ -34,30 +34,31 @@ nix build '.#homeConfigurations.chrisaddy@darwin.activationPackage' --dry-run
 ### Flake Structure
 ```
 flake.nix              # Flake with home-manager + nix-darwin inputs
+bootstrap.sh           # Zero-to-configured setup script
 darwin/
   default.nix          # nix-darwin system config (system packages, platform)
 home/
-  default.nix          # Main home config (packages, imports)
+  default.nix          # Main home config (packages, imports, custom derivations)
+  packages/            # Vendored lockfiles for npm packages
   programs/
     bat.nix            # bat config
-    ghostty.nix        # Ghostty terminal
+    ghostty.nix        # Ghostty terminal (non-headless only)
+    helix.nix          # Helix editor
     lazygit.nix        # Lazygit TUI
-    niri.nix           # Niri compositor (Linux only, inlined)
+    niri.nix           # Niri compositor (Linux only)
     starship.nix       # Starship prompt
     tmux.nix           # Tmux
-    waybar.nix         # Waybar (Linux only, inlined)
+    waybar.nix         # Waybar (Linux only)
     yazi.nix           # Yazi file manager
-    zellij.nix         # Zellij multiplexer (config + layout inlined)
     zoxide.nix         # Zoxide
     zsh.nix            # Zsh shell
-    nixvim/            # NixVim config (alternative nvim setup)
 ```
+
+Headless mode (used for `exedev@linux`) strips graphical programs (Ghostty, Niri, Waybar) and heavy dev tools.
 
 All program configurations are fully inlined in their .nix files using `xdg.configFile.*.text`.
 
 ### Environment
 - Editor: nvim
 - Shell: zsh with starship prompt
-- Keyboard layout: Colemak (m/n/e/i for vim-like navigation)
 - Tmux prefix: `C-Space`
-- Zellij default mode: locked (`Ctrl+Space` to toggle)
