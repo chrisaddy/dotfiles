@@ -1,11 +1,14 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.ghostty = {
     enable = pkgs.stdenv.isLinux;
     settings = {
       font-size = 20;
-      theme = "Rose Pine Moon";
+      theme = "Catppuccin Machiato";
       cursor-style = "block";
       shell-integration = "zsh";
       shell-integration-features = "cursor,no-title";

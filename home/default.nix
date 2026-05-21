@@ -74,7 +74,6 @@ in
       lazygit
       delta
       gh
-      gcc
       nodejs
       sqlite
 
@@ -110,6 +109,9 @@ in
       yazi
     ] ++ lib.optionals isDarwin [
       libiconv
+      clang
+    ] ++ lib.optionals isLinux [
+      gcc
     ] ++ lib.optionals (!headless) [
       # Full dev environment extras
 codex
