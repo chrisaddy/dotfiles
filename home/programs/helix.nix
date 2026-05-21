@@ -28,7 +28,7 @@
         normal = {
           space = {
             l = {
-              g = [":new" ":insert-output lazygit" ":buffer-close!" ":redraw"];
+              g = [":new" ":insert-output ${pkgs.lazygit}/bin/lazygit" ":buffer-close!" ":redraw"];
             };
             z = ":w";
           };
