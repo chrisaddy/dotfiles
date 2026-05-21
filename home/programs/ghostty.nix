@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   programs.ghostty = {
     enable = pkgs.stdenv.isLinux;
     settings = {

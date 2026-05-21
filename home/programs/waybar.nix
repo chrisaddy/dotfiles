@@ -1,6 +1,8 @@
-{ config, pkgs, lib, ... }:
-
 {
+  pkgs,
+  lib,
+  ...
+}: {
   xdg.configFile."waybar/config.jsonc" = lib.mkIf pkgs.stdenv.isLinux {
     text = ''
       {
