@@ -1,8 +1,7 @@
 { pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    devenv
+  environment.systemPackages = [
   ];
 
   # Auto-upgrade nix package and the daemon service
