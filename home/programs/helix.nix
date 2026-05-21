@@ -35,7 +35,7 @@
               ":insert-output ${pkgs.yazi}/bin/yazi \"%{buffer_name}\" --chooser-file=/tmp/unique-file"
               ":sh printf \"\x1b\[?1049h\x1b\[?2004h\" > /dev/tty"
               ":open %sh{cat /tmp/unique-file}"
-              ":redraw'"
+              ":redraw"
             ];
             z = ":w";
           };
