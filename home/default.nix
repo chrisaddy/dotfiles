@@ -108,6 +108,8 @@ in
       # Terminal
       tmux
       yazi
+    ] ++ lib.optionals isDarwin [
+      libiconv
     ] ++ lib.optionals (!headless) [
       # Full dev environment extras
 codex
@@ -134,6 +136,10 @@ codex
     NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
     SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
     NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+  } // lib.optionalAttrs isDarwin {
+    LIBRARY_PATH = lib.makeLibraryPath [
+      pkgs.libiconv
+    ];
   };
 
   home.sessionPath = [ "$HOME/.npm-global/bin" ];

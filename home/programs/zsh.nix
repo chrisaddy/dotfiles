@@ -1,6 +1,4 @@
-{ config, pkgs, lib, ... }:
-
-{
+{config, ...}: {
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
@@ -53,7 +51,7 @@
         echo ""
         ssh "$vm_name.exe.xyz"
 
-	source $HOME/.secrets
+        source $HOME/.secrets
       }
     '';
   };
