@@ -27,6 +27,9 @@
       keys = {
         normal = {
           space = {
+            l = {
+              g = [":new" ":insert-output lazygit" ":buffer-close!" ":redraw"];
+            };
             z = ":w";
           };
           Z = {

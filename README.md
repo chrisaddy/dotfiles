@@ -58,7 +58,7 @@ home/
 | `chrisaddy@linux-arm` | Linux aarch64 | ARM boards |
 | `exedev@linux` | Linux x86_64 | Headless VMs (minimal) |
 
-Headless mode strips graphical programs (Ghostty, Niri, Waybar) and heavy Neovim plugins (dashboard, notes, Rust).
+Headless mode strips graphical programs (Ghostty, Niri, Waybar) and heavy dev tools (codex, cmake, go, rust-analyzer, etc.).
 
 ## Design Decisions
 
@@ -113,7 +113,9 @@ Zsh with starship prompt, carapace completions, direnv, and zoxide.
 Notable aliases:
 - `vim` -> `nvim`
 - `ls` -> `exa -la`
-- `update` -> pull, rebuild, clean, commit, push (one command)
+- `lss` -> `yazi`
+- `ccc` -> `claude --dangerously-skip-permissions`
+- `update` -> pull, `nh home switch`, clean, commit, push (one command)
 - `exevm()` -> provision exe.dev VMs with dotfiles
 
 ## Packages
@@ -123,13 +125,22 @@ Notable aliases:
 
 **Core:** cloc, curl, dust, fd, jq, ripgrep, tree, wget
 
-**Dev:** git, claude-code, pi-coding-agent, lazygit, delta, gh, gcc, nodejs, sqlite
+**Dev:** git, claude-code, pi-coding-agent, lazygit, delta, gh, nodejs, sqlite
 
 **Python:** python3, uv, ruff, basedpyright
 
+**Rust:** cargo, rustc, cargo-clean-recursive
+
+**Nix:** nh, devenv, secretspec
+
 **Shell:** starship, zoxide, carapace, bat, eza, gum, just, direnv, sesh
 
-**Desktop (non-headless):** anki, codex, fzf, pre-commit, cmake, ninja, go, rust-analyzer, elan, stow, awscli2, google-cloud-sdk, duckdb, ffmpeg
+**Terminal:** tmux, yazi
+
+**Darwin-only:** libiconv, clang
+**Linux-only:** gcc
+
+**Desktop (non-headless):** codex, fzf, cmake, ninja, go, rust-analyzer, elan, awscli2, google-cloud-sdk, duckdb, ffmpeg
 **Linux desktop:** nyxt
 
 </details>
