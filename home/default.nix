@@ -1,6 +1,11 @@
-{ config, pkgs, lib, username, headless ? false, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  username,
+  headless ? false,
+  ...
+}: let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
   pi-coding-agent-unwrapped = pkgs.buildNpmPackage {
@@ -20,8 +25,8 @@ let
   };
   pi-coding-agent = pkgs.symlinkJoin {
     name = "pi-coding-agent-wrapped";
-    paths = [ pi-coding-agent-unwrapped ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
+    paths = [pi-coding-agent-unwrapped];
+    nativeBuildInputs = [pkgs.makeWrapper];
     postBuild = ''
       wrapProgram $out/bin/pi \
         --run 'export NPM_CONFIG_PREFIX="$HOME/.npm-global"' \
@@ -29,122 +34,133 @@ let
         --run 'export PATH="$HOME/.npm-global/bin:$PATH"'
     '';
   };
-in
-{
-  imports = [
-    ./programs/bat.nix
-    ./programs/lazygit.nix
-    ./programs/helix.nix
-    ./programs/nixvim
-    ./programs/starship.nix
-    ./programs/tmux.nix
-    ./programs/yazi.nix
-    ./programs/zoxide.nix
-    ./programs/zsh.nix
-  ] ++ lib.optionals (!headless) [
-    ./programs/zellij.nix
-    ./programs/ghostty.nix
-    ./programs/niri.nix
-    ./programs/waybar.nix
-  ];
+in {
+  imports =
+    [
+      ./programs/bat.nix
+      ./programs/lazygit.nix
+      ./programs/helix.nix
+      # ./programs/nixvim
+      ./programs/starship.nix
+      ./programs/tmux.nix
+      ./programs/yazi.nix
+      ./programs/zoxide.nix
+      ./programs/zsh.nix
+    ]
+    ++ lib.optionals (!headless) [
+      ./programs/zellij.nix
+      ./programs/ghostty.nix
+      ./programs/niri.nix
+      ./programs/waybar.nix
+    ];
 
   home = {
     username = username;
-    homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
+    homeDirectory =
+      if isDarwin
+      then "/Users/${username}"
+      else "/home/${username}";
     stateVersion = "24.11";
 
-    packages = with pkgs; [
-      # SSL certs (needed for nix-installed tools on macOS)
-      cacert
+    packages = with pkgs;
+      [
+        # SSL certs (needed for nix-installed tools on macOS)
+        cacert
 
-      # Core tools
-      cloc
-      curl
-      dust
-      fd
-      jq
-      ripgrep
-      tree
-      wget
+        # Core tools
+        cloc
+        curl
+        dust
+        fd
+        jq
+        ripgrep
+        tree
+        wget
 
-      # Development
-      git
-      claude-code
-      pi-coding-agent
-      lazygit
-      delta
-      gh
-      nodejs
-      sqlite
+        # Development
+        git
+        claude-code
+        pi-coding-agent
+        lazygit
+        delta
+        gh
+        nodejs
+        sqlite
 
-      # Python
-      python3
-      uv
-      ruff
-      basedpyright
+        # Python
+        python3
+        uv
+        ruff
+        basedpyright
 
-      # Shell tools
-      starship
-      zoxide
-      carapace
-      bat
-      eza
-      gum
-      just
-      direnv
-      sesh
+        # Shell tools
+        starship
+        zoxide
+        carapace
+        bat
+        eza
+        gum
+        just
+        direnv
+        sesh
 
-      # Rust
-      cargo
-      rustc
-      cargo-clean-recursive
+        # Rust
+        cargo
+        rustc
+        cargo-clean-recursive
 
-      # Nix
-      nh
-      devenv
-      secretspec
+        # Nix
+        nh
+        devenv
+        secretspec
 
-      # Terminal
-      tmux
-      yazi
-    ] ++ lib.optionals isDarwin [
-      libiconv
-      clang
-    ] ++ lib.optionals isLinux [
-      gcc
-    ] ++ lib.optionals (!headless) [
-      # Full dev environment extras
-codex
-      fzf
-      pre-commit
-      cmake
-      ninja
-      go
-      rust-analyzer
-      elan
-      stow
-      awscli2
-      google-cloud-sdk
-      duckdb
-      ffmpeg
-      zellij
-    ] ++ lib.optionals (isLinux && !headless) [
-      # Linux desktop only
-      nyxt
-    ];
+        # Terminal
+        tmux
+        yazi
+      ]
+      ++ lib.optionals isDarwin [
+        libiconv
+        clang
+      ]
+      ++ lib.optionals isLinux [
+        gcc
+      ]
+      ++ lib.optionals (!headless) [
+        # Full dev environment extras
+        codex
+        fzf
+        pre-commit
+        cmake
+        ninja
+        go
+        rust-analyzer
+        elan
+        stow
+        awscli2
+        google-cloud-sdk
+        duckdb
+        ffmpeg
+        zellij
+      ]
+      ++ lib.optionals (isLinux && !headless) [
+        # Linux desktop only
+        nyxt
+      ];
   };
 
-  home.sessionVariables = {
-    NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-    SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-    NPM_CONFIG_PREFIX = "$HOME/.npm-global";
-  } // lib.optionalAttrs isDarwin {
-    LIBRARY_PATH = lib.makeLibraryPath [
-      pkgs.libiconv
-    ];
-  };
+  home.sessionVariables =
+    {
+      NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+    }
+    // lib.optionalAttrs isDarwin {
+      LIBRARY_PATH = lib.makeLibraryPath [
+        pkgs.libiconv
+      ];
+    };
 
-  home.sessionPath = [ "$HOME/.npm-global/bin" ];
+  home.sessionPath = ["$HOME/.npm-global/bin"];
 
   programs.git = {
     enable = true;

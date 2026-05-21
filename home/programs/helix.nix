@@ -10,6 +10,9 @@
           insert = "bar";
           select = "underline";
         };
+        inline-diagnostics = {
+          cursor-line = "warning";
+        };
         indent-guides = {
           render = true;
           character = "┊";
