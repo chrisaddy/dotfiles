@@ -19,6 +19,11 @@ in {
       mgr = {
         ratio = [0 4 3];
       };
+      opener = {
+        edit = [
+          {run = ''hx "$@"''; block = true;}
+        ];
+      };
     };
   };
 
