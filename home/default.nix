@@ -106,6 +106,7 @@ in {
         ninja
         go
         rust-analyzer
+        marksman
         elan
         awscli2
         google-cloud-sdk
