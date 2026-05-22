@@ -79,7 +79,7 @@
           language-servers = ["ruff"];
           formatter = {
             command = "${pkgs.ruff}/bin/ruff";
-            args = ["check" "fix"];
+            args = ["format"];
           };
         }
         {
