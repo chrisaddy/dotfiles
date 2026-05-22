@@ -13,6 +13,10 @@
         inline-diagnostics = {
           cursor-line = "warning";
         };
+        vscode-langservers-extracted = {
+          command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
+          args = ["--stdio"];
+        };
         indent-guides = {
           render = true;
           character = "┊";
@@ -81,6 +85,7 @@
         {
           name = "json";
           auto-format = true;
+          language-servers = ["vscode-langservers-extracted"];
         }
         {
           name = "markdown";
