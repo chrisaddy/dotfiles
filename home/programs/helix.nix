@@ -13,12 +13,6 @@
         inline-diagnostics = {
           cursor-line = "warning";
         };
-        language-server = {
-          vscode-langservers-extracted = {
-            command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
-            args = ["--stdio"];
-          };
-        };
         indent-guides = {
           render = true;
           character = "┊";
@@ -55,6 +49,10 @@
       language-server = {
         nil = {
           command = "${pkgs.nil}/bin/nil";
+        };
+        vscode-langservers-extracted = {
+          command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
+          args = ["--stdio"];
         };
       };
       language = [
