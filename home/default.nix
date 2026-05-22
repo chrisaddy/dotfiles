@@ -107,6 +107,7 @@ in {
         go
         rust-analyzer
         marksman
+        markdown-oxide
         elan
         awscli2
         google-cloud-sdk
