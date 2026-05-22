@@ -101,6 +101,7 @@
           name = "markdown";
           auto-format = true;
           language-servers = ["marksman"];
+          soft-wrap.enable = true;
         }
       ];
     };

@@ -74,6 +74,9 @@ in {
         direnv
         sesh
 
+        # Networking
+        tailscale
+
         # Rust
         cargo
         rustc
