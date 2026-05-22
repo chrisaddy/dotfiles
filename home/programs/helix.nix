@@ -50,19 +50,9 @@
         nil = {
           command = "${pkgs.nil}/bin/nil";
         };
-        # rust-analyzer = {
-        #   command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-        #   config = {
-        #     check.command = "clippy";
-        #   };
-        # };
         vscode-langservers-extracted = {
           command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
           args = ["--stdio"];
-        };
-        marksman = {
-          command = "${pkgs.marksman}/bin/marksman";
-          args = ["server"];
         };
       };
       language = [
