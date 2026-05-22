@@ -106,7 +106,7 @@ in {
         ninja
         go
         rust-analyzer
-        vscode-extensions.llvm-vs-code-extensions.lldb-dap
+        lldb
         marksman
         markdown-oxide
         elan
