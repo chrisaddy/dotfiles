@@ -1,4 +1,9 @@
 {pkgs, ...}: {
+  xdg.configFile."ty/ty.toml".text = ''
+    [rules]
+    division-by-zero = "warn"
+  '';
+
   programs.helix = {
     enable = true;
     settings = {

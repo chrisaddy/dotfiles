@@ -55,6 +55,7 @@ in {
         delta
         gh
         nodejs
+        pnpm
         sqlite
 
         # Python
