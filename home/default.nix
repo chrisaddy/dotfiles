@@ -82,6 +82,9 @@ in {
         rustc
         cargo-clean-recursive
 
+        # Type checking
+        ty
+
         # Nix
         nh
         devenv

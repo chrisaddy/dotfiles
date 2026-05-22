@@ -54,6 +54,18 @@
           command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
           args = ["--stdio"];
         };
+        basedpyright = {
+          command = "${pkgs.basedpyright}/bin/basedpyright-langserver";
+          args = ["--stdio"];
+        };
+        ruff = {
+          command = "${pkgs.ruff}/bin/ruff";
+          args = ["server"];
+        };
+        ty = {
+          command = "${pkgs.ty}/bin/ty";
+          args = ["server"];
+        };
       };
       language = [
         {
@@ -76,10 +88,11 @@
         }
         {
           name = "python";
-          language-servers = ["ruff"];
+          language-servers = ["basedpyright" "ruff" "ty"];
+          auto-format = true;
           formatter = {
             command = "${pkgs.ruff}/bin/ruff";
-            args = ["format"];
+            args = ["format" "-"];
           };
         }
         {
