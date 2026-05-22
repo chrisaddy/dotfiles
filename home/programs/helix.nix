@@ -50,10 +50,6 @@
         nil = {
           command = "${pkgs.nil}/bin/nil";
         };
-        vscode-langservers-extracted = {
-          command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
-          args = ["--stdio"];
-        };
       };
       language = [
         {
@@ -85,7 +81,6 @@
         {
           name = "json";
           auto-format = true;
-          language-servers = ["vscode-langservers-extracted"];
         }
         {
           name = "markdown";
