@@ -5,6 +5,9 @@
       epkgs.org-roam
       epkgs.catppuccin-theme
       epkgs.which-key
+      epkgs.magit
+      epkgs.evil
+      epkgs.evil-collection
     ];
     extraConfig = ''
       ;; Base settings
@@ -18,6 +21,17 @@
       (recentf-mode 1)
       (setq make-backup-files nil)
       (setq auto-save-default nil)
+
+      ;; Evil mode (vim keybindings)
+      (setq evil-want-integration t)
+      (setq evil-want-keybinding nil)
+      (require 'evil)
+      (evil-mode 1)
+      (require 'evil-collection)
+      (evil-collection-init)
+
+      ;; git
+      (require 'magit)
 
       ;; Theme
       (setq catppuccin-flavor 'macchiato)
