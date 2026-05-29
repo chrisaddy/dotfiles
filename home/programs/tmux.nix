@@ -44,6 +44,8 @@
             bind l next-window
             bind h last-window
 
+            bind-key w command-prompt -I "#S" "rename-window '%%'"
+
             # Navigate panes with vim-style keys
             bind -n C-h select-pane -L
             bind -n C-j select-pane -D
