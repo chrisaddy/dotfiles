@@ -51,7 +51,6 @@ in {
 
         # Development
         git
-        claude-code
         lazygit
         delta
         gh
