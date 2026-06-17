@@ -11,6 +11,7 @@ in {
   imports =
     [
       ./programs/bat.nix
+      ./programs/emacs.nix
       ./programs/lazygit.nix
       ./programs/helix.nix
       ./programs/starship.nix

@@ -11,12 +11,17 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    doomemacs = {
+      url = "github:doomemacs/doomemacs";
+      flake = false;
+    };
   };
 
   outputs = {
     nixpkgs,
     home-manager,
     nix-darwin,
+    doomemacs,
     ...
   }: let
     forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"];
@@ -30,7 +35,7 @@
           ./home
         ];
         extraSpecialArgs = {
-          inherit username headless;
+          inherit username headless doomemacs;
         };
       };
   in {
@@ -45,6 +50,7 @@
           home-manager.extraSpecialArgs = {
             username = "chrisaddy";
             headless = false;
+            inherit doomemacs;
           };
         }
       ];
