@@ -55,11 +55,33 @@
         eval "$(devenv hook zsh)"
         source $HOME/.secrets
       }
+
+      # direnv hook resolved via $PATH rather than a pinned store path, so it
+      # keeps working after a rebuild + garbage collection deletes the old
+      # direnv derivation out from under an already-running shell.
+      if command -v direnv >/dev/null 2>&1; then
+        _direnv_hook() {
+          trap -- ''' SIGINT
+          eval "$(direnv export zsh)"
+          trap - SIGINT
+        }
+        typeset -ag precmd_functions
+        if (( ! ''${precmd_functions[(I)_direnv_hook]} )); then
+          precmd_functions=(_direnv_hook $precmd_functions)
+        fi
+        typeset -ag chpwd_functions
+        if (( ! ''${chpwd_functions[(I)_direnv_hook]} )); then
+          chpwd_functions=(_direnv_hook $chpwd_functions)
+        fi
+      fi
     '';
   };
 
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+    # We install our own $PATH-based hook above; disable HM's, which bakes in an
+    # absolute store path that breaks when that store path is GC'd.
+    enableZshIntegration = false;
   };
 }
