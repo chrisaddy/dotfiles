@@ -20,7 +20,6 @@ in {
       ./programs/zsh.nix
     ]
     ++ lib.optionals (!headless) [
-      ./programs/emacs.nix
       ./programs/ghostty.nix
       ./programs/niri.nix
       ./programs/waybar.nix
