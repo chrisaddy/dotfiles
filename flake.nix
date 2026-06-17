@@ -12,7 +12,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     doomemacs = {
-      url = "github:doomemacs/doomemacs";
+      # git+https (not github:) with submodules=1 so the modules live in
+      # `sources/doom+` (github: fetches a tarball without submodules).
+      url = "git+https://github.com/doomemacs/doomemacs?submodules=1";
       flake = false;
     };
   };

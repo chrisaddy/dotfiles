@@ -5,7 +5,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Chris Addy"
+(setq user-full-name "chrisaddy"
       user-mail-address "chris.william.addy@gmail.com")
 
 ;; Fonts. JetBrainsMono Nerd Font ships via the nerd-fonts.jetbrains-mono

@@ -68,11 +68,22 @@ config dir into XDG paths, then sets the `DOOM*` env vars. Doom's package state
 stays mutable outside the Nix store, so first-run setup is manual:
 
 ```bash
-# After the first `darwin-rebuild`/`home-manager switch`:
-. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"   # or re-login
-~/.config/emacs/bin/doom install
+# After the first `darwin-rebuild`/`home-manager switch`,
+# from a SHELL THAT HAS THE DOOM* env vars (re-login or `exec zsh`;
+# re-sourcing hm-session-vars.sh in an existing shell is a no-op because of
+# its once-per-session guard). Verify with: echo $DOOMLOCALDIR
 ~/.config/emacs/bin/doom sync
 ```
+
+Do **not** run `doom install` here. Under Nix the framework lives at a
+read-only store path with no `.git`, so `doom install`'s submodule-update and
+git-hook-deploy steps always fail. `doom sync` is the only command needed; it
+installs/builds packages into `$DOOMLOCALDIR` (`~/.local/share/doom`).
+
+The `doomemacs` input MUST be fetched with submodules — the framework keeps its
+modules in a `sources/doom+` submodule, and the `github:` fetcher drops
+submodules. The flake uses `git+https://github.com/doomemacs/doomemacs?submodules=1`
+for this reason; don't revert it to the `github:` shorthand.
 
 Run `~/.config/emacs/bin/doom sync` after any change to `home/doom/init.el`,
 `home/doom/packages.el`, or the Doom env vars. Update the framework with
