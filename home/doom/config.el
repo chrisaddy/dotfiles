@@ -21,3 +21,11 @@
 
 ;; Org directory. Must be set before org loads.
 (setq org-directory "~/org/")
+
+;; vterm: build the native module against the Nix-provided libvterm
+;; (libvterm-neovim, in home/default.nix) instead of emacs-libvterm's vendored
+;; copy. The vendored build uses autotools/`glibtool`, which we don't ship;
+;; pointing CMAKE_PREFIX_PATH at the Nix profile lets cmake find the system lib
+;; (USE_SYSTEM_LIBVTERM defaults ON) and skip that path entirely.
+(setq vterm-module-cmake-args
+      (concat "-DCMAKE_PREFIX_PATH=" (expand-file-name "~/.nix-profile")))

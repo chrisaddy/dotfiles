@@ -37,6 +37,9 @@
        undo                    ; persistent, smarter undo for your inevitable mistakes
        vc                      ; version-control and Emacs, sitting in a tree
 
+       :term
+       vterm                   ; the best terminal emulation in Emacs
+
        :checkers
        syntax                  ; tasing you for every semicolon you forget
        (spell +flyspell)       ; tasing you for misspelling mispelling

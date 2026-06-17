@@ -106,7 +106,8 @@ in {
         # Full dev environment extras
         codex
         fzf
-        cmake
+        cmake             # builds Doom's :term vterm native module
+        libvterm-neovim   # system libvterm for vterm (avoids vendored autotools/glibtool build)
         ninja
         go
         rust-analyzer
