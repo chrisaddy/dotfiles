@@ -58,8 +58,9 @@ in {
         pnpm
         sqlite
 
-        # Python
-        python3
+        # Python (black/isort/pyflakes/pytest satisfy Doom's :lang python checks;
+        # bundled into one interpreter env to avoid a bin/python3 collision)
+        (python3.withPackages (ps: with ps; [black isort pyflakes pytest]))
         uv
         ruff
         basedpyright
@@ -109,6 +110,11 @@ in {
         cmake             # builds Doom's :term vterm native module
         libvterm-neovim   # system libvterm for vterm (avoids vendored autotools/glibtool build)
         ninja
+        # Doom :lang formatters / linters / preview
+        shfmt             # :lang sh — format
+        shellcheck        # :lang sh — lint
+        nixfmt-rfc-style  # :lang nix — format (provides `nixfmt`)
+        go-grip           # :lang markdown — GitHub-style preview (grip unavailable on darwin)
         go
         rust-analyzer
         lldb
