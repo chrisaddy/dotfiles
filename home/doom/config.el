@@ -29,3 +29,14 @@
 ;; (USE_SYSTEM_LIBVTERM defaults ON) and skip that path entirely.
 (setq vterm-module-cmake-args
       (concat "-DCMAKE_PREFIX_PATH=" (expand-file-name "~/.nix-profile")))
+
+;; pr-review: review GitHub PRs in Emacs. Auth uses ghub, which reads a token
+;; from auth-source (e.g. ~/.authinfo.gpg) for machine api.github.com. Bound
+;; under the git leader: SPC g p (open by URL) and SPC g P (search).
+(use-package! pr-review
+  :commands (pr-review pr-review-open-url pr-review-search-open)
+  :init
+  (map! :leader
+        (:prefix ("g" . "git")
+         :desc "PR review (URL)" "p" #'pr-review-open-url
+         :desc "PR review (search)" "P" #'pr-review-search-open)))

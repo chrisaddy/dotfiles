@@ -7,7 +7,6 @@
     enableCompletion = true;
 
     shellAliases = {
-      vim = "hx";
       ls = "exa -la";
       lss = "yazi";
       ccc = "claude --dangerously-skip-permissions";
@@ -15,7 +14,7 @@
     };
 
     initContent = ''
-      export PATH=$HOME/.local/bin:$PATH
+      export PATH=$HOME/.local/bin:$PATH:$HOME/.cargo
 
       # Carapace completions
       export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'

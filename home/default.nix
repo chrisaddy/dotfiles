@@ -14,6 +14,7 @@ in {
       ./programs/emacs.nix
       ./programs/lazygit.nix
       ./programs/helix.nix
+      ./programs/neovim.nix
       ./programs/starship.nix
       ./programs/tmux.nix
       ./programs/yazi.nix
@@ -99,6 +100,7 @@ in {
       ++ lib.optionals isDarwin [
         libiconv
         clang
+        coreutils         # GNU ls (BSD ls lacks --dired, which dirvish needs)
       ]
       ++ lib.optionals isLinux [
         gcc
@@ -117,6 +119,7 @@ in {
         go-grip           # :lang markdown — GitHub-style preview (grip unavailable on darwin)
         go
         rust-analyzer
+        rustfmt           # :lang rust — format-on-save
         lldb
         marksman
         markdown-oxide

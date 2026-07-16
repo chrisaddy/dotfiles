@@ -10,3 +10,7 @@
 ;;   (package! another-package :recipe (:host github :repo "username/repo"))
 ;;   (unpin! pinned-package)
 ;;   (disable-packages! a-package)
+
+;; Review GitHub pull requests inside Emacs. Deps (magit-section, ghub,
+;; markdown-mode) come from the :tools magit and :lang markdown modules.
+(package! pr-review :recipe (:host github :repo "blahgeek/emacs-pr-review"))
