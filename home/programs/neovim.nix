@@ -49,7 +49,11 @@ let
     ];
 
     plugins = {
-      floaterm.enable = true;
+      floaterm = {
+        enable = true;
+
+      };
+      gitsigns.enable = true;
       lualine.enable = true;
       oil.enable = true;
       lsp = {
