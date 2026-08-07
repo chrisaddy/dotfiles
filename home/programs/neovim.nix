@@ -42,6 +42,12 @@ let
       }
       {
         mode = "n";
+        key = "<leader>gg";
+        action = "<CMD>LazyGit<CR>";
+        options.desc = "lazygit";
+      }
+      {
+        mode = "n";
         key = "<leader>w";
         action = "<CMD>w<CR>";
         options.desc = "[W]rite File";
@@ -61,7 +67,12 @@ let
       gitsigns.enable = true;
       lualine.enable = true;
       oil.enable = true;
-      lazygit.enable = true;
+      lazygit = {
+        enable = true;
+        settings = {
+          floating_window_scaling_factor = 0.95;
+        };
+      };
       lsp = {
         enable = true;
         servers = {
