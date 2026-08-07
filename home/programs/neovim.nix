@@ -30,7 +30,6 @@ let
       settings.flavour = "macchiato";
     };
 
-    # Mirrors the AstroNvim binding: <leader>i opens oil in the parent dir.
     keymaps = [
       {
         mode = "n";
@@ -43,6 +42,12 @@ let
         key = "<leader>ff";
         action = "<CMD>:Telescope find_files<CR>";
         options.desc = "[F]ind [F]iles";
+      }
+      {
+        mode = "n";
+        key = "<leader>w";
+        action = "<CMD>w<CR>";
+        options.desc = "[W]rite File";
       }
     ];
 
@@ -80,8 +85,6 @@ let
       web-devicons.enable = true;
       treesitter = {
         enable = true;
-        # Default is every grammar nixpkgs ships (hundreds of derivations).
-        # Pin an explicit set instead.
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
           bash
           json
