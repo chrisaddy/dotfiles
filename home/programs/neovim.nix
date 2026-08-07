@@ -61,6 +61,7 @@ let
       gitsigns.enable = true;
       lualine.enable = true;
       oil.enable = true;
+      lazygit.enable = true;
       lsp = {
         enable = true;
         servers = {
@@ -125,6 +126,7 @@ let
       };
     };
   };
+
 in
 {
   home.packages = [ nixvimPkg ];
