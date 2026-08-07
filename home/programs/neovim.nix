@@ -122,6 +122,7 @@ let
           yaml
         ];
       };
+
       which-key = {
         enable = true;
         settings.spec = [
