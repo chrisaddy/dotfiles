@@ -33,7 +33,7 @@
     keymaps = [
       {
         mode = "n";
-        key = "<leader>i";
+        key = "<leader>o";
         action = "<CMD>Oil<CR>";
         options.desc = "Open parent directory";
       }
