@@ -51,7 +51,12 @@ let
     plugins = {
       floaterm = {
         enable = true;
-
+        settings = {
+          height = 0.9;
+          width = 0.9;
+          keymap_kill = "<leader>tk";
+          keymap_new = "<leader>tn";
+        };
       };
       gitsigns.enable = true;
       lualine.enable = true;
@@ -111,6 +116,10 @@ let
           {
             __unkeyed-1 = "<leader>f";
             group = "[F]ind";
+          }
+          {
+            __unkeyed-1 = "<leader>t";
+            group = "[T]erminal";
           }
         ];
       };
