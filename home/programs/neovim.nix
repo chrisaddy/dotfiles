@@ -2,7 +2,8 @@
   pkgs,
   nixvim,
   ...
-}: let
+}:
+let
   # A second, fully declarative neovim built by nixvim. Installed as `nixvim`
   # rather than `nvim` so it can be evaluated side by side with the AstroNvim
   # config below; to migrate, point `nvim` at this and drop pkgs.neovim.
@@ -45,15 +46,33 @@
       }
     ];
 
-    # Deliberately small starter set — enough to judge nixvim, not a port of
-    # the AstroNvim setup. Grow it here as Nix options.
     plugins = {
       lualine.enable = true;
       oil.enable = true;
       lsp = {
         enable = true;
         servers = {
+          basedpyright.enable = true;
+          bashls.enable = true;
+          docker_compose_language_service.enable = true;
+          dockerls.enable = true;
+          ghcide.enable = true;
+          helm_ls.enable = true;
+          html.enable = true;
+          htmx.enable = true;
+          just.enable = true;
+          markdown_oxide.enable = true;
+          nil_ls.enable = true;
           nixd.enable = true;
+          nushell.enable = true;
+          ocamllsp.enable = true;
+          postgres_lsp.enable = true;
+          ruff.enable = true;
+          rust_analyzer.enable = true;
+          sqls.enable = true;
+          sqruff.enable = true;
+          ty.enable = true;
+          yamlls.enable = true;
         };
       };
       lsp-format.enable = true;
@@ -91,12 +110,14 @@
   };
 
   # Give a package a single differently-named entry point without rebuilding it.
-  linkAs = name: target:
-    pkgs.runCommand "nvim-as-${name}" {} ''
+  linkAs =
+    name: target:
+    pkgs.runCommand "nvim-as-${name}" { } ''
       mkdir -p $out/bin
       ln -s ${target} $out/bin/${name}
     '';
-in {
+in
+{
   home.packages = [
     # Plain neovim. Its config lives in ~/.config/nvim (AstroNvim, managed by
     # lazy.nvim) and is intentionally NOT managed by Home Manager —
