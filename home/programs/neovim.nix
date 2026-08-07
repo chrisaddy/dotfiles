@@ -40,7 +40,7 @@
       {
         mode = "n";
         key = "<leader>ff";
-        action = "<CMD>:Telescope<CR>";
+        action = "<CMD>:Telescope find_files<CR>";
         options.desc = "[F]ind [F]iles";
       }
     ];
