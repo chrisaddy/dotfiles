@@ -42,9 +42,15 @@ let
       }
       {
         mode = "n";
+        key = "<leader>gb";
+        action = "<CMD>BlameToggle<CR>";
+        options.desc = "[G]it [B]lame";
+      }
+      {
+        mode = "n";
         key = "<leader>gg";
         action = "<CMD>LazyGit<CR>";
-        options.desc = "lazygit";
+        options.desc = "Lazy [G]it";
       }
       {
         mode = "n";
@@ -130,6 +136,10 @@ let
           {
             __unkeyed-1 = "<leader>f";
             group = "[F]ind";
+          }
+          {
+            __unkeyed-1 = "<leader>g";
+            group = "[G]it";
           }
           {
             __unkeyed-1 = "<leader>t";
