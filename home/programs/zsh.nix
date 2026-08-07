@@ -55,6 +55,15 @@
         source $HOME/.secrets
       }
 
+      # opam env for the default switch (compiler, dune, ocaml-lsp-server,
+      # ocamlformat). Guarded on ~/.opam so a machine that hasn't run
+      # `opam init` yet starts a clean shell. --safe keeps opam from rewriting
+      # any state just to print the env. Per-project switches still override
+      # this via the direnv hook below, which runs at precmd.
+      if command -v opam >/dev/null 2>&1 && [ -d "$HOME/.opam" ]; then
+        eval "$(opam env --safe)"
+      fi
+
       # direnv hook resolved via $PATH rather than a pinned store path, so it
       # keeps working after a rebuild + garbage collection deletes the old
       # direnv derivation out from under an already-running shell.

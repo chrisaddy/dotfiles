@@ -91,7 +91,10 @@ in {
         # Nix
         nh
         devenv
-        secretspec
+        # devenv 2.2.1+ vendors its own bin/secretspec, which collides with the
+        # standalone package in buildEnv. hiPrio keeps this explicit 0.17.0 as
+        # the one on PATH.
+        (lib.hiPrio secretspec)
 
         # Terminal
         tmux
@@ -107,7 +110,6 @@ in {
       ]
       ++ lib.optionals (!headless) [
         # Full dev environment extras
-        codex
         fzf
         cmake             # builds Doom's :term vterm native module
         libvterm-neovim   # system libvterm for vterm (avoids vendored autotools/glibtool build)
@@ -124,6 +126,15 @@ in {
         marksman
         markdown-oxide
         elan
+
+        # OCaml — opam manages the compiler and libraries in ~/.opam, so only
+        # opam itself plus its build prerequisites live in the Nix closure.
+        opam
+        gmp
+        m4
+        pkg-config
+        unzip
+
         awscli2
         google-cloud-sdk
         duckdb
@@ -132,6 +143,7 @@ in {
       ++ lib.optionals (isLinux && !headless) [
         # Linux desktop only
         nyxt
+        bubblewrap        # opam's build sandbox (Linux-only; opam skips it on darwin)
       ];
   };
 

@@ -73,7 +73,7 @@
        latex             ; writing papers in Emacs has never been so fun
        (markdown +grip)        ; writing docs for people to ignore
        (nix)                   ; I hereby declare "nix geht mehr!"
-       ocaml             ; an objective camel
+       (ocaml +lsp)      ; an objective camel
        (org +pretty)           ; organize your plain life in plain text
        (python +lsp +pyright +tree-sitter)  ; beautiful is better than ugly
        (rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()

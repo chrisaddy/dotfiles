@@ -11,6 +11,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     doomemacs = {
       # git+https (not github:) with submodules=1 so the modules live in
       # `sources/doom+` (github: fetches a tarball without submodules).
@@ -25,6 +29,7 @@
       home-manager,
       nix-darwin,
       doomemacs,
+      nixvim,
       ...
     }:
     let
@@ -48,7 +53,7 @@
             ./home
           ];
           extraSpecialArgs = {
-            inherit username headless doomemacs;
+            inherit username headless doomemacs nixvim;
           };
         };
     in
@@ -64,7 +69,7 @@
             home-manager.extraSpecialArgs = {
               username = "chrisaddy";
               headless = false;
-              inherit doomemacs;
+              inherit doomemacs nixvim;
             };
           }
         ];

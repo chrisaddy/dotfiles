@@ -89,6 +89,39 @@ Run `~/.config/emacs/bin/doom sync` after any change to `home/doom/init.el`,
 `home/doom/packages.el`, or the Doom env vars. Update the framework with
 `nix flake update doomemacs`.
 
+### OCaml / opam
+
+Nix installs only `opam` and its build prerequisites (`gmp`, `m4`, `pkg-config`,
+`unzip`, plus `bubblewrap` on Linux for opam's sandbox). The compiler and all
+libraries live in a mutable `~/.opam` outside the Nix store, so — like Doom —
+first-run setup is manual:
+
+```bash
+# Only on a machine with no ~/.opam yet:
+opam init --bare -n
+opam switch create default ocaml-base-compiler
+
+# Always — the tooling Doom's :lang ocaml expects:
+opam install -y dune ocaml-lsp-server ocamlformat utop
+exec zsh   # pick up the opam env
+```
+
+`opam switch list` shows whether a switch already exists; `opam switch create`
+errors out if the name is taken.
+
+`home/programs/zsh.nix` runs `eval "$(opam env --safe)"` at shell init, guarded on
+`~/.opam` existing, so shells work before that bootstrap. The direnv hook runs at
+precmd and therefore still overrides this for per-project switches.
+
+Doom's `:lang (ocaml +lsp)` uses opam's `ocaml-lsp-server` and `ocamlformat` —
+both must be in the default switch, and `doom sync` must run after enabling it.
+Because the toolchain comes from the shell env, Emacs must be started from a
+shell (terminal or `emacsclient`). Launched from a macOS GUI launcher it won't
+see the opam binaries; the fix if that ever matters is `exec-path-from-shell` in
+`home/doom/packages.el`.
+
+OCaml is excluded from headless mode (`exedev@linux`).
+
 ### Environment
 - Editor: hx (helix)
 - Shell: zsh with starship prompt
