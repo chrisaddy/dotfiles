@@ -68,7 +68,7 @@ let
           htmx.enable = true;
           just.enable = true;
           markdown_oxide.enable = true;
-          nil_ls.enable = true;
+          # nil_ls.enable = true;
           nixd.enable = true;
           nushell.enable = true;
           ocamllsp.enable = true;
