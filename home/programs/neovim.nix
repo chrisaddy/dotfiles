@@ -1,6 +1,6 @@
 {
   pkgs,
-      nixvim,
+  nixvim,
   ...
 }: let
   # A second, fully declarative neovim built by nixvim. Installed as `nixvim`
@@ -50,20 +50,15 @@
     plugins = {
       lualine.enable = true;
       oil.enable = true;
-      lsp.enable = true;
+      lsp = {
+        enable = true;
+        servers = {
+          nixd.enable = true;
+        };
+      };
       lsp-format.enable = true;
       telescope.enable = true;
       web-devicons.enable = true;
-      which-key = {
-        enable = true;
-        settings.spec = [
-          {
-            __unkeyed-1 = "<leader>f";
-            group = "[F]ind";
-          }
-        ];
-      };
-
       treesitter = {
         enable = true;
         # Default is every grammar nixpkgs ships (hundreds of derivations).
@@ -81,6 +76,15 @@
           rust
           toml
           yaml
+        ];
+      };
+      which-key = {
+        enable = true;
+        settings.spec = [
+          {
+            __unkeyed-1 = "<leader>f";
+            group = "[F]ind";
+          }
         ];
       };
     };
