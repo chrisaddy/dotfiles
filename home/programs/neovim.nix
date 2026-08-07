@@ -55,6 +55,8 @@ let
     ];
 
     plugins = {
+      bacon.enable = true;
+      blame.enable = true;
       floaterm = {
         enable = true;
         settings = {
