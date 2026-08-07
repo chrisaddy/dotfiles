@@ -73,7 +73,11 @@ let
           ocamllsp.enable = true;
           postgres_lsp.enable = true;
           ruff.enable = true;
-          rust_analyzer.enable = true;
+          rust_analyzer = {
+            enable = true;
+            installRustc = true;
+            installCargo = true;
+          };
           sqls.enable = true;
           sqruff.enable = true;
           ty.enable = true;
