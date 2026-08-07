@@ -52,6 +52,7 @@ let
     ];
 
     plugins = {
+      floaterm.enable = true;
       lualine.enable = true;
       oil.enable = true;
       lsp = {
