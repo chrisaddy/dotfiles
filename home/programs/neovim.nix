@@ -8,6 +8,11 @@ let
     viAlias = true;
     vimAlias = true;
 
+    # flake.nix makes nixvim's nixpkgs `follows` ours, so nixvim's own pin no
+    # longer matches. Pointing `nixpkgs.source` at the nixpkgs we actually
+    # build against silences its mismatch warning.
+    nixpkgs.source = pkgs.path;
+
     globals.mapleader = " ";
 
     opts = {
