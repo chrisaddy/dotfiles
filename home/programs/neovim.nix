@@ -37,6 +37,12 @@
         action = "<CMD>Oil<CR>";
         options.desc = "Open parent directory";
       }
+      {
+        mode = "n";
+        key = "<leader>ff";
+        action = "<CMD>:Telescope<CR>";
+        options.desc = "[F]ind [F]iles";
+      }
     ];
 
     # Deliberately small starter set — enough to judge nixvim, not a port of
