@@ -4,13 +4,9 @@
   ...
 }:
 let
-  # A second, fully declarative neovim built by nixvim. Installed as `nixvim`
-  # rather than `nvim` so it can be evaluated side by side with the AstroNvim
-  # config below; to migrate, point `nvim` at this and drop pkgs.neovim.
   nixvimPkg = nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvim {
-    # `nvim`/`vim`/`vi` stay with AstroNvim for now.
-    viAlias = false;
-    vimAlias = false;
+    viAlias = true;
+    vimAlias = true;
 
     globals.mapleader = " ";
 
@@ -21,10 +17,6 @@ let
       expandtab = true;
     };
 
-    # Catppuccin Macchiato, matching the flavour ghostty.nix asks for. Note
-    # AstroNvim is not a useful reference here: its astroui.lua is disabled
-    # (`if true then return {} end`), so it falls back to astrodark, which has
-    # no nixvim colorscheme module.
     colorschemes.catppuccin = {
       enable = true;
       settings.flavour = "macchiato";
@@ -68,7 +60,6 @@ let
           htmx.enable = true;
           just.enable = true;
           markdown_oxide.enable = true;
-          # nil_ls.enable = true;
           nixd.enable = true;
           nushell.enable = true;
           ocamllsp.enable = true;
@@ -116,27 +107,7 @@ let
       };
     };
   };
-
-  # Give a package a single differently-named entry point without rebuilding it.
-  linkAs =
-    name: target:
-    pkgs.runCommand "nvim-as-${name}" { } ''
-      mkdir -p $out/bin
-      ln -s ${target} $out/bin/${name}
-    '';
 in
 {
-  home.packages = [
-    # Plain neovim. Its config lives in ~/.config/nvim (AstroNvim, managed by
-    # lazy.nvim) and is intentionally NOT managed by Home Manager —
-    # `programs.neovim.enable` would overwrite init.lua with a provider stub
-    # and stop AstroNvim from loading.
-    pkgs.neovim
-
-    # `vim` as a real binary rather than a zsh alias, so scripts, git, and
-    # `sudo -e` resolve it too.
-    (linkAs "vim" "${pkgs.neovim}/bin/nvim")
-
-    (linkAs "nixvim" "${nixvimPkg}/bin/nvim")
-  ];
+  home.packages = [ nixvimPkg ];
 }

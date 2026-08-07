@@ -117,7 +117,7 @@ in {
         # Doom :lang formatters / linters / preview
         shfmt             # :lang sh — format
         shellcheck        # :lang sh — lint
-        nixfmt-rfc-style  # :lang nix — format (provides `nixfmt`)
+        nixfmt            # :lang nix — format (nixfmt-rfc-style is now an alias for this)
         go-grip           # :lang markdown — GitHub-style preview (grip unavailable on darwin)
         go
         rust-analyzer
