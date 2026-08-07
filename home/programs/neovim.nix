@@ -70,7 +70,7 @@ let
       lazygit = {
         enable = true;
         settings = {
-          floating_window_scaling_factor = 0.95;
+          floating_window_scaling_factor = 1.0;
         };
       };
       lsp = {
@@ -122,7 +122,6 @@ let
           yaml
         ];
       };
-
       which-key = {
         enable = true;
         settings.spec = [
