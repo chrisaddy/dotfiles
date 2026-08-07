@@ -52,7 +52,15 @@
       oil.enable = true;
       telescope.enable = true;
       web-devicons.enable = true;
-      which-key.enable = true;
+      which-key = {
+        enable = true;
+        settings.spec = [
+          {
+            __unkeyed-1 = "<leader>f";
+            group = "[F]ind";
+          }
+        ];
+      };
 
       treesitter = {
         enable = true;
