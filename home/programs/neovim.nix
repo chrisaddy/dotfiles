@@ -67,8 +67,10 @@ let
     ];
 
     plugins = {
+      avante.enable = true;
       bacon.enable = true;
       blame.enable = true;
+      blink-cmp-avante.enable = true;
       blink-pairs.enable = true;
       codediff.enable = true;
       floaterm = {
