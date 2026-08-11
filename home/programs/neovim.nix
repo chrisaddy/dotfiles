@@ -81,6 +81,11 @@ let
       avante = {
         enable = true;
         settings = {
+          providers = {
+            claude = {
+              auth_type = "max";
+            };
+          };
           inputs = {
             provider = "snacks";
             provider_opts = {
