@@ -32,7 +32,7 @@ let
         mode = "n";
         key = "<leader>o";
         action = "<CMD>Oil<CR>";
-        options.desc = "Open parent directory";
+        options.desc = "[O]pen parent directory";
       }
       {
         mode = "n";
@@ -67,6 +67,7 @@ let
     ];
 
     plugins = {
+      aerial.enable = true;
       avante.enable = true;
       bacon.enable = true;
       blame.enable = true;
@@ -82,7 +83,6 @@ let
           keymap_new = "<leader>tn";
         };
       };
-      fff.enable = true;
       flash.enable = true;
       gitsigns.enable = true;
       lualine.enable = true;
@@ -125,6 +125,7 @@ let
       lsp-format.enable = true;
       telescope.enable = true;
       web-devicons.enable = true;
+      snacks.enable = true;
       treesitter = {
         enable = true;
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
