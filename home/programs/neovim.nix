@@ -39,38 +39,44 @@ let
       {
         mode = "n";
         key = "<leader>fdb";
-        action = "<CMD>:FzfLua diagnostics_document<CR>";
-        options.desc = "[w]uffer";
+        action = "<CMD>FzfLua diagnostics_document<CR>";
+        options.desc = "[b]uffer";
       }
       {
         mode = "n";
         key = "<leader>fdw";
-        action = "<CMD>:FzfLua diagnostics_workspace<CR>";
+        action = "<CMD>FzfLua diagnostics_workspace<CR>";
         options.desc = "[w]orkspace";
       }
       {
         mode = "n";
         key = "<leader>ff";
-        action = "<CMD>:FzfLua files<CR>";
+        action = "<CMD>FzfLua files<CR>";
         options.desc = "[f]iles";
       }
       {
         mode = "n";
         key = "<leader>fm";
-        action = "<CMD>:FzfLua<CR>";
+        action = "<CMD>FzfLua<CR>";
         options.desc = "[m]enu";
       }
       {
         mode = "n";
         key = "<leader>gb";
-        action = "<CMD>:FzfLua git_branches<CR>";
+        action = "<CMD>FzfLua git_branches<CR>";
         options.desc = "[b]ranches";
       }
       {
         mode = "n";
         key = "<leader>gB";
-        action = "<CMD>:FzfLua git_blame<CR>";
+        action = "<CMD>FzfLua git_blame<CR>";
         options.desc = "[B]lame";
+      }
+      {
+        mode = "n";
+        key = "<leader>gc";
+        action = "<CMD>FzfLua git_commits";
+        options.desc = "[c]ommits";
       }
       {
         mode = "n";
@@ -83,6 +89,12 @@ let
         key = "<leader>gg";
         action = "<CMD>LazyGit<CR>";
         options.desc = "Lazy [g]it";
+      }
+      {
+        mode = "n";
+        key = "<leader>gw";
+        action = "<CMD>FzfLua git_worktrees";
+        options.desc = "[w]orktrees";
       }
       {
         mode = "n";
