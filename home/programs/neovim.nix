@@ -67,10 +67,32 @@ let
     ];
 
     plugins = {
-      aerial.enable = true;
-      avante.enable = true;
+      aerial = {
+        enable = true;
+        settings = {
+          attach_mode = "global";
+          backends = [
+            "treesitter"
+            "lsp"
+            "markdown"
+          ];
+        };
+      };
+      avante = {
+        enable = true;
+        settings = {
+          inputs = {
+            provider = "snacks";
+            provider_opts = {
+              title = "Avante Input";
+              icon = " ";
+            };
+          };
+        };
+      };
       bacon.enable = true;
       blame.enable = true;
+      blink-cmp.enable = true;
       blink-cmp-avante.enable = true;
       blink-pairs.enable = true;
       codediff.enable = true;
