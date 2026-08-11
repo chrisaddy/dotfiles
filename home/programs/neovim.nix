@@ -20,6 +20,8 @@ let
       relativenumber = true;
       shiftwidth = 2;
       expandtab = true;
+      ignorecase = true;
+      smartcase = true;
     };
 
     colorschemes.catppuccin = {
@@ -37,13 +39,13 @@ let
       {
         mode = "n";
         key = "<leader>fdb";
-        action = "<CMD>:FzfLua diagnostics_document";
+        action = "<CMD>:FzfLua diagnostics_document<CR>";
         options.desc = "[B]uffer";
       }
       {
         mode = "n";
         key = "<leader>fdw";
-        action = "<CMD>:FzfLua diagnostics_workspace";
+        action = "<CMD>:FzfLua diagnostics_workspace<CR>";
         options.desc = "[W]orkspace";
       }
       {
