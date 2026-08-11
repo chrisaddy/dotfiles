@@ -34,31 +34,37 @@ let
         mode = "n";
         key = "<leader>o";
         action = "<CMD>Oil<CR>";
-        options.desc = "[O]pen parent directory";
+        options.desc = "[o]pen parent directory";
       }
       {
         mode = "n";
         key = "<leader>fdb";
         action = "<CMD>:FzfLua diagnostics_document<CR>";
-        options.desc = "[B]uffer";
+        options.desc = "[w]uffer";
       }
       {
         mode = "n";
         key = "<leader>fdw";
         action = "<CMD>:FzfLua diagnostics_workspace<CR>";
-        options.desc = "[W]orkspace";
+        options.desc = "[w]orkspace";
       }
       {
         mode = "n";
         key = "<leader>ff";
         action = "<CMD>:FzfLua files<CR>";
-        options.desc = "[F]iles";
+        options.desc = "[f]iles";
       }
       {
         mode = "n";
         key = "<leader>fm";
         action = "<CMD>:FzfLua<CR>";
-        options.desc = "[M]enu";
+        options.desc = "[m]enu";
+      }
+      {
+        mode = "n";
+        key = "<leader>gb";
+        action = "<CMD>:FzfLua git_branches<CR>";
+        options.desc = "[b]ranches";
       }
       {
         mode = "n";
@@ -70,19 +76,19 @@ let
         mode = "n";
         key = "<leader>gd";
         action = "<CMD>CodeDiff<CR>";
-        options.desc = "[D]iff";
+        options.desc = "[d]iff";
       }
       {
         mode = "n";
         key = "<leader>gg";
         action = "<CMD>LazyGit<CR>";
-        options.desc = "Lazy [G]it";
+        options.desc = "Lazy [g]it";
       }
       {
         mode = "n";
         key = "<leader>w";
         action = "<CMD>w<CR>";
-        options.desc = "[W]rite File";
+        options.desc = "[w]rite File";
       }
     ];
 
@@ -195,23 +201,23 @@ let
         settings.spec = [
           {
             __unkeyed-1 = "<leader>a";
-            group = "[A]vante";
+            group = "[a]vante";
           }
           {
             __unkeyed-1 = "<leader>f";
-            group = "[F]ind";
+            group = "[f]ind";
           }
           {
             __unkeyed-1 = "<leader>fd";
-            group = "[D]iagnostics";
+            group = "[d]iagnostics";
           }
           {
             __unkeyed-1 = "<leader>g";
-            group = "[G]it";
+            group = "[g]it";
           }
           {
             __unkeyed-1 = "<leader>t";
-            group = "[T]erminal";
+            group = "[t]erminal";
           }
         ];
       };
