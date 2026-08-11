@@ -37,7 +37,7 @@ let
       {
         mode = "n";
         key = "<leader>ff";
-        action = "<CMD>:Telescope find_files<CR>";
+        action = "<CMD>:FzfLua files<CR>";
         options.desc = "[F]ind [F]iles";
       }
       {
