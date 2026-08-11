@@ -62,8 +62,8 @@ let
       }
       {
         mode = "n";
-        key = "<leadej>fr<CR>";
-        action = "<CMD>FzfLua registers<CR>";
+        key = "<leader>fr<CR>";
+        action = "<CMD>FzfLua registers";
         options.desc = "[r]egisters";
       }
       {
@@ -101,6 +101,12 @@ let
         key = "<leader>gw";
         action = "<CMD>FzfLua git_worktrees";
         options.desc = "[w]orktrees";
+      }
+      {
+        mode = "n";
+        key = "<leader>u";
+        action = "<CMD>FzfLua undotree<CR>";
+        options.desc = "[u]ndotree";
       }
       {
         mode = "n";
