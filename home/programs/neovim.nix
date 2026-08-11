@@ -62,6 +62,12 @@ let
       }
       {
         mode = "n";
+        key = "<leader>fr<CR>";
+        action = "<CMD>FzfLua registers";
+        options.desc = "[r]egisters";
+      }
+      {
+        mode = "n";
         key = "<leader>gb";
         action = "<CMD>FzfLua git_branches<CR>";
         options.desc = "[b]ranches";
