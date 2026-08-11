@@ -44,6 +44,12 @@ let
       }
       {
         mode = "n";
+        key = "<leader>fdq";
+        action = "<CMD>FzfLua quickfix<CR>";
+        options.desc = "[q]uickfix";
+      }
+      {
+        mode = "n";
         key = "<leader>fdw";
         action = "<CMD>FzfLua diagnostics_workspace<CR>";
         options.desc = "[w]orkspace";
