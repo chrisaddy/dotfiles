@@ -192,6 +192,7 @@ let
       neogit.enable = true;
       octo.enable = true;
       oil.enable = true;
+      precognition.enable = true;
       lazygit = {
         enable = true;
         settings = {
@@ -228,7 +229,7 @@ let
         };
       };
       lsp-format.enable = true;
-      telescope.enable = true;
+      transparent.enable = true;
       web-devicons.enable = true;
       snacks.enable = true;
       treesitter = {
