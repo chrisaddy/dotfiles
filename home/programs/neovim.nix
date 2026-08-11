@@ -110,6 +110,12 @@ let
       }
       {
         mode = "n";
+        key = "<leader>gs";
+        action = "<CMD>FzfLua git_status<CR>";
+        options.desc = "[s]tatus";
+      }
+      {
+        mode = "n";
         key = "<leader>gw";
         action = "<CMD>FzfLua git_worktrees";
         options.desc = "[w]orktrees";
