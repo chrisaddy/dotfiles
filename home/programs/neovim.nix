@@ -123,7 +123,7 @@ let
       {
         mode = "n";
         key = "<leader>gw";
-        action = "<CMD>FzfLua git_worktrees";
+        action = "<CMD>FzfLua git_worktrees<CR>";
         options.desc = "[w]orktrees";
       }
       {
@@ -184,7 +184,7 @@ let
         };
       };
       fidget.enable = true;
-      flash.enable = true;
+      # flash.enable = true;
       fugit2.enable = true;
       fzf-lua.enable = true;
       gitsigns.enable = true;
