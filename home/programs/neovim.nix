@@ -146,6 +146,10 @@ let
         enable = true;
         settings.spec = [
           {
+            __unkeyed-1 = "<leader>a";
+            group = "[A]vante";
+          }
+          {
             __unkeyed-1 = "<leader>f";
             group = "[F]ind";
           }
