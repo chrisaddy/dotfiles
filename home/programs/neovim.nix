@@ -57,8 +57,14 @@ let
       {
         mode = "n";
         key = "<leader>fm";
+        action = "<CMD>FzfLua marks<CR>";
+        options.desc = "[m]arks";
+      }
+      {
+        mode = "n";
+        key = "<leader>fM";
         action = "<CMD>FzfLua<CR>";
-        options.desc = "[m]enu";
+        options.desc = "[M]enu";
       }
       {
         mode = "n";
