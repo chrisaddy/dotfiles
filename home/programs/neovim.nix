@@ -185,14 +185,12 @@ let
       };
       fidget.enable = true;
       # flash.enable = true;
-      fugit2.enable = true;
       fzf-lua.enable = true;
       gitsigns.enable = true;
       lualine.enable = true;
       neogit.enable = true;
       octo.enable = true;
       oil.enable = true;
-      precognition.enable = true;
       lazygit = {
         enable = true;
         settings = {
