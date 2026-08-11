@@ -183,7 +183,9 @@ let
           keymap_new = "<leader>tn";
         };
       };
+      fidget.enable = true;
       flash.enable = true;
+      fugit2.enable = true;
       fzf-lua.enable = true;
       gitsigns.enable = true;
       lualine.enable = true;
