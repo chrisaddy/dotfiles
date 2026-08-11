@@ -63,7 +63,7 @@ let
       {
         mode = "n";
         key = "<leader>gB";
-        action = "<CMD>BlameToggle<CR>";
+        action = "<CMD>:FzfLua git_blame<CR>";
         options.desc = "[B]lame";
       }
       {
@@ -116,7 +116,6 @@ let
       #   };
       # };
       bacon.enable = true;
-      blame.enable = true;
       blink-cmp.enable = true;
       blink-cmp-avante.enable = true;
       blink-pairs.enable = true;
