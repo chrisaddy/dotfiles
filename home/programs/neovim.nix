@@ -196,7 +196,7 @@ let
           }
           {
             __unkeyed-1 = "<leader>fd";
-            group = "[F]ind [D]iagnostics";
+            group = "[D]iagnostics";
           }
           {
             __unkeyed-1 = "<leader>g";
