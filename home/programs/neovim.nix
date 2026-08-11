@@ -36,6 +36,36 @@ let
       }
       {
         mode = "n";
+        key = "<leader>fdb";
+        action = "<CMD>:FzfLua diagnostics_document";
+        options.desc = "[F]ind [D]iagnostics [B]uffer";
+      }
+      {
+        mode = "n";
+        key = "<leader>fdw";
+        action = "<CMD>:FzfLua diagnostics_workspace";
+        options.desc = "[F]ind [D]iagnostics [W]orkspace";
+      }
+      {
+        mode = "n";
+        key = "<leader>fdw";
+        action = "<CMD>:FzfLua diagnostics_workspace";
+        options.desc = "[F]ind [D]iagnostics [W]orkspace";
+      }
+      {
+        mode = "n";
+        key = "<leader>fdw";
+        action = "<CMD>:FzfLua diagnostics_workspace";
+        options.desc = "[F]ind [D]iagnostics [W]orkspace";
+      }
+      {
+        mode = "n";
+        key = "<leader>fdw";
+        action = "<CMD>:FzfLua diagnostics_workspace";
+        options.desc = "[F]ind [D]iagnostics [W]orkspace";
+      }
+      {
+        mode = "n";
         key = "<leader>ff";
         action = "<CMD>:FzfLua files<CR>";
         options.desc = "[F]ind [F]iles";
@@ -181,6 +211,10 @@ let
           {
             __unkeyed-1 = "<leader>f";
             group = "[F]ind";
+          }
+          {
+            __unkeyed-1 = "<leader>fd";
+            group = "[F]ind [D]iagnostics";
           }
           {
             __unkeyed-1 = "<leader>g";
