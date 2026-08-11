@@ -69,6 +69,7 @@ let
     plugins = {
       bacon.enable = true;
       blame.enable = true;
+      blink-pairs.enable = true;
       codediff.enable = true;
       floaterm = {
         enable = true;
