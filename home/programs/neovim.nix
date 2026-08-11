@@ -189,6 +189,8 @@ let
       fzf-lua.enable = true;
       gitsigns.enable = true;
       lualine.enable = true;
+      neogit.enable = true;
+      octo.enable = true;
       oil.enable = true;
       lazygit = {
         enable = true;
