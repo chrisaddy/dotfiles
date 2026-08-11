@@ -38,37 +38,19 @@ let
         mode = "n";
         key = "<leader>fdb";
         action = "<CMD>:FzfLua diagnostics_document";
-        options.desc = "[F]ind [D]iagnostics [B]uffer";
+        options.desc = "[B]uffer";
       }
       {
         mode = "n";
         key = "<leader>fdw";
         action = "<CMD>:FzfLua diagnostics_workspace";
-        options.desc = "[F]ind [D]iagnostics [W]orkspace";
-      }
-      {
-        mode = "n";
-        key = "<leader>fdw";
-        action = "<CMD>:FzfLua diagnostics_workspace";
-        options.desc = "[F]ind [D]iagnostics [W]orkspace";
-      }
-      {
-        mode = "n";
-        key = "<leader>fdw";
-        action = "<CMD>:FzfLua diagnostics_workspace";
-        options.desc = "[F]ind [D]iagnostics [W]orkspace";
-      }
-      {
-        mode = "n";
-        key = "<leader>fdw";
-        action = "<CMD>:FzfLua diagnostics_workspace";
-        options.desc = "[F]ind [D]iagnostics [W]orkspace";
+        options.desc = "[W]orkspace";
       }
       {
         mode = "n";
         key = "<leader>ff";
         action = "<CMD>:FzfLua files<CR>";
-        options.desc = "[F]ind [F]iles";
+        options.desc = "[F]iles";
       }
       {
         mode = "n";
