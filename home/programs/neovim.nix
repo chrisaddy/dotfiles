@@ -78,23 +78,23 @@ let
           ];
         };
       };
-      avante = {
-        enable = true;
-        settings = {
-          providers = {
-            claude = {
-              auth_type = "max";
-            };
-          };
-          inputs = {
-            provider = "snacks";
-            provider_opts = {
-              title = "Avante Input";
-              icon = " ";
-            };
-          };
-        };
-      };
+      # avante = {
+      #   enable = true;
+      #   settings = {
+      #     providers = {
+      #       claude = {
+      #         auth_type = "max";
+      #       };
+      #     };
+      #     inputs = {
+      #       provider = "snacks";
+      #       provider_opts = {
+      #         title = "Avante Input";
+      #         icon = " ";
+      #       };
+      #     };
+      #   };
+      # };
       bacon.enable = true;
       blame.enable = true;
       blink-cmp.enable = true;
