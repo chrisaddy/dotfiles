@@ -4,38 +4,38 @@
   username,
   headless ? false,
   ...
-}: let
+}:
+let
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
-in {
-  imports =
-    [
-      ./programs/bat.nix
-      ./programs/emacs.nix
-      ./programs/lazygit.nix
-      ./programs/helix.nix
-      ./programs/neovim.nix
-      ./programs/starship.nix
-      ./programs/tmux.nix
-      ./programs/yazi.nix
-      ./programs/zoxide.nix
-      ./programs/zsh.nix
-    ]
-    ++ lib.optionals (!headless) [
-      ./programs/ghostty.nix
-      ./programs/niri.nix
-      ./programs/waybar.nix
-    ];
+in
+{
+  imports = [
+    ./programs/bat.nix
+    ./programs/emacs.nix
+    ./programs/lazygit.nix
+    ./programs/helix.nix
+    ./programs/neovim.nix
+    ./programs/starship.nix
+    ./programs/tmux.nix
+    ./programs/yazi.nix
+    ./programs/zellij.nix
+    ./programs/zoxide.nix
+    ./programs/zsh.nix
+  ]
+  ++ lib.optionals (!headless) [
+    ./programs/ghostty.nix
+    ./programs/niri.nix
+    ./programs/waybar.nix
+  ];
 
   home = {
     username = username;
-    homeDirectory =
-      if isDarwin
-      then "/Users/${username}"
-      else "/home/${username}";
+    homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
     stateVersion = "24.11";
 
-    packages = with pkgs;
+    packages =
+      with pkgs;
       [
         # SSL certs (needed for nix-installed tools on macOS)
         cacert
@@ -61,7 +61,14 @@ in {
 
         # Python (black/isort/pyflakes/pytest satisfy Doom's :lang python checks;
         # bundled into one interpreter env to avoid a bin/python3 collision)
-        (python3.withPackages (ps: with ps; [black isort pyflakes pytest]))
+        (python3.withPackages (
+          ps: with ps; [
+            black
+            isort
+            pyflakes
+            pytest
+          ]
+        ))
         uv
         ruff
         basedpyright
@@ -103,7 +110,7 @@ in {
       ++ lib.optionals isDarwin [
         libiconv
         clang
-        coreutils         # GNU ls (BSD ls lacks --dired, which dirvish needs)
+        coreutils # GNU ls (BSD ls lacks --dired, which dirvish needs)
       ]
       ++ lib.optionals isLinux [
         gcc
@@ -111,17 +118,17 @@ in {
       ++ lib.optionals (!headless) [
         # Full dev environment extras
         fzf
-        cmake             # builds Doom's :term vterm native module
-        libvterm-neovim   # system libvterm for vterm (avoids vendored autotools/glibtool build)
+        cmake # builds Doom's :term vterm native module
+        libvterm-neovim # system libvterm for vterm (avoids vendored autotools/glibtool build)
         ninja
         # Doom :lang formatters / linters / preview
-        shfmt             # :lang sh — format
-        shellcheck        # :lang sh — lint
-        nixfmt            # :lang nix — format (nixfmt-rfc-style is now an alias for this)
-        go-grip           # :lang markdown — GitHub-style preview (grip unavailable on darwin)
+        shfmt # :lang sh — format
+        shellcheck # :lang sh — lint
+        nixfmt # :lang nix — format (nixfmt-rfc-style is now an alias for this)
+        go-grip # :lang markdown — GitHub-style preview (grip unavailable on darwin)
         go
         rust-analyzer
-        rustfmt           # :lang rust — format-on-save
+        rustfmt # :lang rust — format-on-save
         lldb
         marksman
         markdown-oxide
@@ -143,25 +150,24 @@ in {
       ++ lib.optionals (isLinux && !headless) [
         # Linux desktop only
         nyxt
-        bubblewrap        # opam's build sandbox (Linux-only; opam skips it on darwin)
+        bubblewrap # opam's build sandbox (Linux-only; opam skips it on darwin)
       ];
   };
 
-  home.sessionVariables =
-    {
-      EDITOR = "hx";
-      VISUAL = "hx";
-      NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-      SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-      NPM_CONFIG_PREFIX = "$HOME/.npm-global";
-    }
-    // lib.optionalAttrs isDarwin {
-      LIBRARY_PATH = lib.makeLibraryPath [
-        pkgs.libiconv
-      ];
-    };
+  home.sessionVariables = {
+    EDITOR = "hx";
+    VISUAL = "hx";
+    NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+    SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+    NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+  }
+  // lib.optionalAttrs isDarwin {
+    LIBRARY_PATH = lib.makeLibraryPath [
+      pkgs.libiconv
+    ];
+  };
 
-  home.sessionPath = ["$HOME/.npm-global/bin"];
+  home.sessionPath = [ "$HOME/.npm-global/bin" ];
 
   programs.git = {
     enable = true;
