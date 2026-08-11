@@ -84,6 +84,7 @@ let
         };
       };
       flash.enable = true;
+      fzf-lua.enable = true;
       gitsigns.enable = true;
       lualine.enable = true;
       oil.enable = true;
