@@ -98,6 +98,12 @@ let
       }
       {
         mode = "n";
+        key = "<leader>gh";
+        action = "<CMD>FzfLua git_hunks<CR>";
+        options.desc = "[h]unks";
+      }
+      {
+        mode = "n";
         key = "<leader>gw";
         action = "<CMD>FzfLua git_worktrees";
         options.desc = "[w]orktrees";
