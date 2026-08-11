@@ -62,8 +62,8 @@ let
       }
       {
         mode = "n";
-        key = "<leader>fr<CR>";
-        action = "<CMD>FzfLua registers";
+        key = "<leadej>fr<CR>";
+        action = "<CMD>FzfLua registers<CR>";
         options.desc = "[r]egisters";
       }
       {
