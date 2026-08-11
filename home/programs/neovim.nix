@@ -56,15 +56,21 @@ let
       }
       {
         mode = "n";
-        key = "<leader>gb";
+        key = "<leader>fm";
+        action = "<CMD>:FzfLua<CR>";
+        options.desc = "[M]enu";
+      }
+      {
+        mode = "n";
+        key = "<leader>gB";
         action = "<CMD>BlameToggle<CR>";
-        options.desc = "[G]it [B]lame";
+        options.desc = "[B]lame";
       }
       {
         mode = "n";
         key = "<leader>gd";
         action = "<CMD>CodeDiff<CR>";
-        options.desc = "[G]it [D]iff";
+        options.desc = "[D]iff";
       }
       {
         mode = "n";
