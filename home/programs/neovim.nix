@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   nixvim,
   ...
@@ -23,6 +24,12 @@ let
 
     globals.mapleader = " ";
 
+    # claudecode.nvim's nixvim module enables this, which both drags an unfree
+    # nixpkgs claude-code into the closure and puts its pinned version on nvim's
+    # PATH ahead of the self-updating CLI in ~/.local/bin. `terminal_cmd` names
+    # that CLI directly, so the packaged one is redundant.
+    dependencies.claude-code.enable = false;
+
     opts = {
       number = true;
       relativenumber = true;
@@ -38,6 +45,44 @@ let
     };
 
     keymaps = [
+      {
+        mode = "n";
+        key = "<leader>cc";
+        action = "<CMD>ClaudeCode<CR>";
+        options.desc = "toggle [c]laude";
+      }
+      {
+        mode = "n";
+        key = "<leader>cf";
+        action = "<CMD>ClaudeCodeFocus<CR>";
+        options.desc = "[f]ocus claude";
+      }
+      {
+        mode = "n";
+        key = "<leader>cb";
+        action = "<CMD>ClaudeCodeAdd %<CR>";
+        options.desc = "add [b]uffer to context";
+      }
+      # Visual-mode send is the point of the WebSocket bridge: the selection
+      # arrives as an @-mention rather than pasted text.
+      {
+        mode = "v";
+        key = "<leader>cs";
+        action = "<CMD>ClaudeCodeSend<CR>";
+        options.desc = "[s]end selection to claude";
+      }
+      {
+        mode = "n";
+        key = "<leader>cy";
+        action = "<CMD>ClaudeCodeDiffAccept<CR>";
+        options.desc = "accept diff ([y]es)";
+      }
+      {
+        mode = "n";
+        key = "<leader>cn";
+        action = "<CMD>ClaudeCodeDiffDeny<CR>";
+        options.desc = "deny diff ([n]o)";
+      }
       {
         mode = "n";
         key = "<leader>o";
@@ -199,6 +244,21 @@ let
       };
       blink-cmp-avante.enable = true;
       blink-pairs.enable = true;
+      # Talks to the Claude Code CLI over a WebSocket, so the Max subscription
+      # is used through Anthropic's own client. (avante's `auth_type = "max"`
+      # above instead presents Claude Code's OAuth client_id plus a spoof system
+      # prompt; that is against the consumer terms and its token endpoint
+      # currently answers 429.)
+      claudecode = {
+        enable = true;
+        settings = {
+          # The nixvim module lists `claude-code` as a dependency, which puts
+          # nixpkgs' pinned CLI on nvim's PATH ahead of the self-updating one in
+          # ~/.local/bin. Name the latter explicitly so `:ClaudeCode` and a
+          # plain `claude` in the terminal stay the same version.
+          terminal_cmd = "${config.home.homeDirectory}/.local/bin/claude";
+        };
+      };
       codediff.enable = true;
       floaterm = {
         enable = true;
@@ -256,7 +316,19 @@ let
       transparent.enable = true;
       web-devicons.enable = true;
       snacks.enable = true;
-      supermaven.enable = true;
+      # Inline (ghost text) completion, the half of Cody that claudecode does not
+      # cover. The free tier needs a one-off `:SupermavenUseFree`; no credential
+      # is stored in this repo.
+      supermaven = {
+        enable = true;
+        settings = {
+          keymaps = {
+            accept_suggestion = "<Tab>";
+            accept_word = "<C-j>";
+            clear_suggestions = "<C-]>";
+          };
+        };
+      };
       treesitter = {
         enable = true;
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -280,6 +352,10 @@ let
           {
             __unkeyed-1 = "<leader>a";
             group = "[a]vante";
+          }
+          {
+            __unkeyed-1 = "<leader>c";
+            group = "[c]laude";
           }
           {
             __unkeyed-1 = "<leader>f";
