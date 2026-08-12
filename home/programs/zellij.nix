@@ -17,7 +17,7 @@
       #     }
       #   ];
       # };
-      theme = "catppuccin-machiato";
+      theme = "catppuccin-macchiato";
     };
   };
 }
