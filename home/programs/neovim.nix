@@ -208,11 +208,7 @@ let
       avante = {
         enable = true;
         settings = {
-          providers = {
-            claude = {
-              auth_type = "max";
-            };
-          };
+          provider = "claude";
           inputs = {
             provider = "snacks";
             provider_opts = {
@@ -226,6 +222,24 @@ let
       blink-cmp = {
         enable = true;
         settings = {
+          # Supermaven owns <Tab>. blink applies its keymaps buffer-locally on
+          # InsertEnter, which beats supermaven's global insert-mode map, so the
+          # preset's `snippet_forward` would otherwise get first refusal on every
+          # Tab. Leaving only `fallback` here makes blink hand the key straight to
+          # supermaven; snippet_forward moves to <C-l>, and <S-Tab> keeps the
+          # preset's snippet_backward (supermaven does not map it).
+          #
+          # This also has to be a real handoff rather than relying on
+          # supermaven's own fallback: when it has no suggestion it feedkeys a
+          # noremap <Tab>, which inserts a literal tab and never reaches blink.
+          keymap = {
+            preset = "default";
+            "<Tab>" = [ "fallback" ];
+            "<C-l>" = [
+              "snippet_forward"
+              "fallback"
+            ];
+          };
           sources = {
             default = [
               "lsp"
@@ -244,21 +258,6 @@ let
       };
       blink-cmp-avante.enable = true;
       blink-pairs.enable = true;
-      # Talks to the Claude Code CLI over a WebSocket, so the Max subscription
-      # is used through Anthropic's own client. (avante's `auth_type = "max"`
-      # above instead presents Claude Code's OAuth client_id plus a spoof system
-      # prompt; that is against the consumer terms and its token endpoint
-      # currently answers 429.)
-      claudecode = {
-        enable = true;
-        settings = {
-          # The nixvim module lists `claude-code` as a dependency, which puts
-          # nixpkgs' pinned CLI on nvim's PATH ahead of the self-updating one in
-          # ~/.local/bin. Name the latter explicitly so `:ClaudeCode` and a
-          # plain `claude` in the terminal stay the same version.
-          terminal_cmd = "${config.home.homeDirectory}/.local/bin/claude";
-        };
-      };
       codediff.enable = true;
       floaterm = {
         enable = true;
