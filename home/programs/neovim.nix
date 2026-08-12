@@ -237,7 +237,12 @@ let
       lsp-format.enable = true;
       transparent.enable = true;
       web-devicons.enable = true;
-      sg.enable = true;
+      sg = {
+        enable = true;
+        settings = {
+          accept_tos = true;
+        };
+      };
       snacks.enable = true;
       treesitter = {
         enable = true;
