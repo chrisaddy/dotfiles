@@ -209,6 +209,9 @@ let
         enable = true;
         settings = {
           provider = "claude";
+          behaviour = {
+            auto_suggestions = true;
+          };
           inputs = {
             provider = "snacks";
             provider_opts = {
