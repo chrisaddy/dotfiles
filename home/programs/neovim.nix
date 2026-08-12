@@ -160,25 +160,43 @@ let
           ];
         };
       };
-      # avante = {
-      #   enable = true;
-      #   settings = {
-      #     providers = {
-      #       claude = {
-      #         auth_type = "max";
-      #       };
-      #     };
-      #     inputs = {
-      #       provider = "snacks";
-      #       provider_opts = {
-      #         title = "Avante Input";
-      #         icon = " ";
-      #       };
-      #     };
-      #   };
-      # };
+      avante = {
+        enable = true;
+        settings = {
+          providers = {
+            claude = {
+              auth_type = "max";
+            };
+          };
+          inputs = {
+            provider = "snacks";
+            provider_opts = {
+              title = "Avante Input";
+              icon = " ";
+            };
+          };
+        };
+      };
       bacon.enable = true;
-      blink-cmp.enable = true;
+      blink-cmp = {
+        enable = true;
+        settings = {
+          sources = {
+            default = [
+              "lsp"
+              "path"
+              "buffer"
+              "avante"
+            ];
+            providers = {
+              avante = {
+                module = "blink-cmp-avante";
+                name = "Avante";
+              };
+            };
+          };
+        };
+      };
       blink-cmp-avante.enable = true;
       blink-pairs.enable = true;
       codediff.enable = true;
