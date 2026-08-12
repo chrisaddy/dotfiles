@@ -16,6 +16,7 @@ in
     ./programs/lazygit.nix
     ./programs/helix.nix
     ./programs/neovim.nix
+    ./programs/scripts.nix
     ./programs/starship.nix
     ./programs/tmux.nix
     ./programs/yazi.nix
@@ -24,6 +25,10 @@ in
     ./programs/zsh.nix
   ]
   ++ lib.optionals (!headless) [
+    # Nushell is the login shell on the full workstations only. Headless VMs
+    # keep zsh: bootstrap.sh and exevm drive them with `ssh host "a && b"`,
+    # which nushell cannot parse.
+    ./programs/nushell.nix
     ./programs/ghostty.nix
     ./programs/niri.nix
     ./programs/waybar.nix

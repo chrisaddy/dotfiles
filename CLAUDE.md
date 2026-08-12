@@ -124,5 +124,47 @@ OCaml is excluded from headless mode (`exedev@linux`).
 
 ### Environment
 - Editor: hx (helix)
-- Shell: zsh with starship prompt
+- Shell: nushell (login shell) with starship prompt; zsh still installed
 - Tmux prefix: `C-Space`
+
+### Nushell as login shell
+
+`home/programs/nushell.nix` configures nushell; it is imported for the full
+workstations only. `exedev@linux` (headless) stays on zsh, because both
+`bootstrap.sh` and `exevm` drive VMs with `ssh host "a && b"` and nushell has
+no `&&`.
+
+Two details that are easy to get wrong:
+
+- `configDir` is pinned to nu's own per-platform default (`Library/Application
+  Support/nushell` on darwin, `.config/nushell` on Linux) and is **home
+  relative**. It must not follow `xdg.enable`: nu only reads `~/.config/nushell`
+  when `XDG_CONFIG_HOME` is set, and that variable only reaches shells via the
+  POSIX `hm-session-vars.sh`, which nushell never sources — so a nu shell
+  started from Ghostty or Finder would find no config. An *absolute* path here
+  silently generates no config files at all.
+- Env vars are generated from `home.sessionVariables` / `home.sessionPath`, so
+  adding one there reaches nu too. Values containing POSIX expansion (`$VAR`,
+  `${VAR:+...}`) are skipped, since nu does not interpret them, and must be
+  written natively in `extraEnv` — `TERMINFO_DIRS` is the current example.
+
+Changing the login shell is manual and one-time (nix-darwin only writes
+`/etc/shells`). `chsh` records a literal path, so use the profile path, never a
+store path — a store path becomes a dead login shell after `nh clean all`:
+
+```bash
+# macOS, after `darwin-rebuild switch`
+chsh -s /etc/profiles/per-user/chrisaddy/bin/nu
+
+# Linux: bootstrap.sh does this (also appends to /etc/shells)
+chsh -s ~/.nix-profile/bin/nu
+```
+
+Verify with `dscl . -read /Users/chrisaddy UserShell` (macOS) or
+`getent passwd "$USER"` (Linux), then open a **new** terminal while keeping the
+current one alive. Rollback is `chsh -s /bin/zsh`.
+
+`update` and `exevm` are real binaries from `home/programs/scripts.nix` rather
+than zsh aliases/functions, so both shells get them. A nu wrapper calling
+`zsh -lc update` would not work: `-lc` is non-interactive, so `.zshrc` — where
+Home Manager puts aliases and functions — is never read.

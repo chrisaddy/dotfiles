@@ -5,7 +5,9 @@
       font-size = 20;
       theme = "Catppuccin Machiato";
       cursor-style = "block";
-      shell-integration = "zsh";
+      # Ghostty has no nushell integration; "detect" keeps it from injecting the
+      # zsh one into a nu login shell.
+      shell-integration = "detect";
       shell-integration-features = "cursor,no-title";
       background-opacity = 0.9;
       macos-titlebar-style = "transparent";

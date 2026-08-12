@@ -58,17 +58,27 @@ echo "==> Activating home-manager for '${FLAKE_TARGET}' (${SYSTEM})"
 cd "${DOTFILES_DIR}"
 nix run home-manager -- switch --flake ".#${FLAKE_TARGET}"
 
-# --- Set zsh as default shell ---
-NIX_ZSH="$(which zsh 2>/dev/null || echo "")"
-if [ -n "${NIX_ZSH}" ] && [ "$(basename "${SHELL}")" != "zsh" ]; then
-  echo "==> Setting zsh as default shell (${NIX_ZSH})"
-  if ! grep -qF "${NIX_ZSH}" /etc/shells 2>/dev/null; then
-    echo "${NIX_ZSH}" | sudo tee -a /etc/shells >/dev/null
-  fi
-  sudo chsh -s "${NIX_ZSH}" "${USERNAME}"
-  echo "==> Default shell changed to zsh"
+# --- Set default shell ---
+# Nushell on the full workstations, zsh on headless VMs. The headless config
+# does not import programs/nushell.nix, so "did the activation put nu on PATH?"
+# is the check for which one this machine is.
+if [ -x "${HOME}/.nix-profile/bin/nu" ]; then
+  TARGET_SHELL="${HOME}/.nix-profile/bin/nu"
+  TARGET_NAME="nu"
 else
-  echo "==> Shell already set to zsh"
+  TARGET_SHELL="${HOME}/.nix-profile/bin/zsh"
+  TARGET_NAME="zsh"
+fi
+
+if [ -x "${TARGET_SHELL}" ] && [ "$(basename "${SHELL}")" != "${TARGET_NAME}" ]; then
+  echo "==> Setting ${TARGET_NAME} as default shell (${TARGET_SHELL})"
+  if ! grep -qF "${TARGET_SHELL}" /etc/shells 2>/dev/null; then
+    echo "${TARGET_SHELL}" | sudo tee -a /etc/shells >/dev/null
+  fi
+  sudo chsh -s "${TARGET_SHELL}" "${USERNAME}"
+  echo "==> Default shell changed to ${TARGET_NAME}"
+else
+  echo "==> Shell already set to ${TARGET_NAME}"
 fi
 
 echo "==> Done! Open a new shell to pick up all changes."

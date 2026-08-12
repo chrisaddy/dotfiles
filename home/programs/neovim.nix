@@ -13,6 +13,14 @@ let
     # build against silences its mismatch warning.
     nixpkgs.source = pkgs.path;
 
+    # `makeNixvim` defaults this to false, which makes the wrapper pass a ~600
+    # char multi-line `--cmd "lua ..."` argument to hide XDG/system config dirs
+    # at startup. Zellij's session resurrection records that argv verbatim and
+    # renders it as the pane frame title, which then overflows the frame. There
+    # is no `~/.config/nvim` here, so keeping the XDG dirs in the runtimepath
+    # costs nothing and keeps the command line to a single store path.
+    impureRtp = true;
+
     globals.mapleader = " ";
 
     opts = {
@@ -229,6 +237,7 @@ let
       lsp-format.enable = true;
       transparent.enable = true;
       web-devicons.enable = true;
+      sg.enable = true;
       snacks.enable = true;
       treesitter = {
         enable = true;
