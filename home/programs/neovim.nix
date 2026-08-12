@@ -237,13 +237,8 @@ let
       lsp-format.enable = true;
       transparent.enable = true;
       web-devicons.enable = true;
-      sg = {
-        enable = true;
-        settings = {
-          accept_tos = true;
-        };
-      };
       snacks.enable = true;
+      supermaven.enable = true;
       treesitter = {
         enable = true;
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
