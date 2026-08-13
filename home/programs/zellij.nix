@@ -3,7 +3,7 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      # keybinds._props.clear-defaults = true;
+      keybinds._props.clear-defaults = true;
       # keybinds = {
       #   pane._children = [
       #     {

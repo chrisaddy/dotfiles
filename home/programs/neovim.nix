@@ -261,6 +261,18 @@ let
       };
       blink-cmp-avante.enable = true;
       blink-pairs.enable = true;
+      # Talks to the Claude Code CLI over a WebSocket, so the Max subscription is
+      # used through Anthropic's own client rather than by presenting Claude
+      # Code's OAuth client_id from another program.
+      claudecode = {
+        enable = true;
+        settings = {
+          # `dependencies.claude-code` is disabled above, so nothing puts a
+          # packaged CLI on nvim's PATH; name the self-updating one in
+          # ~/.local/bin directly.
+          terminal_cmd = "${config.home.homeDirectory}/.local/bin/claude";
+        };
+      };
       codediff.enable = true;
       floaterm = {
         enable = true;
