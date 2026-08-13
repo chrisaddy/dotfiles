@@ -8,10 +8,10 @@
         pane._children = [
           {
             bind = {
-              _args = [ "p" ];
+              _args = [ "h" ];
               _children = [
-                { TogglePaneEmbedOrFloating = { }; }
-                { SwitchToMode._args = [ "locked" ]; }
+                { MoveFocus = "Left"; }
+                { SwitchToMode._args = [ "normal" ]; }
               ];
             };
           }
