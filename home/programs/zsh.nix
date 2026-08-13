@@ -1,4 +1,4 @@
-{config, ...}: {
+{ config, ... }: {
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
@@ -49,6 +49,10 @@
           chpwd_functions=(_direnv_hook $chpwd_functions)
         fi
       fi
+
+      bindKey '^U' up-line-or-history
+
+      source $HOME/.secrets
     '';
   };
 
