@@ -41,7 +41,7 @@
                 _children = [
                   {
                     pane = {
-                      command = "ccc";
+                      command = "claude --dangerously-skip-permissions";
                     };
                   }
                 ];
