@@ -30,6 +30,10 @@ let
     # that CLI directly, so the packaged one is redundant.
     dependencies.claude-code.enable = false;
 
+    clipboard = {
+      register = "unnamedplus";
+    };
+
     opts = {
       number = true;
       relativenumber = true;
