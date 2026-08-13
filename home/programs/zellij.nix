@@ -4,17 +4,26 @@
     enableZshIntegration = true;
     plugins = with pkgs.zellijPlugins; [
       zjstatus
-      harpoon
     ];
     settings = {
       # keybinds._props.clear-defaults = true;
       keybinds = {
+        normal.children = [
+          {
+            bind = {
+              _args = [ "m" ];
+              _children = [
+                { SwitchToMode._args = [ "move" ]; }
+              ];
+            };
+          }
+        ];
         tab._children = [
           {
             bind = {
               _args = [ "h" ];
               _children = [
-                { MoveFocus = "Left"; }
+                { MoveFocusorTab = "Left"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
@@ -23,7 +32,7 @@
             bind = {
               _args = [ "j" ];
               _children = [
-                { MoveFocus = "Down"; }
+                { MoveFocusorTab = "Down"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
@@ -32,7 +41,7 @@
             bind = {
               _args = [ "k" ];
               _children = [
-                { MoveFocus = "Up"; }
+                { MoveFocusorTab = "Up"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
@@ -41,7 +50,7 @@
             bind = {
               _args = [ "l" ];
               _children = [
-                { MoveFocus = "Right"; }
+                { MoveFocusorTab = "Right"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
