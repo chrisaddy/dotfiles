@@ -8,7 +8,7 @@
     settings = {
       # keybinds._props.clear-defaults = true;
       keybinds = {
-        normal.children = [
+        normal._children = [
           {
             bind = {
               _args = [ "m" ];
