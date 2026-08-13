@@ -17,6 +17,14 @@
               ];
             };
           }
+          {
+            bind = {
+              _args = [ "Escape n" ];
+              _children = [
+                { SwitchToMode._args = [ "resize" ]; }
+              ];
+            };
+          }
         ];
         tab._children = [
           {
