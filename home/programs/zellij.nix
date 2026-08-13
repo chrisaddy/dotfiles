@@ -14,6 +14,15 @@
               _args = [
                 "Ctrl h"
                 "Ctrl t"
+                "Ctrl p"
+              ];
+            };
+          }
+          {
+            bind = {
+              _args = [ "Ctrl i" ];
+              _children = [
+                { SwitchToMode._args = [ "pane" ]; }
               ];
             };
           }
