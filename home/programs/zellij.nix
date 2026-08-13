@@ -37,6 +37,15 @@
         tab._children = [
           {
             bind = {
+              _args = [ "Space" ];
+              _children = [
+                { LaunchOrFocusPlugin._args = [ "session-manager" ]; }
+                { SwitchToMode._args = [ "normal" ]; }
+              ];
+            };
+          }
+          {
+            bind = {
               _args = [ "h" ];
               _children = [
                 { MoveFocusOrTab = "Left"; }
