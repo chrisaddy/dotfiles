@@ -19,7 +19,7 @@
           }
           {
             bind = {
-              _args = [ "ESC n" ];
+              _args = [ "Esc n" ];
               _children = [
                 { SwitchToMode._args = [ "resize" ]; }
               ];
