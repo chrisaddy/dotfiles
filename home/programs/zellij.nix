@@ -41,13 +41,13 @@
                 _children = [
                   {
                     pane = {
-                      command = "nvim";
+                      command = "ccc";
                     };
                   }
                 ];
                 _props = {
                   focus = true;
-                  name = "Project";
+                  name = "claude";
                 };
               };
             }
@@ -56,26 +56,12 @@
                 _children = [
                   {
                     pane = {
-                      command = "lazygit";
+                      command = "nvim";
                     };
                   }
                 ];
                 _props = {
-                  name = "Git";
-                };
-              };
-            }
-            {
-              tab = {
-                _children = [
-                  {
-                    pane = {
-                      command = "yazi";
-                    };
-                  }
-                ];
-                _props = {
-                  name = "Files";
+                  name = "nvim";
                 };
               };
             }
@@ -89,7 +75,21 @@
                   }
                 ];
                 _props = {
-                  name = "Shell";
+                  name = "shell";
+                };
+              };
+            }
+            {
+              tab = {
+                _children = [
+                  {
+                    pane = {
+                      command = "lazgit";
+                    };
+                  }
+                ];
+                _props = {
+                  name = "git";
                 };
               };
             }
