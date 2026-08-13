@@ -23,7 +23,7 @@
             bind = {
               _args = [ "h" ];
               _children = [
-                { MoveFocusorTab = "Left"; }
+                { MoveFocusOrTab = "Left"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
@@ -32,7 +32,7 @@
             bind = {
               _args = [ "j" ];
               _children = [
-                { MoveFocusorTab = "Down"; }
+                { MoveFocusOrTab = "Down"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
@@ -41,7 +41,7 @@
             bind = {
               _args = [ "k" ];
               _children = [
-                { MoveFocusorTab = "Up"; }
+                { MoveFocusOrTab = "Up"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
@@ -50,7 +50,7 @@
             bind = {
               _args = [ "l" ];
               _children = [
-                { MoveFocusorTab = "Right"; }
+                { MoveFocusOrTab = "Right"; }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
