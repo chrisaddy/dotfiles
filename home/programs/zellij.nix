@@ -4,6 +4,7 @@
     enableZshIntegration = true;
     plugins = with pkgs.zellijPlugins; [
       zjstatus
+      harpoon
     ];
     settings = {
       # keybinds._props.clear-defaults = true;
