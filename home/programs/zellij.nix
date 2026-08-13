@@ -3,6 +3,7 @@
     enable = true;
     enableZshIntegration = true;
     plugins = with pkgs.zellijPlugins; [
+      zjstatus
     ];
     settings = {
       # keybinds._props.clear-defaults = true;
