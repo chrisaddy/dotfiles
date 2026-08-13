@@ -10,7 +10,7 @@
       ls = "exa -la";
       lss = "yazi";
       ccc = "claude --dangerously-skip-permissions";
-      zl = "zellij list-sessions --short | fzf";
+      zl = "zellij attach $(zellij list-sessions --short | fzf)";
       zk = "zellij delete-session $(zellij list-sessions --short | fzf) --force";
       # `update` and `exevm` live in programs/scripts.nix as real binaries, so
       # nushell gets them too.
