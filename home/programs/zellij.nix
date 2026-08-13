@@ -48,7 +48,15 @@
             bind = {
               _args = [ "Space" ];
               _children = [
-                { LaunchOrFocusPlugin._args = [ "session-manager" ]; }
+                {
+                  LaunchOrFocusPlugin = {
+                    _args = [ "session-manager" ];
+                    _children = [
+                      { floating._args = [ true ]; }
+                      { move_to_focused_tab._args = [ true ]; }
+                    ];
+                  };
+                }
                 { SwitchToMode._args = [ "normal" ]; }
               ];
             };
