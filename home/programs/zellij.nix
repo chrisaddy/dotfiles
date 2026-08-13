@@ -7,6 +7,26 @@
     ];
     settings = {
       # keybinds._props.clear-defaults = true;
+      layout = {
+        _children = [
+          {
+            default_tab_template = {
+              _children = [
+                { children = { }; } # your panes go here
+                {
+                  pane = {
+                    size = 1;
+                    borderless = true;
+                    plugin = {
+                      location = "file:${pkgs.zellijPlugins.zjstatus}/bin/zjstatus.wasm";
+                    };
+                  };
+                }
+              ];
+            };
+          }
+        ];
+      };
       keybinds = {
         normal._children = [
           {
