@@ -85,7 +85,7 @@
                 _children = [
                   {
                     pane = {
-                      command = "lazgit";
+                      command = "lazygit";
                     };
                   }
                 ];
