@@ -33,6 +33,25 @@
               ];
             };
           }
+          {
+            bind = {
+              _args = [ "h" ];
+              _children = [
+                { MoveFocusOrTab = "Left"; }
+                { SwitchToMode._args = [ "normal" ]; }
+              ];
+            };
+          }
+          {
+            bind = {
+              _args = [ "j" ];
+              _children = [
+                { MoveFocusOrTab = "Down"; }
+                { SwitchToMode._args = [ "normal" ]; }
+              ];
+            };
+          }
+
         ];
         tab._children = [
           {
