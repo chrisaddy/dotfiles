@@ -205,22 +205,22 @@ let
           ];
         };
       };
-      avante = {
-        enable = true;
-        settings = {
-          provider = "claude";
-          behaviour = {
-            auto_suggestions = true;
-          };
-          inputs = {
-            provider = "snacks";
-            provider_opts = {
-              title = "Avante Input";
-              icon = " ";
-            };
-          };
-        };
-      };
+      # avante = {
+      #   enable = true;
+      #   settings = {
+      #     provider = "claude";
+      #     behaviour = {
+      #       auto_suggestions = true;
+      #     };
+      #     inputs = {
+      #       provider = "snacks";
+      #       provider_opts = {
+      #         title = "Avante Input";
+      #         icon = " ";
+      #       };
+      #     };
+      #   };
+      # };
       bacon.enable = true;
       blink-cmp = {
         enable = true;
