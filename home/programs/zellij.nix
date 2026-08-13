@@ -11,12 +11,25 @@
         normal._children = [
           {
             unbind = {
-              _args = [ "Ctrl h" ];
+              _args = [
+                "Ctrl h"
+                "Ctrl t"
+              ];
             };
+          }
+          {
             bind = {
               _args = [ "Ctrl m" ];
               _children = [
                 { SwitchToMode._args = [ "move" ]; }
+              ];
+            };
+          }
+          {
+            bind = {
+              _args = [ "Ctrl Space" ];
+              _children = [
+                { SwitchToMode._args = [ "tab" ]; }
               ];
             };
           }
