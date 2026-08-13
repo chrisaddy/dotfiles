@@ -10,6 +10,9 @@
       keybinds = {
         normal._children = [
           {
+            unbind = {
+              _args = [ "Ctrl h" ];
+            };
             bind = {
               _args = [ "Ctrl m" ];
               _children = [
