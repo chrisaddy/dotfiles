@@ -50,7 +50,7 @@
         fi
       fi
 
-      bindKey '^U' up-line-or-history
+      bindkey '^U' up-line-or-history
 
       source $HOME/.secrets
     '';
