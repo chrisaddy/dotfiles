@@ -17,14 +17,6 @@
               ];
             };
           }
-          {
-            bind = {
-              _args = [ "Esc n" ];
-              _children = [
-                { SwitchToMode._args = [ "resize" ]; }
-              ];
-            };
-          }
         ];
         tab._children = [
           {
