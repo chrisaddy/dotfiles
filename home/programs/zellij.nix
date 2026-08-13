@@ -41,7 +41,8 @@
                 _children = [
                   {
                     pane = {
-                      command = "claude --dangerously-skip-permissions";
+                      command = "claude";
+                      args = [ "--dangerously-skip-permissions" ];
                     };
                   }
                 ];
