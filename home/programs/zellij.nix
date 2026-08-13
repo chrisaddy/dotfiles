@@ -11,7 +11,7 @@
         normal._children = [
           {
             bind = {
-              _args = [ "m" ];
+              _args = [ "Ctrl m" ];
               _children = [
                 { SwitchToMode._args = [ "move" ]; }
               ];
