@@ -183,6 +183,62 @@ let
         action = "<CMD>FzfLua git_worktrees<CR>";
         options.desc = "[w]orktrees";
       }
+      # harpoon2 exposes `list` and `ui` as objects with colon-methods, so these
+      # have to be raw lua closures — there is no `:Harpoon` command, and a
+      # dot-call like `harpoon.ui.toggle_quick_menu()` passes no `self`.
+      {
+        mode = "n";
+        key = "<leader>ha";
+        action.__raw = ''function() require("harpoon"):list():add() end'';
+        options.desc = "[a]dd file";
+      }
+      {
+        mode = "n";
+        key = "<leader>hh";
+        action.__raw = ''
+          function()
+            local harpoon = require("harpoon")
+            harpoon.ui:toggle_quick_menu(harpoon:list())
+          end
+        '';
+        options.desc = "toggle quick menu";
+      }
+      {
+        mode = "n";
+        key = "<leader>hn";
+        action.__raw = ''function() require("harpoon"):list():next() end'';
+        options.desc = "[n]ext mark";
+      }
+      {
+        mode = "n";
+        key = "<leader>hp";
+        action.__raw = ''function() require("harpoon"):list():prev() end'';
+        options.desc = "[p]revious mark";
+      }
+      {
+        mode = "n";
+        key = "<leader>h1";
+        action.__raw = ''function() require("harpoon"):list():select(1) end'';
+        options.desc = "mark 1";
+      }
+      {
+        mode = "n";
+        key = "<leader>h2";
+        action.__raw = ''function() require("harpoon"):list():select(2) end'';
+        options.desc = "mark 2";
+      }
+      {
+        mode = "n";
+        key = "<leader>h3";
+        action.__raw = ''function() require("harpoon"):list():select(3) end'';
+        options.desc = "mark 3";
+      }
+      {
+        mode = "n";
+        key = "<leader>h4";
+        action.__raw = ''function() require("harpoon"):list():select(4) end'';
+        options.desc = "mark 4";
+      }
       {
         mode = "n";
         key = "<leader>u";
@@ -387,6 +443,10 @@ let
           {
             __unkeyed-1 = "<leader>g";
             group = "[g]it";
+          }
+          {
+            __unkeyed-1 = "<leader>h";
+            group = "[h]arpoon";
           }
           {
             __unkeyed-1 = "<leader>t";
