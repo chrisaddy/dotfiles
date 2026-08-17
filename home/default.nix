@@ -62,16 +62,7 @@ in
         pnpm
         sqlite
 
-        # Python (black/isort/pyflakes/pytest satisfy Doom's :lang python checks;
-        # bundled into one interpreter env to avoid a bin/python3 collision)
-        (python3.withPackages (
-          ps: with ps; [
-            black
-            isort
-            pyflakes
-            pytest
-          ]
-        ))
+        # python
         uv
         ruff
         basedpyright
@@ -85,7 +76,6 @@ in
         gum
         just
         direnv
-        sesh
 
         # Networking
         tailscale
