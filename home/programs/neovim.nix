@@ -291,6 +291,7 @@ let
       # flash.enable = true;
       fzf-lua.enable = true;
       gitsigns.enable = true;
+      harpoon.enable = true;
       lualine.enable = true;
       neogit.enable = true;
       octo.enable = true;

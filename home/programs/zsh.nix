@@ -29,8 +29,17 @@
       # `opam init` yet starts a clean shell. --safe keeps opam from rewriting
       # any state just to print the env. Per-project switches still override
       # this via the direnv hook below, which runs at precmd.
-      if command -v opam >/dev/null 2>&1 && [ -d "$HOME/.opam" ]; then
+      # Skipped inside devenv: an auto-activated devenv shell re-runs this file,
+      # and opam would prepend its switch ahead of the project's nix toolchain.
+      if [ -z "$DEVENV_ROOT" ] && command -v opam >/dev/null 2>&1 && [ -d "$HOME/.opam" ]; then
         eval "$(opam env --safe)"
+      fi
+
+      # devenv native auto-activation (devenv 2.0+). Resolved via $PATH rather
+      # than a pinned store path, for the same GC-safety reason as direnv below.
+      # Projects opt in with `devenv allow`.
+      if command -v devenv >/dev/null 2>&1; then
+        eval "$(devenv hook zsh)"
       fi
 
       # direnv hook resolved via $PATH rather than a pinned store path, so it
