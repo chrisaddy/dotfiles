@@ -52,8 +52,6 @@
         fi
       fi
 
-      bindkey '^U' up-line-or-history
-
       source $HOME/.secrets
     '';
   };

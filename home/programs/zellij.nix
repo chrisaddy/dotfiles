@@ -33,6 +33,7 @@
             unbind = {
               _args = [
                 "Ctrl h"
+                "Ctrl n"
                 "Ctrl t"
                 "Ctrl p"
               ];
@@ -51,6 +52,14 @@
               _args = [ "Ctrl m" ];
               _children = [
                 { SwitchToMode._args = [ "move" ]; }
+              ];
+            };
+          }
+          {
+            bind = {
+              _args = [ "Ctrl u" ];
+              _children = [
+                { SwitchToMode._args = [ "resize" ]; }
               ];
             };
           }
