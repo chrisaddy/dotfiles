@@ -12,13 +12,11 @@ in
 {
   imports = [
     ./programs/bat.nix
-    ./programs/emacs.nix
     ./programs/lazygit.nix
     ./programs/helix.nix
     ./programs/neovim.nix
     ./programs/scripts.nix
     ./programs/starship.nix
-    ./programs/tmux.nix
     ./programs/yazi.nix
     ./programs/zellij.nix
     ./programs/zoxide.nix
@@ -109,7 +107,6 @@ in
         (lib.hiPrio secretspec)
 
         # Terminal
-        tmux
         yazi
       ]
       ++ lib.optionals isDarwin [
@@ -123,21 +120,16 @@ in
       ++ lib.optionals (!headless) [
         # Full dev environment extras
         fzf
-        cmake # builds Doom's :term vterm native module
         libvterm-neovim # system libvterm for vterm (avoids vendored autotools/glibtool build)
         ninja
-        # Doom :lang formatters / linters / preview
         shfmt # :lang sh — format
         shellcheck # :lang sh — lint
         nixfmt # :lang nix — format (nixfmt-rfc-style is now an alias for this)
-        go-grip # :lang markdown — GitHub-style preview (grip unavailable on darwin)
-        go
         rust-analyzer
         rustfmt # :lang rust — format-on-save
         lldb
         marksman
         markdown-oxide
-        elan
 
         # OCaml — opam manages the compiler and libraries in ~/.opam, so only
         # opam itself plus its build prerequisites live in the Nix closure.
