@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+vm_name="${1:-dotfiles-vm}"
+dotfiles_repo="https://github.com/chrisaddy/dotfiles.git"
+
+echo "Creating VM '$vm_name'..."
+ssh exe.dev new --name="$vm_name"
+
+echo "Waiting for VM to be ready..."
+while true; do
+  vm_status=$(ssh exe.dev ls --json | jq -r ".vms[] | select(.vm_name==\"$vm_name\") | .status")
+  if [ "$vm_status" = "running" ]; then
+    break
+  fi
+  echo "  status: $vm_status — waiting..."
+  sleep 3
+done
+echo "VM is running!"
+
+echo "Cloning dotfiles and running bootstrap..."
+# $HOME is escaped so it expands on the VM; $dotfiles_repo is deliberately
+# expanded here, which is what SC2029 warns about.
+# shellcheck disable=SC2029
+ssh "$vm_name.exe.xyz" "git clone $dotfiles_repo \"\$HOME/dotfiles\" && cd \"\$HOME/dotfiles\" && git checkout arch && bash bootstrap.sh"
+
+echo ""
+echo "✅ Setup complete! Connecting to $vm_name..."
+echo ""
+ssh "$vm_name.exe.xyz"

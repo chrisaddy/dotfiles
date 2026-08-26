@@ -1,0 +1,13 @@
+# AUR packages, installed with `paru -S --needed`. Names are best-effort —
+# search `paru -Ss <name>` if one has since moved into the official repos or
+# been renamed.
+
+carapace-bin
+gum
+basedpyright
+marksman
+markdown-oxide
+du-dust
+google-cloud-cli
+aws-cli-v2
+nyxt

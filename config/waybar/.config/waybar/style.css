@@ -1,0 +1,40 @@
+* {
+    font-family: monospace;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+#clock,
+#cpu,
+#memory,
+#temperature,
+#battery,
+#pulseaudio {
+    padding: 0 10px;
+    color: #ffffff;
+}
+
+#clock {
+    background-color: transparent;
+}
+
+#battery.charging {
+    color: #26a65b;
+}
+
+#battery.warning:not(.charging) {
+    color: #f0ad4e;
+}
+
+#battery.critical:not(.charging) {
+    color: #e74c3c;
+}
+
+#temperature.critical {
+    color: #e74c3c;
+}

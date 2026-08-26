@@ -1,0 +1,70 @@
+# Official Arch repos (core/extra). One package per line; `#` starts a
+# comment. Installed with `pacman -S --needed`.
+
+# Shell / login
+zsh
+zsh-autosuggestions
+zsh-syntax-highlighting
+nushell
+starship
+zoxide
+direnv
+
+# Stow / task runner
+stow
+just
+
+# Core CLI tools
+cloc
+curl
+fd
+jq
+ripgrep
+tree
+wget
+
+# Development
+git
+lazygit
+git-delta
+github-cli
+nodejs
+npm
+pnpm
+sqlite
+uv
+ruff
+
+# Rust
+rust
+rust-analyzer
+
+# Terminal / editor
+yazi
+zellij
+bat
+eza
+fzf
+lldb
+ninja
+shfmt
+shellcheck
+
+# OCaml prerequisites (opam manages the compiler/libraries itself, see README)
+opam
+gmp
+m4
+pkg-config
+unzip
+
+# Networking / data
+tailscale
+duckdb
+ffmpeg
+
+# Linux desktop (niri compositor + status bar + terminal)
+niri
+waybar
+ghostty
+gcc
+bubblewrap

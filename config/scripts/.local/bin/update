@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$HOME/dotfiles"
+
+git pull
+
+sudo pacman -Syu --noconfirm
+if command -v paru >/dev/null 2>&1; then
+  paru -Sua --noconfirm
+fi
+
+just stow
+
+git add -A
+# A clean tree is not a failure; skip the commit and still push whatever
+# is already local.
+git diff --cached --quiet || git commit -m 'update'
+git push

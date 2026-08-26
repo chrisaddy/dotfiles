@@ -4,167 +4,78 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal dotfiles repository for Arch Linux and macOS, managed with Nix Home Manager and nix-darwin via flakes.
+This is the **arch branch** of a personal dotfiles repo. `main` manages the
+same configs on macOS + Linux with Nix (Home Manager + nix-darwin, via
+flakes). This branch is a from-scratch, non-Nix re-implementation of the same
+configs for a plain Arch Linux machine: pacman/AUR for packages, GNU stow for
+placing dotfiles, and `just` as the task runner. It does not track `main`
+automatically — when a config changes on `main`, the equivalent file here
+needs to be updated by hand.
 
 ## Commands
 
-### nix-darwin (macOS system config)
 ```bash
-# Build and activate (requires sudo)
-sudo darwin-rebuild switch --flake ~/dotfiles#olympus-3
-
-# Or via nh
-sudo nh darwin switch ~/dotfiles
-```
-
-### Home Manager
-```bash
-# Build and activate (macOS Apple Silicon)
-nix run home-manager -- switch --flake '.#chrisaddy@darwin'
-
-# Build and activate (Linux x86_64)
-nix run home-manager -- switch --flake '.#chrisaddy@linux'
-
-# Dry-run build (no activation)
-nix build '.#homeConfigurations.chrisaddy@darwin.activationPackage' --dry-run
+./bootstrap.sh      # install `just` if missing, then `just bootstrap`
+just --list         # see all recipes
+just install        # pacman (packages/pacman.txt) + paru (packages/aur.txt)
+just stow            # symlink every config/<package>/ into $HOME
+just restow          # stow -R, after editing files inside a package
+just unstow           # remove the symlinks
 ```
 
 ## Architecture
 
-### Flake Structure
 ```
-flake.nix              # Flake with home-manager + nix-darwin inputs
-bootstrap.sh           # Zero-to-configured setup script
-darwin/
-  default.nix          # nix-darwin system config (system packages, platform)
-home/
-  default.nix          # Main home config (packages, imports, custom derivations)
-  doom/                # Doom Emacs config (init.el, config.el, packages.el)
-  packages/            # Vendored lockfiles for npm packages
-  programs/
-    bat.nix            # bat config
-    emacs.nix          # Emacs + Doom (symlinks framework & config, sets DOOM* env)
-    ghostty.nix        # Ghostty terminal (non-headless only)
-    helix.nix          # Helix editor
-    lazygit.nix        # Lazygit TUI
-    niri.nix           # Niri compositor (Linux only)
-    starship.nix       # Starship prompt
-    tmux.nix           # Tmux
-    waybar.nix         # Waybar (Linux only)
-    yazi.nix           # Yazi file manager
-    zoxide.nix         # Zoxide
-    zsh.nix            # Zsh shell
+Justfile                  # install / stow / bootstrap recipes
+bootstrap.sh              # thin wrapper: install just, then `just bootstrap`
+packages/
+  pacman.txt               # official-repo packages
+  aur.txt                   # AUR packages (via paru)
+config/                    # one stow package per top-level subdirectory;
+                            # each mirrors the $HOME path it symlinks to
 ```
 
-Headless mode (used for `exedev@linux`) strips graphical programs (Ghostty, Niri, Waybar) and heavy dev tools.
+Each subdirectory of `config/` is an independent GNU stow package. `just
+stow` runs `stow -t ~ -d config <every subdir>`; adding a new tool means
+adding a new `config/<name>/` tree with paths relative to `$HOME`, then
+adding it to `packages/pacman.txt` or `packages/aur.txt`.
 
-All program configurations are fully inlined in their .nix files using `xdg.configFile.*.text`.
+### Neovim
 
-### Doom Emacs
+`config/nvim/.config/nvim/` is plain Lua bootstrapping
+[lazy.nvim](https://github.com/folke/lazy.nvim), converted by hand from
+`main`'s NixVim config. `init.lua` sets options/leader and calls
+`require("lazy").setup(...)`; `lua/keymaps.lua` holds all keymaps;
+`lua/plugins/*.lua` holds one lazy.nvim spec file per logical group
+(colorscheme, ui, completion, treesitter, lsp, git, editor, claudecode).
 
-`home/programs/emacs.nix` installs Emacs (via `programs.emacs`) and symlinks both
-the Doom framework (pinned as the `doomemacs` flake input) and the `home/doom/`
-config dir into XDG paths, then sets the `DOOM*` env vars. Doom's package state
-stays mutable outside the Nix store, so first-run setup is manual:
+LSP servers are plain `nvim-lspconfig` + `vim.lsp.enable(...)` — there is no
+`mason.nvim`. Every server name in `lua/plugins/lsp.lua` is expected to
+resolve on `$PATH`, installed via `packages/pacman.txt` / `packages/aur.txt`
+rather than by a second, editor-managed package manager.
 
-```bash
-# After the first `darwin-rebuild`/`home-manager switch`,
-# from a SHELL THAT HAS THE DOOM* env vars (re-login or `exec zsh`;
-# re-sourcing hm-session-vars.sh in an existing shell is a no-op because of
-# its once-per-session guard). Verify with: echo $DOOMLOCALDIR
-~/.config/emacs/bin/doom sync
-```
+Two plugins (`bacon`, `codediff`) were carried over from NixVim's module
+names with the upstream GitHub repo unconfirmed — see the comments in
+`lua/plugins/editor.lua` and `lua/plugins/git.lua` before relying on either.
 
-Do **not** run `doom install` here. Under Nix the framework lives at a
-read-only store path with no `.git`, so `doom install`'s submodule-update and
-git-hook-deploy steps always fail. `doom sync` is the only command needed; it
-installs/builds packages into `$DOOMLOCALDIR` (`~/.local/share/doom`).
+### Shell
 
-The `doomemacs` input MUST be fetched with submodules — the framework keeps its
-modules in a `sources/doom+` submodule, and the `github:` fetcher drops
-submodules. The flake uses `git+https://github.com/doomemacs/doomemacs?submodules=1`
-for this reason; don't revert it to the `github:` shorthand.
+Nushell is the login shell (`just shell` / `chsh`), matching `main`'s
+full-workstation default. Zsh (`config/zsh/.zshrc`) is kept side-by-side and
+fully configured, same as on `main`. `update` and `exevm`
+(`config/scripts/.local/bin/`) are plain shell scripts on `$PATH` so both
+shells get them without either needing to know about the other.
 
-Run `~/.config/emacs/bin/doom sync` after any change to `home/doom/init.el`,
-`home/doom/packages.el`, or the Doom env vars. Update the framework with
-`nix flake update doomemacs`.
+### What was intentionally dropped, not ported
 
-### OCaml / opam
+`darwin/`, Doom Emacs/opam bootstrapping notes, and anything Nix-specific
+(`nh`, `devenv`, `secretspec`, `nixfmt`, NixOS/nix-darwin system config) don't
+apply to a plain Arch box and were left out rather than translated. Nix
+language tooling itself (the `nil` LSP, `alejandra` formatter) was kept in
+Neovim's language configs, since editing someone else's `.nix` files
+is still plausible even on a Nix-free machine.
 
-Nix installs only `opam` and its build prerequisites (`gmp`, `m4`, `pkg-config`,
-`unzip`, plus `bubblewrap` on Linux for opam's sandbox). The compiler and all
-libraries live in a mutable `~/.opam` outside the Nix store, so — like Doom —
-first-run setup is manual:
-
-```bash
-# Only on a machine with no ~/.opam yet:
-opam init --bare -n
-opam switch create default ocaml-base-compiler
-
-# Always — the tooling Doom's :lang ocaml expects:
-opam install -y dune ocaml-lsp-server ocamlformat utop
-exec zsh   # pick up the opam env
-```
-
-`opam switch list` shows whether a switch already exists; `opam switch create`
-errors out if the name is taken.
-
-`home/programs/zsh.nix` runs `eval "$(opam env --safe)"` at shell init, guarded on
-`~/.opam` existing, so shells work before that bootstrap. The direnv hook runs at
-precmd and therefore still overrides this for per-project switches.
-
-Doom's `:lang (ocaml +lsp)` uses opam's `ocaml-lsp-server` and `ocamlformat` —
-both must be in the default switch, and `doom sync` must run after enabling it.
-Because the toolchain comes from the shell env, Emacs must be started from a
-shell (terminal or `emacsclient`). Launched from a macOS GUI launcher it won't
-see the opam binaries; the fix if that ever matters is `exec-path-from-shell` in
-`home/doom/packages.el`.
-
-OCaml is excluded from headless mode (`exedev@linux`).
-
-### Environment
-- Editor: hx (helix)
-- Shell: nushell (login shell) with starship prompt; zsh still installed
-- Tmux prefix: `C-Space`
-
-### Nushell as login shell
-
-`home/programs/nushell.nix` configures nushell; it is imported for the full
-workstations only. `exedev@linux` (headless) stays on zsh, because both
-`bootstrap.sh` and `exevm` drive VMs with `ssh host "a && b"` and nushell has
-no `&&`.
-
-Two details that are easy to get wrong:
-
-- `configDir` is pinned to nu's own per-platform default (`Library/Application
-  Support/nushell` on darwin, `.config/nushell` on Linux) and is **home
-  relative**. It must not follow `xdg.enable`: nu only reads `~/.config/nushell`
-  when `XDG_CONFIG_HOME` is set, and that variable only reaches shells via the
-  POSIX `hm-session-vars.sh`, which nushell never sources — so a nu shell
-  started from Ghostty or Finder would find no config. An *absolute* path here
-  silently generates no config files at all.
-- Env vars are generated from `home.sessionVariables` / `home.sessionPath`, so
-  adding one there reaches nu too. Values containing POSIX expansion (`$VAR`,
-  `${VAR:+...}`) are skipped, since nu does not interpret them, and must be
-  written natively in `extraEnv` — `TERMINFO_DIRS` is the current example.
-
-Changing the login shell is manual and one-time (nix-darwin only writes
-`/etc/shells`). `chsh` records a literal path, so use the profile path, never a
-store path — a store path becomes a dead login shell after `nh clean all`:
-
-```bash
-# macOS, after `darwin-rebuild switch`
-chsh -s /etc/profiles/per-user/chrisaddy/bin/nu
-
-# Linux: bootstrap.sh does this (also appends to /etc/shells)
-chsh -s ~/.nix-profile/bin/nu
-```
-
-Verify with `dscl . -read /Users/chrisaddy UserShell` (macOS) or
-`getent passwd "$USER"` (Linux), then open a **new** terminal while keeping the
-current one alive. Rollback is `chsh -s /bin/zsh`.
-
-`update` and `exevm` are real binaries from `home/programs/scripts.nix` rather
-than zsh aliases/functions, so both shells get them. A nu wrapper calling
-`zsh -lc update` would not work: `-lc` is non-interactive, so `.zshrc` — where
-Home Manager puts aliases and functions — is never read.
+See `README.md`'s "Notable deviations from `main`" section for the specific
+list of things that could not be ported 1:1 (unconfirmed plugin sources,
+packages not in pacman/AUR, a pre-existing `exa`/`eza` alias mismatch carried
+over as-is).
