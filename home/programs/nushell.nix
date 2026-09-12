@@ -103,6 +103,13 @@ in
     '';
 
     extraConfig = ''
+      alias ls = eza -la
+      alias ll = yazi
+      alias claude = caveman claude
+      alias gs = gh stack
+      alias zl = zellij list-sessions
+      alias zk = zellij delete-session --force (zellij list-sessions --short | fzf)
+      alias rg = rg --hidden
       # direnv, resolved through $PATH rather than a pinned store path, so a
       # running shell survives a rebuild + `nh clean all` deleting the old
       # direnv derivation. Same reasoning as the zsh hook in zsh.nix, which is
