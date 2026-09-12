@@ -17,6 +17,7 @@ map("n", "<leader>fdw", "<CMD>FzfLua diagnostics_workspace<CR>", { desc = "[w]or
 map("n", "<leader>ff", "<CMD>FzfLua files<CR>", { desc = "[f]iles" })
 map("n", "<leader>fm", "<CMD>FzfLua marks<CR>", { desc = "[m]arks" })
 map("n", "<leader>fM", "<CMD>FzfLua<CR>", { desc = "[M]enu" })
+map("n", "<leader>fs", "<CMD>FzfLua live_grep<CR>", { desc = "[s]earch" })
 map("n", "<leader>fr<CR>", "<CMD>FzfLua registers", { desc = "[r]egisters" })
 
 map("n", "<leader>gb", "<CMD>FzfLua git_branches<CR>", { desc = "[b]ranches" })
