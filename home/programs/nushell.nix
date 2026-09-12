@@ -60,7 +60,10 @@ in
     # Kept home-relative: these become `home.file` keys, and an absolute path
     # there silently produces no files at all.
     configDir =
-      if pkgs.stdenv.isDarwin then "Library/Application Support/nushell" else ".config/nushell";
+      if pkgs.stdenv.hostPlatform.isDarwin then
+        "Library/Application Support/nushell"
+      else
+        ".config/nushell";
 
     shellAliases = {
       ls = "eza -la";
