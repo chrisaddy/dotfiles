@@ -38,70 +38,55 @@ bootstrap.sh           # Zero-to-configured setup script
 darwin/
   default.nix          # nix-darwin system config (system packages, platform)
 home/
-  default.nix          # Main home config (packages, imports, custom derivations)
-  doom/                # Doom Emacs config (init.el, config.el, packages.el)
-  packages/            # Vendored lockfiles for npm packages
+  default.nix          # Main home config (packages, imports, flag wiring)
   programs/
     bat.nix            # bat config
-    emacs.nix          # Emacs + Doom (symlinks framework & config, sets DOOM* env)
-    ghostty.nix        # Ghostty terminal (non-headless only)
+    ghostty.nix        # Ghostty terminal (gui only)
     helix.nix          # Helix editor
     lazygit.nix        # Lazygit TUI
-    niri.nix           # Niri compositor (Linux only)
+    neovim.nix         # Neovim via nixvim
+    niri.nix           # Niri compositor (Linux, gui only)
+    nushell.nix        # Nushell (login shell; non-headless only)
+    scripts.nix        # `update`, `exevm` binaries
     starship.nix       # Starship prompt
-    tmux.nix           # Tmux
-    waybar.nix         # Waybar (Linux only)
+    waybar.nix         # Waybar (Linux, gui only)
     yazi.nix           # Yazi file manager
+    zellij.nix         # Zellij multiplexer
     zoxide.nix         # Zoxide
     zsh.nix            # Zsh shell
 ```
 
-Headless mode (used for `exedev@linux`) strips graphical programs (Ghostty, Niri, Waybar) and heavy dev tools.
+### `headless` and `gui`
+
+`mkHome` in `flake.nix` takes two independent booleans, both threaded into
+`home/default.nix` via `extraSpecialArgs`:
+
+- `headless` — this is a lightweight VM. It drops nushell (so the machine keeps
+  zsh, because `bootstrap.sh` and `exevm` drive VMs with `ssh host "a && b"`,
+  which nu cannot parse) and the heavy dev toolchain (fzf, opam, rust-analyzer,
+  the language servers, awscli2, google-cloud-sdk, duckdb, ffmpeg, …).
+- `gui` — a desktop belongs here. Gates Ghostty, Niri, Waybar, and Nyxt. It
+  defaults to `!headless`, so the workstations and VMs behave as before, but it
+  is set independently for WSL.
+
+Keep them separate. `chris@linux` (WSL2) is exactly the case that needs
+`headless = false` with `gui = false`: the full toolchain and no compositor.
 
 All program configurations are fully inlined in their .nix files using `xdg.configFile.*.text`.
-
-### Doom Emacs
-
-`home/programs/emacs.nix` installs Emacs (via `programs.emacs`) and symlinks both
-the Doom framework (pinned as the `doomemacs` flake input) and the `home/doom/`
-config dir into XDG paths, then sets the `DOOM*` env vars. Doom's package state
-stays mutable outside the Nix store, so first-run setup is manual:
-
-```bash
-# After the first `darwin-rebuild`/`home-manager switch`,
-# from a SHELL THAT HAS THE DOOM* env vars (re-login or `exec zsh`;
-# re-sourcing hm-session-vars.sh in an existing shell is a no-op because of
-# its once-per-session guard). Verify with: echo $DOOMLOCALDIR
-~/.config/emacs/bin/doom sync
-```
-
-Do **not** run `doom install` here. Under Nix the framework lives at a
-read-only store path with no `.git`, so `doom install`'s submodule-update and
-git-hook-deploy steps always fail. `doom sync` is the only command needed; it
-installs/builds packages into `$DOOMLOCALDIR` (`~/.local/share/doom`).
-
-The `doomemacs` input MUST be fetched with submodules — the framework keeps its
-modules in a `sources/doom+` submodule, and the `github:` fetcher drops
-submodules. The flake uses `git+https://github.com/doomemacs/doomemacs?submodules=1`
-for this reason; don't revert it to the `github:` shorthand.
-
-Run `~/.config/emacs/bin/doom sync` after any change to `home/doom/init.el`,
-`home/doom/packages.el`, or the Doom env vars. Update the framework with
-`nix flake update doomemacs`.
 
 ### OCaml / opam
 
 Nix installs only `opam` and its build prerequisites (`gmp`, `m4`, `pkg-config`,
 `unzip`, plus `bubblewrap` on Linux for opam's sandbox). The compiler and all
-libraries live in a mutable `~/.opam` outside the Nix store, so — like Doom —
-first-run setup is manual:
+libraries live in a mutable `~/.opam` outside the Nix store, so first-run setup
+is manual:
 
 ```bash
 # Only on a machine with no ~/.opam yet:
 opam init --bare -n
 opam switch create default ocaml-base-compiler
 
-# Always — the tooling Doom's :lang ocaml expects:
+# Always — the editor tooling (LSP + formatter):
 opam install -y dune ocaml-lsp-server ocamlformat utop
 exec zsh   # pick up the opam env
 ```
@@ -113,24 +98,22 @@ errors out if the name is taken.
 `~/.opam` existing, so shells work before that bootstrap. The direnv hook runs at
 precmd and therefore still overrides this for per-project switches.
 
-Doom's `:lang (ocaml +lsp)` uses opam's `ocaml-lsp-server` and `ocamlformat` —
-both must be in the default switch, and `doom sync` must run after enabling it.
-Because the toolchain comes from the shell env, Emacs must be started from a
-shell (terminal or `emacsclient`). Launched from a macOS GUI launcher it won't
-see the opam binaries; the fix if that ever matters is `exec-path-from-shell` in
-`home/doom/packages.el`.
+`ocaml-lsp-server` and `ocamlformat` must live in the default switch for the
+editors to pick them up. Because the toolchain comes from the shell env, start
+the editor from a shell; launched from a GUI launcher it will not see the opam
+binaries.
 
 OCaml is excluded from headless mode (`exedev@linux`).
 
 ### Environment
 - Editor: hx (helix)
 - Shell: nushell (login shell) with starship prompt; zsh still installed
-- Tmux prefix: `C-Space`
+- Multiplexer: zellij
 
 ### Nushell as login shell
 
-`home/programs/nushell.nix` configures nushell; it is imported for the full
-workstations only. `exedev@linux` (headless) stays on zsh, because both
+`home/programs/nushell.nix` configures nushell; it is imported whenever
+`headless` is false. `exedev@linux` (headless) stays on zsh, because both
 `bootstrap.sh` and `exevm` drive VMs with `ssh host "a && b"` and nushell has
 no `&&`.
 
@@ -168,3 +151,28 @@ current one alive. Rollback is `chsh -s /bin/zsh`.
 than zsh aliases/functions, so both shells get them. A nu wrapper calling
 `zsh -lc update` would not work: `-lc` is non-interactive, so `.zshrc` — where
 Home Manager puts aliases and functions — is never read.
+
+### The `update` script
+
+`home/programs/scripts.nix` builds `update` with `writeShellApplication`, which
+means shellcheck runs at build time — a shell mistake fails `nix build`, not the
+next run.
+
+On a pacman machine it also upgrades the system layer, which Nix does not own:
+
+```sh
+paru -Syu --needed <archSystemPackages>      # falls back to sudo pacman -Syu
+```
+
+`paru` covers the AUR and invokes sudo itself; plain `pacman` needs `sudo` in
+front. Passing the package list to `-Syu` makes the upgrade and the
+ensure-installed one transaction. Detection is `command -v pacman`, which works
+because `writeShellApplication` appends `:$PATH` after the Nix runtime inputs,
+so `/usr/bin` is still on PATH.
+
+`archSystemPackages` is the declarative list of things that genuinely cannot
+come from Nix — pacman's own dependency graph (`base-devel` for paru's AUR
+builds, `git`, `bubblewrap` for `glycin`) and the base system (`sudo`,
+`openssh`, `less`, `vim` as a rescue editor). **An ordinary CLI tool does not
+belong there**; put it in `home/default.nix`. Nix wins on PATH, so a pacman copy
+of a tool Nix already provides is dead weight.

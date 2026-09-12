@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   programs.zellij = {
     enable = true;
     enableZshIntegration = true;
@@ -6,6 +6,17 @@
       zjstatus
     ];
     settings = {
+      # Without this, zellij spawns $SHELL, which every process inherits from
+      # whenever its session started — so a terminal opened before a `chsh`
+      # keeps handing zellij the old shell indefinitely. Naming the shell here
+      # makes new panes independent of that stale inheritance.
+      #
+      # Resolved through PATH rather than a store path, for the same reason the
+      # direnv and devenv hooks are: a pinned store path dies at the next
+      # `nh clean all`. Keyed off nushell actually being installed, since the
+      # headless VMs do not have it and stay on zsh.
+      default_shell = if config.programs.nushell.enable then "nu" else "zsh";
+
       # keybinds._props.clear-defaults = true;
       layout = {
         _children = [

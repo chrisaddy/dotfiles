@@ -6,10 +6,9 @@
     syntaxHighlighting.enable = true;
     enableCompletion = true;
 
+    # Shared aliases live in home.shellAliases (home/default.nix). These two are
+    # zsh-only because they shell out to fzf.
     shellAliases = {
-      ls = "exa -la";
-      lss = "yazi";
-      ccc = "claude --dangerously-skip-permissions";
       zl = "zellij attach $(zellij list-sessions --short | fzf)";
       zk = "zellij delete-session $(zellij list-sessions --short | fzf) --force";
       # `update` and `exevm` live in programs/scripts.nix as real binaries, so

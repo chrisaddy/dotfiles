@@ -15,12 +15,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    doomemacs = {
-      # git+https (not github:) with submodules=1 so the modules live in
-      # `sources/doom+` (github: fetches a tarball without submodules).
-      url = "git+https://github.com/doomemacs/doomemacs?submodules=1";
-      flake = false;
-    };
   };
 
   outputs =
@@ -28,7 +22,6 @@
       nixpkgs,
       home-manager,
       nix-darwin,
-      doomemacs,
       nixvim,
       ...
     }:
@@ -39,10 +32,17 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
+      # `headless` means a lightweight VM: no nushell login shell (bootstrap.sh
+      # and exevm drive these with `ssh host "a && b"`, which nu cannot parse)
+      # and none of the heavy dev toolchain. `gui` is the separate question of
+      # whether a compositor/terminal/browser belong here; it defaults to the
+      # headless answer but is set independently for WSL, which wants the full
+      # toolchain with no desktop.
       mkHome =
         system: username:
         {
           headless ? false,
+          gui ? !headless,
         }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
@@ -53,7 +53,7 @@
             ./home
           ];
           extraSpecialArgs = {
-            inherit username headless doomemacs nixvim;
+            inherit username headless gui nixvim;
           };
         };
     in
@@ -69,7 +69,8 @@
             home-manager.extraSpecialArgs = {
               username = "chrisaddy";
               headless = false;
-              inherit doomemacs nixvim;
+              gui = true;
+              inherit nixvim;
             };
           }
         ];
@@ -79,6 +80,9 @@
         let
           darwinHome = mkHome "aarch64-darwin" "chrisaddy" { };
           linuxHome = mkHome "x86_64-linux" "chrisaddy" { };
+          # WSL2 Arch box: full dev toolchain, but no compositor or terminal
+          # emulator — WSLg is not where niri/waybar/ghostty earn their keep.
+          wslHome = mkHome "x86_64-linux" "chris" { gui = false; };
         in
         {
           # nh auto-detection (user@hostname)
@@ -91,6 +95,9 @@
           "chrisaddy@linux-arm" = mkHome "aarch64-linux" "chrisaddy" { };
           # exe.dev VM (lightweight, headless)
           "exedev@linux" = mkHome "x86_64-linux" "exedev" { headless = true; };
+          # WSL2 Arch
+          "chris@linux" = wslHome;
+          "chris" = wslHome;
         };
     };
 }

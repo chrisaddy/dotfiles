@@ -41,7 +41,6 @@ home/
     lazygit.nix           # Git TUI
     niri.nix              # Scrollable tiling Wayland compositor (Linux)
     starship.nix          # Shell prompt
-    tmux.nix              # Terminal multiplexer
     waybar.nix            # Status bar (Linux)
     yazi.nix              # Terminal file manager
     zoxide.nix            # Smart cd
@@ -76,7 +75,6 @@ h j k l  (QWERTY equivalent)
 Rose Pine Moon everywhere:
 
 - **Neovim** --- rose-pine moon colorscheme
-- **Tmux** --- Catppuccin-style status bar (`#1e1e2e` bg)
 - **Ghostty** --- Rose Pine Moon
 - **Lazygit** --- Tokyonight variant
 - **Starship** --- Coordinated hex colors
@@ -84,7 +82,7 @@ Rose Pine Moon everywhere:
 
 ### Multiplexer
 
-Tmux is the primary multiplexer. Prefix is `C-Space`.
+Zellij is the primary multiplexer.
 
 - `/` split right, `-` split below
 - `C-h/j/k/l` navigate panes (no prefix)
@@ -135,7 +133,7 @@ Notable aliases:
 
 **Shell:** starship, zoxide, carapace, bat, eza, gum, just, direnv, sesh
 
-**Terminal:** tmux, yazi
+**Terminal:** zellij, yazi
 
 **Darwin-only:** libiconv, clang
 **Linux-only:** gcc

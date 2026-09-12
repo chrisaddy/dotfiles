@@ -65,12 +65,6 @@ in
       else
         ".config/nushell";
 
-    shellAliases = {
-      ls = "eza -la";
-      lss = "yazi";
-      ccc = "claude --dangerously-skip-permissions";
-    };
-
     extraEnv = ''
       ${lib.concatStringsSep "\n" envLines}
       ${skippedComment}

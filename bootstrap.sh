@@ -49,7 +49,7 @@ FLAKE_TARGET="${USERNAME}@${PLATFORM}"
 # --- Ensure homeConfiguration exists in flake.nix ---
 if ! grep -q "\"${FLAKE_TARGET}\"" "${DOTFILES_DIR}/flake.nix"; then
   echo "==> Adding homeConfiguration for '${FLAKE_TARGET}' to flake.nix"
-  sed -i "/^      };$/i\\        \"${FLAKE_TARGET}\" = mkHome \"${SYSTEM}\" \"${USERNAME}\";" \
+  sed -i "/^      };$/i\\        \"${FLAKE_TARGET}\" = mkHome \"${SYSTEM}\" \"${USERNAME}\" { };" \
     "${DOTFILES_DIR}/flake.nix"
 fi
 

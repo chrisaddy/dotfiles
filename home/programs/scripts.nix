@@ -1,5 +1,25 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
+  # Arch packages that genuinely cannot come from Nix, kept declarative so the
+  # set has an owner instead of drifting as hand-run `pacman -S` calls.
+  #
+  # The bar for adding to this list is "pacman's own dependency graph or the
+  # base system needs it". An ordinary CLI tool belongs in home/default.nix
+  # instead — Nix wins on PATH, so a pacman copy is only dead weight.
+  #
+  # `base-devel` is a group, which covers gcc/m4/pkgconf; paru builds AUR
+  # packages with it, so it cannot be dropped for the Nix toolchain.
+  archSystemPackages = [
+    "base"
+    "base-devel"
+    "sudo"
+    "openssh"
+    "less"
+    "vim" # rescue editor: survives a broken Nix profile
+    "git" # paru clones AUR repos with it
+    "bubblewrap" # glycin (system GTK image loading) links against it
+    "paru"
+  ];
   # `update` and `exevm` used to be a zsh alias and a zsh function. As real
   # scripts on PATH they work from nushell too, without either shell needing to
   # know about the other. A nu `def` calling `zsh -lc update` cannot work: -lc
@@ -22,6 +42,20 @@ let
       esac
 
       git pull
+
+      # Arch's system layer is outside Nix's reach, so upgrade it too. paru
+      # covers the AUR as well and calls sudo itself; plain pacman does not.
+      # Passing the package list to -Syu makes the upgrade and the
+      # ensure-installed a single transaction.
+      if command -v pacman >/dev/null 2>&1; then
+        echo "==> Updating Arch system packages"
+        if command -v paru >/dev/null 2>&1; then
+          paru -Syu --needed ${lib.concatStringsSep " " archSystemPackages}
+        else
+          sudo pacman -Syu --needed ${lib.concatStringsSep " " archSystemPackages}
+        fi
+      fi
+
       nix flake update nixpkgs
       nh home switch . -c "$(whoami)@$platform"
       nh clean all
