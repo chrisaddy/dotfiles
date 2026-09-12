@@ -161,18 +161,23 @@ next run.
 On a pacman machine it also upgrades the system layer, which Nix does not own:
 
 ```sh
-paru -Syu --needed <archSystemPackages>      # falls back to sudo pacman -Syu
+sudo pacman -Syu --needed <archSystemPackages>
 ```
 
-`paru` covers the AUR and invokes sudo itself; plain `pacman` needs `sudo` in
-front. Passing the package list to `-Syu` makes the upgrade and the
-ensure-installed one transaction. Detection is `command -v pacman`, which works
-because `writeShellApplication` appends `:$PATH` after the Nix runtime inputs,
-so `/usr/bin` is still on PATH.
+Passing the package list to `-Syu` makes the upgrade and the ensure-installed
+one transaction. Detection is `command -v pacman`, which works because
+`writeShellApplication` appends `:$PATH` after the Nix runtime inputs, so
+`/usr/bin` is still on PATH.
+
+There is **no AUR helper** in the loop. Every entry in `archSystemPackages`
+must therefore resolve in the official repos — an AUR-only name makes
+`pacman -S` exit with "target not found", and `set -o errexit` takes the whole
+update down with it before any Nix work runs.
 
 `archSystemPackages` is the declarative list of things that genuinely cannot
-come from Nix — pacman's own dependency graph (`base-devel` for paru's AUR
-builds, `git`, `bubblewrap` for `glycin`) and the base system (`sudo`,
-`openssh`, `less`, `vim` as a rescue editor). **An ordinary CLI tool does not
-belong there**; put it in `home/default.nix`. Nix wins on PATH, so a pacman copy
-of a tool Nix already provides is dead weight.
+come from Nix: the Arch base (`base`, `base-devel`, `sudo`, `openssh`, `less`),
+`bubblewrap` because `glycin` links against it, and `vim`/`git` as the rescue
+floor — a broken Nix profile takes `hx` and Nix's `git` with it, and repairing
+the flake needs an editor and a way to reach the repo. **An ordinary CLI tool
+does not belong there**; put it in `home/default.nix`. Nix wins on PATH, so a
+pacman copy of a tool Nix already provides is dead weight.

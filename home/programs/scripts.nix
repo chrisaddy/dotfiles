@@ -7,18 +7,20 @@ let
   # base system needs it". An ordinary CLI tool belongs in home/default.nix
   # instead — Nix wins on PATH, so a pacman copy is only dead weight.
   #
-  # `base-devel` is a group, which covers gcc/m4/pkgconf; paru builds AUR
-  # packages with it, so it cannot be dropped for the Nix toolchain.
+  # Every entry must resolve in the official repos: there is no AUR helper
+  # here, so an AUR-only name makes `pacman -S` fail with "target not found"
+  # and takes the whole update down with it.
   archSystemPackages = [
     "base"
-    "base-devel"
+    "base-devel" # the Arch base toolchain; gcc, m4 and pkgconf hang off it
     "sudo"
     "openssh"
     "less"
-    "vim" # rescue editor: survives a broken Nix profile
-    "git" # paru clones AUR repos with it
+    # The rescue floor. A broken Nix profile takes hx and Nix's git with it,
+    # and repairing the flake needs an editor and a way to reach the repo.
+    "vim"
+    "git"
     "bubblewrap" # glycin (system GTK image loading) links against it
-    "paru"
   ];
   # `update` and `exevm` used to be a zsh alias and a zsh function. As real
   # scripts on PATH they work from nushell too, without either shell needing to
@@ -43,17 +45,13 @@ let
 
       git pull
 
-      # Arch's system layer is outside Nix's reach, so upgrade it too. paru
-      # covers the AUR as well and calls sudo itself; plain pacman does not.
-      # Passing the package list to -Syu makes the upgrade and the
-      # ensure-installed a single transaction.
+      # Arch's system layer is outside Nix's reach, so upgrade it too. Passing
+      # the package list to -Syu makes the upgrade and the ensure-installed a
+      # single transaction. There is no AUR helper in the loop — everything
+      # that used to justify one now comes from Nix.
       if command -v pacman >/dev/null 2>&1; then
         echo "==> Updating Arch system packages"
-        if command -v paru >/dev/null 2>&1; then
-          paru -Syu --needed ${lib.concatStringsSep " " archSystemPackages}
-        else
-          sudo pacman -Syu --needed ${lib.concatStringsSep " " archSystemPackages}
-        fi
+        sudo pacman -Syu --needed ${lib.concatStringsSep " " archSystemPackages}
       fi
 
       nix flake update nixpkgs

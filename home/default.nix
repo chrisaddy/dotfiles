@@ -18,6 +18,7 @@ in
     ./programs/bash.nix
     ./programs/bat.nix
     ./programs/lazygit.nix
+    ./programs/mise.nix
     ./programs/helix.nix
     ./programs/neovim.nix
     ./programs/scripts.nix
