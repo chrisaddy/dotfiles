@@ -11,7 +11,7 @@
     shellAliases = {
       zl = "zellij attach $(zellij list-sessions --short | fzf)";
       zk = "zellij delete-session $(zellij list-sessions --short | fzf) --force";
-      # `update` and `exevm` live in programs/scripts.nix as real binaries, so
+      # `upd` and `exevm` live in programs/scripts.nix as real binaries, so
       # nushell gets them too.
     };
 

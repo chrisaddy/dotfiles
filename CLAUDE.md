@@ -47,7 +47,7 @@ home/
     neovim.nix         # Neovim via nixvim
     niri.nix           # Niri compositor (Linux, gui only)
     nushell.nix        # Nushell (login shell; non-headless only)
-    scripts.nix        # `update`, `exevm` binaries
+    scripts.nix        # `upd`, `exevm` binaries
     starship.nix       # Starship prompt
     waybar.nix         # Waybar (Linux, gui only)
     yazi.nix           # Yazi file manager
@@ -147,16 +147,20 @@ Verify with `dscl . -read /Users/chrisaddy UserShell` (macOS) or
 `getent passwd "$USER"` (Linux), then open a **new** terminal while keeping the
 current one alive. Rollback is `chsh -s /bin/zsh`.
 
-`update` and `exevm` are real binaries from `home/programs/scripts.nix` rather
+`upd` and `exevm` are real binaries from `home/programs/scripts.nix` rather
 than zsh aliases/functions, so both shells get them. A nu wrapper calling
-`zsh -lc update` would not work: `-lc` is non-interactive, so `.zshrc` — where
+`zsh -lc upd` would not work: `-lc` is non-interactive, so `.zshrc` — where
 Home Manager puts aliases and functions — is never read.
 
-### The `update` script
+### The `upd` script
 
-`home/programs/scripts.nix` builds `update` with `writeShellApplication`, which
+`home/programs/scripts.nix` builds `upd` with `writeShellApplication`, which
 means shellcheck runs at build time — a shell mistake fails `nix build`, not the
 next run.
+
+It is named `upd` rather than `update` because nushell ships an `update`
+builtin (it edits table cells) and builtins shadow externals, so from the
+login shell a binary called `update` can never be invoked.
 
 On a pacman machine it also upgrades the system layer, which Nix does not own:
 

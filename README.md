@@ -113,7 +113,7 @@ Notable aliases:
 - `ls` -> `exa -la`
 - `lss` -> `yazi`
 - `ccc` -> `claude --dangerously-skip-permissions`
-- `update` -> pull, `nh home switch`, clean, commit, push (one command)
+- `upd` -> pull, `nh home switch`, clean, commit, push (one command)
 - `exevm()` -> provision exe.dev VMs with dotfiles
 
 ## Packages
@@ -147,7 +147,7 @@ Notable aliases:
 
 ```bash
 # From anywhere
-update
+upd
 
 # Or manually
 cd ~/dotfiles

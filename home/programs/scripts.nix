@@ -22,13 +22,17 @@ let
     "git"
     "bubblewrap" # glycin (system GTK image loading) links against it
   ];
-  # `update` and `exevm` used to be a zsh alias and a zsh function. As real
+  # `upd` and `exevm` used to be a zsh alias and a zsh function. As real
   # scripts on PATH they work from nushell too, without either shell needing to
-  # know about the other. A nu `def` calling `zsh -lc update` cannot work: -lc
+  # know about the other. A nu `def` calling `zsh -lc upd` cannot work: -lc
   # is non-interactive, so .zshrc (where Home Manager puts aliases and
   # functions) is never read.
-  update = pkgs.writeShellApplication {
-    name = "update";
+  #
+  # The binary is `upd`, not `update`, because nushell has an `update` builtin
+  # (it edits table cells) and builtins shadow externals — a script named
+  # `update` is simply unreachable from the login shell.
+  upd = pkgs.writeShellApplication {
+    name = "upd";
     runtimeInputs = with pkgs; [
       git
       nix
@@ -107,7 +111,7 @@ let
 in
 {
   home.packages = [
-    update
+    upd
     exevm
   ];
 }
