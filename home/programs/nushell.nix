@@ -65,6 +65,12 @@ in
       else
         ".config/nushell";
 
+    # Assigned one key at a time onto $env.config, so this does not clobber
+    # the hooks extraConfig installs below.
+    settings = {
+      show_banner = false;
+    };
+
     extraEnv = ''
       ${lib.concatStringsSep "\n" envLines}
       ${skippedComment}
@@ -72,12 +78,23 @@ in
 
       # PATH is a string on first launch and a list once nu's own
       # ENV_CONVERSIONS have run; handle both.
+      #
+      # The two nix profile dirs are here for the same reason the vars above
+      # are: POSIX shells pick them up from /etc/profile.d/nix*.sh and the
+      # profile's own hm-session-vars.sh, and nushell sources neither. Without
+      # them a nu login shell sees none of the packages Nix installed — which
+      # surfaces first as the zoxide PWD hook failing with "Command `zoxide`
+      # not found" on every `cd`, since that hook shells out to `^zoxide`.
+      # `profileDirectory` is used rather than a literal ~/.nix-profile so this
+      # also resolves on nix-darwin, where it is /etc/profiles/per-user/$USER.
       $env.PATH = (
         $env.PATH
         | if ($in | describe) == "string" { split row (char esep) } else { $in }
         | prepend [
             ${pathEntries}
             "${config.home.homeDirectory}/.local/bin"
+            "${config.home.profileDirectory}/bin"
+            "/nix/var/nix/profiles/default/bin"
           ]
         | uniq
       )
