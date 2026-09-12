@@ -1,7 +1,22 @@
 return {
-  { "stevearc/oil.nvim", opts = {} },
+  {
+    "stevearc/oil.nvim",
 
-  { "ThePrimeagen/harpoon", branch = "harpoon2", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
+    config = function()
+      require("oil").setup({
+        view_options = {
+          show_hidden = true,
+        },
+      })
+    end,
+  },
+
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {}
+  },
 
   { "ibhagwan/fzf-lua", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} },
 
@@ -15,9 +30,5 @@ return {
     end,
   },
 
-  -- BEST-EFFORT GUESS: nixvim's "bacon" plugin module is believed to map to
-  -- Canop/nvim-bacon (quickfix integration for the `bacon` Rust background
-  -- compiler), but the exact upstream repo could not be confirmed offline.
-  -- Verify the source below before relying on it.
   { "Canop/nvim-bacon", opts = {} },
 }

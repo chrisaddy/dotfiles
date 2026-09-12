@@ -16,7 +16,13 @@ keybinds {
         bind "Ctrl Space" { SwitchToMode "tab"; }
     }
     tab {
-        bind "Space" { LaunchOrFocusPlugin "session-manager" floating=true move_to_focused_tab=true; SwitchToMode "normal"; }
+        bind "Space" {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "normal"
+        }
         bind "h" { MoveFocusOrTab "Left"; SwitchToMode "normal"; }
         bind "j" { MoveFocusOrTab "Down"; SwitchToMode "normal"; }
         bind "k" { MoveFocusOrTab "Up"; SwitchToMode "normal"; }

@@ -19,6 +19,16 @@ vim.opt.expandtab = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard = "unnamedplus"
+vim.opt.autoread = true
+
+-- `autoread` only fires on :checktime; nudge it on focus/enter/idle so
+-- external edits (e.g. Claude Code writing files out-of-band) show up
+-- without a manual :e. If the buffer has unmodified local changes, Vim
+-- reloads it silently; if it's dirty, Vim warns instead of clobbering it.
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  command = "if mode() != 'c' | checktime | endif",
+})
 
 require("lazy").setup({
   spec = {

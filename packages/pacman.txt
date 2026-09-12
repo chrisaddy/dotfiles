@@ -39,6 +39,9 @@ ruff
 rust
 rust-analyzer
 
+# Lua
+lua-language-server
+
 # Terminal / editor
 yazi
 zellij

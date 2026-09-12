@@ -15,8 +15,8 @@ alias zl='zellij attach $(zellij list-sessions --short | fzf)'
 alias zk='zellij delete-session $(zellij list-sessions --short | fzf) --force'
 # `update` and `exevm` live in ~/.local/bin as real scripts, so nushell gets them too.
 
-export EDITOR=hx
-export VISUAL=hx
+export EDITOR=nvim
+export VISUAL=nvim
 export NPM_CONFIG_PREFIX="$HOME/.npm-global"
 
 export PATH="$HOME/.npm-global/bin:$HOME/.local/bin:$PATH:$HOME/.cargo"

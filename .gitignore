@@ -3,4 +3,5 @@ tmux/plugins
 nix/flake.lock
 .stfolder
 
-**/.claude/settings.local.json
+
+config/nushell/.config/nushell/history.txt

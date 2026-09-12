@@ -21,6 +21,7 @@ return {
         "html",
         "htmx",
         "just",
+        "lua_ls",
         "markdown_oxide",
         "nixd",
         "nushell",

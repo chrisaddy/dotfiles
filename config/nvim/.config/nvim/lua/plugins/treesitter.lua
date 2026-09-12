@@ -1,12 +1,15 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    -- "main" is the rewritten branch with a different, setup()-less API; stay
-    -- on "master" for the classic `nvim-treesitter.configs` module below.
-    branch = "master",
+    -- "master" is archived and no longer compatible with current Neovim
+    -- treesitter internals (injections crash on markdown/markdown_inline).
+    -- "main" is the rewrite: no more `nvim-treesitter.configs`, parsers are
+    -- installed explicitly and highlighting is started per-filetype.
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
-    opts = {
-      ensure_installed = {
+    config = function()
+      local parsers = {
         "bash",
         "json",
         "lua",
@@ -19,11 +22,26 @@ return {
         "rust",
         "toml",
         "yaml",
-      },
-      highlight = { enable = true },
-    },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+      }
+      require("nvim-treesitter").install(parsers)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "bash",
+          "json",
+          "lua",
+          "markdown",
+          "nix",
+          "ocaml",
+          "python",
+          "rust",
+          "toml",
+          "yaml",
+        },
+        callback = function()
+          vim.treesitter.start()
+        end,
+      })
     end,
   },
 }

@@ -3,6 +3,15 @@ $env.config.show_banner = false
 alias ls = eza -la
 alias lss = yazi
 alias ccc = claude --dangerously-skip-permissions
+alias claude = caveman claude
+alias vim = nvim
+alias vi = nvim
+alias hx = helix
+alias gs = gh stack
+alias zl = zellij list-sessions
+alias zk = zellij delete-session --force (zellij list-sessions --short | fzf)
+alias rg = rg --hidden
+alias ll = yazi
 
 # cd-on-exit yazi wrapper
 def --env y [...args] {

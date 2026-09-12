@@ -1,5 +1,5 @@
-$env.EDITOR = "hx"
-$env.VISUAL = "hx"
+$env.EDITOR = "nvim"
+$env.VISUAL = "nvim"
 $env.NPM_CONFIG_PREFIX = ($env.HOME | path join ".npm-global")
 
 $env.PATH = (
@@ -8,6 +8,8 @@ $env.PATH = (
     | prepend [
         ($env.HOME | path join ".npm-global" "bin")
         ($env.HOME | path join ".local" "bin")
+        "/nix/var/nix/profiles/default/bin"
+        ($env.HOME | path join ".nix-profile/bin")
     ]
     | uniq
 )

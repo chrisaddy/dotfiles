@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/chris/dotfiles branch --list arch)",
+      "Bash(git -C /home/chris/dotfiles status)",
+      "Bash(git checkout *)",
+      "Bash(git rm *)",
+      "Bash(mkdir *)",
+      "Bash(cd *)",
+      "Bash(chmod +x *)",
+      "Bash(nix-instantiate *)",
+      "Bash(nix --version)"
+    ]
+  }
+}
