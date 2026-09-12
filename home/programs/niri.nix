@@ -2,8 +2,9 @@
   pkgs,
   lib,
   ...
-}: {
-  xdg.configFile."niri/config.kdl" = lib.mkIf pkgs.stdenv.isLinux {
+}:
+{
+  xdg.configFile."niri/config.kdl" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     text = ''
       // This config is in the KDL format: https://kdl.dev
 

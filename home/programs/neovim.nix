@@ -119,6 +119,12 @@ let
       }
       {
         mode = "n";
+        key = "<leader>fs";
+        action = "<CMD>FzfLua live_grep<CR>";
+        options.desc = "[s]earch";
+      }
+      {
+        mode = "n";
         key = "<leader>fm";
         action = "<CMD>FzfLua marks<CR>";
         options.desc = "[m]arks";

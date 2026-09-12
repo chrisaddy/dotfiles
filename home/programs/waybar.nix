@@ -2,8 +2,9 @@
   pkgs,
   lib,
   ...
-}: {
-  xdg.configFile."waybar/config.jsonc" = lib.mkIf pkgs.stdenv.isLinux {
+}:
+{
+  xdg.configFile."waybar/config.jsonc" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     text = ''
       {
           "layer": "top",
@@ -64,7 +65,7 @@
     '';
   };
 
-  xdg.configFile."waybar/style.css" = lib.mkIf pkgs.stdenv.isLinux {
+  xdg.configFile."waybar/style.css" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     text = ''
       * {
           font-family: monospace;
