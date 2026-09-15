@@ -47,13 +47,12 @@
                 "Ctrl n"
                 "Ctrl t"
                 "Ctrl p"
-                "Ctrl m"
               ];
             };
           }
           {
             bind = {
-              _args = [ "Ctrl m" ];
+              _args = [ "Ctrl k" ];
               _children = [
                 { SwitchToMode._args = [ "pane" ]; }
               ];
