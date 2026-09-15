@@ -21,6 +21,7 @@ in
     ./programs/mise.nix
     ./programs/helix.nix
     ./programs/neovim.nix
+    ./programs/notes.nix
     ./programs/scripts.nix
     ./programs/starship.nix
     ./programs/yazi.nix
