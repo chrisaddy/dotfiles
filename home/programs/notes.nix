@@ -42,7 +42,7 @@ in
     obsidian-xvfb = {
       Unit.Description = "Virtual X display for headless Obsidian";
       Service = {
-        ExecStart = "${pkgs.xorg.xvfb}/bin/Xvfb ${display} -screen 0 1280x1024x24 -nolisten tcp";
+        ExecStart = "${pkgs.xvfb}/bin/Xvfb ${display} -screen 0 1280x1024x24 -nolisten tcp";
         Restart = "on-failure";
         RestartSec = 5;
       };
