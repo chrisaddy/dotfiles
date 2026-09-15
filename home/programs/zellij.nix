@@ -59,8 +59,13 @@
             };
           }
           {
+            # Not "Ctrl m": that is byte 0x0D, the same thing Enter sends, so a
+            # legacy terminal cannot tell the two apart and every Enter typed in
+            # a pane would drop into move mode. Only the Kitty keyboard protocol
+            # disambiguates it, and Windows Terminal (the WSL host) does not
+            # speak it. Same trap for Ctrl i/Tab, Ctrl h/Backspace, Ctrl j/LF.
             bind = {
-              _args = [ "Ctrl m" ];
+              _args = [ "Ctrl y" ];
               _children = [
                 { SwitchToMode._args = [ "move" ]; }
               ];
