@@ -47,6 +47,7 @@
                 "Ctrl n"
                 "Ctrl t"
                 "Ctrl p"
+                "Ctrl m"
               ];
             };
           }
