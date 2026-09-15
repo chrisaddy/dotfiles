@@ -52,7 +52,7 @@
           }
           {
             bind = {
-              _args = [ "Ctrl i" ];
+              _args = [ "Ctrl m" ];
               _children = [
                 { SwitchToMode._args = [ "pane" ]; }
               ];
