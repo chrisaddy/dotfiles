@@ -142,6 +142,7 @@ in
         unzip
 
         awscli2
+        azure-cli
         google-cloud-sdk
         duckdb
         ffmpeg
