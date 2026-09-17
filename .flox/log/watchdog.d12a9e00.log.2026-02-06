@@ -1,0 +1,57 @@
+2026-02-06T02:49:23.086730Z DEBUG flox_watchdog::sentry: Initializing Sentry with DSN: https://85c9526795f5047c99a5247aab616295:@o4506548203094016.ingest.us.sentry.io/4506548241825792
+2026-02-06T02:49:23.095343Z DEBUG sentry: enabled sentry client for DSN https://85c9526795f5047c99a5247aab616295:@o4506548203094016.ingest.us.sentry.io/4506548241825792    
+2026-02-06T02:49:23.096643Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: starting
+2026-02-06T02:49:23.096675Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: checked socket path="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" exists=false
+2026-02-06T02:49:23.096681Z  INFO watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: watchdog is on duty this_pid=46704 target_activation_id="d12a9e00"
+2026-02-06T02:49:23.096725Z DEBUG flox_watchdog::logger: still watching, woof woof
+2026-02-06T02:49:23.096727Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: waiting for termination
+2026-02-06T02:49:23.522532Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_core::proc_status: no output from /bin/ps, treating as not running pid=46649
+2026-02-06T02:49:23.522555Z  INFO watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: running cleanup after all PIDs terminated
+2026-02-06T02:49:23.522565Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: running cleanup
+2026-02-06T02:49:23.522574Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: did not shut down process-compose reason="no socket"
+2026-02-06T02:49:23.523275Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: finished cleanup
+2026-02-06T02:49:23.523306Z DEBUG sentry: dropping client guard -> disposing client    
+2026-02-06T02:49:23.523360Z DEBUG sentry: client close; request transport to shut down    
+2026-02-06T02:49:23.524111Z DEBUG reqwest::connect: starting new connection: https://o4506548203094016.ingest.us.sentry.io/    
+2026-02-06T02:49:23.528245Z DEBUG hyper_util::client::legacy::connect::http: connecting to [2600:1901:0:5e8a::]:443
+2026-02-06T02:49:23.541384Z DEBUG hyper_util::client::legacy::connect::http: connected to [2600:1901:0:5e8a::]:443
+2026-02-06T02:49:23.604088Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", o4506548203094016.ingest.us.sentry.io)
+2026-02-06T02:49:23.604371Z DEBUG sentry: Get response: `{"id":"4ca3040fb3ef4c83aed559310ec2cfae"}`    
+2026-02-06T03:04:56.874349Z DEBUG flox_watchdog::sentry: Initializing Sentry with DSN: https://85c9526795f5047c99a5247aab616295:@o4506548203094016.ingest.us.sentry.io/4506548241825792
+2026-02-06T03:04:56.877933Z DEBUG sentry: enabled sentry client for DSN https://85c9526795f5047c99a5247aab616295:@o4506548203094016.ingest.us.sentry.io/4506548241825792    
+2026-02-06T03:04:56.877978Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: starting
+2026-02-06T03:04:56.878189Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: checked socket path="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" exists=false
+2026-02-06T03:04:56.878197Z  INFO watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: watchdog is on duty this_pid=67504 target_activation_id="d12a9e00"
+2026-02-06T03:04:56.878226Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: waiting for termination
+2026-02-06T03:04:56.878239Z DEBUG flox_watchdog::logger: still watching, woof woof
+2026-02-06T03:04:59.705704Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_core::proc_status: no output from /bin/ps, treating as not running pid=67463
+2026-02-06T03:04:59.705813Z  INFO watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: running cleanup after all PIDs terminated
+2026-02-06T03:04:59.705892Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: running cleanup
+2026-02-06T03:04:59.705956Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: did not shut down process-compose reason="no socket"
+2026-02-06T03:04:59.708138Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: finished cleanup
+2026-02-06T03:04:59.708269Z DEBUG sentry: dropping client guard -> disposing client    
+2026-02-06T03:04:59.708695Z DEBUG sentry: client close; request transport to shut down    
+2026-02-06T03:04:59.709113Z DEBUG reqwest::connect: starting new connection: https://o4506548203094016.ingest.us.sentry.io/    
+2026-02-06T03:04:59.713619Z DEBUG hyper_util::client::legacy::connect::http: connecting to [2600:1901:0:5e8a::]:443
+2026-02-06T03:04:59.726670Z DEBUG hyper_util::client::legacy::connect::http: connected to [2600:1901:0:5e8a::]:443
+2026-02-06T03:04:59.794090Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", o4506548203094016.ingest.us.sentry.io)
+2026-02-06T03:04:59.794161Z DEBUG sentry: Get response: `{"id":"4a53bbca2cab4420ad40f29c050a5373"}`    
+2026-02-06T03:05:47.827682Z DEBUG flox_watchdog::sentry: Initializing Sentry with DSN: https://85c9526795f5047c99a5247aab616295:@o4506548203094016.ingest.us.sentry.io/4506548241825792
+2026-02-06T03:05:47.830937Z DEBUG sentry: enabled sentry client for DSN https://85c9526795f5047c99a5247aab616295:@o4506548203094016.ingest.us.sentry.io/4506548241825792    
+2026-02-06T03:05:47.830977Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: starting
+2026-02-06T03:05:47.831013Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: checked socket path="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" exists=false
+2026-02-06T03:05:47.831017Z  INFO watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: watchdog is on duty this_pid=70520 target_activation_id="d12a9e00"
+2026-02-06T03:05:47.831038Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: waiting for termination
+2026-02-06T03:05:47.831039Z DEBUG flox_watchdog::logger: still watching, woof woof
+2026-02-06T03:06:01.432786Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_core::proc_status: no output from /bin/ps, treating as not running pid=70479
+2026-02-06T03:06:01.433141Z  INFO watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: running cleanup after all PIDs terminated
+2026-02-06T03:06:01.433205Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: running cleanup
+2026-02-06T03:06:01.433229Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: did not shut down process-compose reason="no socket"
+2026-02-06T03:06:01.434629Z DEBUG watchdog{socket="/Users/chrisaddy/.cache/flox/run/flox.2bf5fe2b.sock" log_dir="/Users/chrisaddy/dotfiles/.flox/log"}: flox_watchdog: finished cleanup
+2026-02-06T03:06:01.434720Z DEBUG sentry: dropping client guard -> disposing client    
+2026-02-06T03:06:01.434868Z DEBUG sentry: client close; request transport to shut down    
+2026-02-06T03:06:01.435197Z DEBUG reqwest::connect: starting new connection: https://o4506548203094016.ingest.us.sentry.io/    
+2026-02-06T03:06:01.438785Z DEBUG hyper_util::client::legacy::connect::http: connecting to [2600:1901:0:5e8a::]:443
+2026-02-06T03:06:01.450219Z DEBUG hyper_util::client::legacy::connect::http: connected to [2600:1901:0:5e8a::]:443
+2026-02-06T03:06:01.520240Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", o4506548203094016.ingest.us.sentry.io)
+2026-02-06T03:06:01.520326Z DEBUG sentry: Get response: `{"id":"84ccf287b5b640fcaf16e8793ba90a1e"}`    

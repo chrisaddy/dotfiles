@@ -59,7 +59,11 @@ let
       fi
 
       nix flake update nixpkgs
-      nh home switch . -c "$(whoami)@$platform"
+      # -b backup because third-party installers write dotfiles Home Manager
+      # owns — rustup, opam and zerobrew all append to ~/.profile, which
+      # programs.bash.enable makes HM's file. Without it activation aborts with
+      # "Existing file ... would be clobbered" and the whole update stops.
+      nh home switch . -b backup -c "$(whoami)@$platform"
       nh clean all
       git add -A
       # A clean tree is not a failure; skip the commit and still push whatever

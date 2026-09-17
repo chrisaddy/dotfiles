@@ -1,0 +1,14 @@
+2026-02-06T03:05:47.781393Z DEBUG flox: FLOX_VERSION=1.8.3
+2026-02-06T03:05:47.782269Z DEBUG flox::config: Global config directory overridden path="/Users/chrisaddy/.config/flox"
+2026-02-06T03:05:47.782430Z DEBUG flox::utils::init::sentry: Initializing Sentry with DSN: https://85c9526795f5047c99a5247aab616295:@o4506548203094016.ingest.us.sentry.io/4506548241825792
+2026-02-06T03:05:47.783826Z DEBUG flox: set _FLOX_SUBSYSTEM_VERBOSITY=2
+2026-02-06T03:05:47.784380Z DEBUG flox::config: Global config directory overridden path="/Users/chrisaddy/.config/flox"
+2026-02-06T03:05:47.784708Z DEBUG flox::utils::update_notifications: Skipping update check in development mode
+2026-02-06T03:05:47.784778Z DEBUG flox::commands: Metrics collection enabled
+2026-02-06T03:05:47.784841Z DEBUG flox::utils::init::catalog_client: using catalog client with url: https://api.flox.dev
+2026-02-06T03:05:47.784945Z DEBUG flox::commands: feature flags configured=Features { upload: false, qa: false, outputs: false }
+2026-02-06T03:05:47.785592Z DEBUG check-upgrade: flox::utils::metrics: pushing entry to metrics buffer: MetricEntry { subcommand: Some("check-upgrade"), extras: {}, timestamp: 2026-02-06 3:05:47.785542 +00:00:00, uuid: 0a824aac-0c8d-4e49-8c87-9f02261ae266, flox_version: "1.8.3", os_family: Some("Mac OS"), os_family_release: Some("25.3.0"), os: None, os_version: None, empty_flags: [] }
+2026-02-06T03:05:47.786639Z DEBUG check-upgrade: flox_rust_sdk::models::environment: detected concrete environment type: path
+2026-02-06T03:05:47.787309Z DEBUG check-upgrade: flox_rust_sdk::providers::upgrade_checks: created unlocked upgrade information guard upgrade_information_path="/Users/chrisaddy/dotfiles/.flox/cache/upgrade-checks.json"
+2026-02-06T03:05:47.787397Z DEBUG check-upgrade: flox::commands::check_for_upgrades: Recently checked for upgrades. Skipping.
+2026-02-06T03:05:47.788102Z DEBUG flox::commands: removing process tempdir temp_dir="/Users/chrisaddy/.cache/flox/process/.tmpaN1wOR"
