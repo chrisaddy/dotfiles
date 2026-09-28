@@ -128,6 +128,63 @@ let
       }
       {
         mode = "n";
+        key = "<leader>db";
+        action.__raw = ''function() require("dap").toggle_breakpoint() end'';
+        options.desc = "toggle [b]reakpoint";
+      }
+      {
+        mode = "n";
+        key = "<leader>dc";
+        action.__raw = ''function() require("dap").continue() end'';
+        options.desc = "start/[c]ontinue";
+      }
+      {
+        mode = "n";
+        key = "<leader>dn";
+        action.__raw = ''function() require("dap").step_over() end'';
+        options.desc = "step over ([n]ext)";
+      }
+      {
+        mode = "n";
+        key = "<leader>di";
+        action.__raw = ''function() require("dap").step_into() end'';
+        options.desc = "step [i]nto";
+      }
+      {
+        mode = "n";
+        key = "<leader>do";
+        action.__raw = ''function() require("dap").step_out() end'';
+        options.desc = "step [o]ut";
+      }
+      {
+        mode = "n";
+        key = "<leader>dr";
+        action.__raw = ''function() require("dap").run_to_cursor() end'';
+        options.desc = "[r]un to cursor";
+      }
+      {
+        mode = "n";
+        key = "<leader>dq";
+        action.__raw = ''function() require("dap").terminate() end'';
+        options.desc = "[q]uit session";
+      }
+      {
+        mode = "n";
+        key = "<leader>du";
+        action.__raw = ''function() require("dapui").toggle() end'';
+        options.desc = "toggle [u]i";
+      }
+      {
+        mode = [
+          "n"
+          "v"
+        ];
+        key = "<leader>de";
+        action.__raw = ''function() require("dapui").eval() end'';
+        options.desc = "[e]valuate expression";
+      }
+      {
+        mode = "n";
         key = "<leader>o";
         action = "<CMD>Oil<CR>";
         options.desc = "[o]pen parent directory";
@@ -388,6 +445,40 @@ let
           keymap_new = "<leader>tn";
         };
       };
+      # lldb-dap is LLVM's own DAP adapter and ships with the `lldb` package.
+      # Build with -g (and ideally -O0) so there is debug info to step through.
+      dap = {
+        enable = true;
+        adapters.executables.lldb.command = "${pkgs.lldb}/bin/lldb-dap";
+        configurations.c = [
+          {
+            name = "Launch";
+            type = "lldb";
+            request = "launch";
+            program.__raw = ''
+              function()
+                return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/", "file")
+              end
+            '';
+            args.__raw = ''
+              function()
+                return vim.split(vim.fn.input("Args: "), " ", { trimempty = true })
+              end
+            '';
+            cwd = "\${workspaceFolder}";
+            stopOnEntry = false;
+          }
+        ];
+        # Open the variables/stack/breakpoints panes for the life of a session.
+        luaConfig.post = ''
+          local dap, dapui = require("dap"), require("dapui")
+          dap.listeners.after.event_initialized.dapui = function() dapui.open() end
+          dap.listeners.before.event_terminated.dapui = function() dapui.close() end
+          dap.listeners.before.event_exited.dapui = function() dapui.close() end
+        '';
+      };
+      dap-ui.enable = true;
+      dap-virtual-text.enable = true;
       fidget.enable = true;
       # flash.enable = true;
       fzf-lua.enable = true;
@@ -489,6 +580,10 @@ let
           {
             __unkeyed-1 = "<leader>c";
             group = "[c]laude";
+          }
+          {
+            __unkeyed-1 = "<leader>d";
+            group = "[d]ebug";
           }
           {
             __unkeyed-1 = "<leader>f";

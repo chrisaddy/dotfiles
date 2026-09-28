@@ -89,6 +89,9 @@ in
         # Networking
         tailscale
 
+        # C
+        clang
+
         # Rust
         cargo
         rustc
@@ -110,11 +113,13 @@ in
       ]
       ++ lib.optionals isDarwin [
         libiconv
-        clang
         coreutils # GNU coreutils; BSD versions lack flags some tooling expects
       ]
       ++ lib.optionals isLinux [
-        gcc
+        # Both wrappers ship bin/cc, c++ and cpp, and nixpkgs already marks gcc
+        # lowPrio, so it ties with clang in buildEnv. hiPrio keeps those names
+        # on gcc; `clang` itself is unaffected.
+        (lib.hiPrio gcc)
       ]
       ++ lib.optionals (!headless) [
         # Full dev environment extras
