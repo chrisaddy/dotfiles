@@ -43,6 +43,26 @@ let
       smartcase = true;
     };
 
+    # Errors show inline, in the sign column, and in a float on hover, worst
+    # first. clangd's clang-tidy checks arrive through the same channel.
+    diagnostic.settings = {
+      severity_sort = true;
+      virtual_text.source = "if_many";
+      float.source = true;
+      underline = true;
+    };
+
+    # `:make` parses compiler output with 'errorformat', whose default already
+    # understands gcc/clang. Open the quickfix list only when there is
+    # something in it; `]q`/`[q` (nvim built-ins) walk it.
+    autoCmd = [
+      {
+        event = "QuickFixCmdPost";
+        pattern = "[^l]*";
+        command = "cwindow";
+      }
+    ];
+
     colorschemes.catppuccin = {
       enable = true;
       settings.flavour = "macchiato";
@@ -86,6 +106,25 @@ let
         key = "<leader>cn";
         action = "<CMD>ClaudeCodeDiffDeny<CR>";
         options.desc = "deny diff ([n]o)";
+      }
+      # nvim 0.11+ already maps grn/gra/grr/gri/K/[d/]d; these fill the gaps.
+      {
+        mode = "n";
+        key = "gd";
+        action.__raw = "vim.lsp.buf.definition";
+        options.desc = "goto [d]efinition";
+      }
+      {
+        mode = "n";
+        key = "<leader>e";
+        action.__raw = "vim.diagnostic.open_float";
+        options.desc = "show [e]rror";
+      }
+      {
+        mode = "n";
+        key = "<leader>m";
+        action = "<CMD>make<CR>";
+        options.desc = "[m]ake (errors to quickfix)";
       }
       {
         mode = "n";
@@ -369,6 +408,17 @@ let
         servers = {
           basedpyright.enable = true;
           bashls.enable = true;
+          # Reads compile_commands.json (e.g. `bear -- make`, or CMake's
+          # CMAKE_EXPORT_COMPILE_COMMANDS) for flags and include paths.
+          clangd = {
+            enable = true;
+            cmd = [
+              "clangd"
+              "--background-index"
+              "--clang-tidy"
+              "--header-insertion=never"
+            ];
+          };
           docker_compose_language_service.enable = true;
           dockerls.enable = true;
           ghcide.enable = true;
@@ -414,8 +464,10 @@ let
         enable = true;
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
           bash
+          c
           json
           lua
+          make
           markdown
           markdown_inline
           nix
