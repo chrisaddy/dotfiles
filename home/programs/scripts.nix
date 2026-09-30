@@ -58,7 +58,9 @@ let
         sudo pacman -Syu --needed ${lib.concatStringsSep " " archSystemPackages}
       fi
 
-      nix flake update nixpkgs
+      # All inputs, not just nixpkgs: home-manager, nixvim and nix-darwin all
+      # follow nixpkgs, so holding them back pairs old modules with new pkgs.
+      nix flake update
       # -b backup because third-party installers write dotfiles Home Manager
       # owns — rustup, opam and zerobrew all append to ~/.profile, which
       # programs.bash.enable makes HM's file. Without it activation aborts with
