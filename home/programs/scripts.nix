@@ -70,6 +70,19 @@ let
       # is already local.
       git diff --cached --quiet || git commit -m 'update'
       git push
+
+      # ~/.claude (skills, memory, CLAUDE.md) is its own repo, synced last so a
+      # conflict there cannot block the system update. Commit before pulling:
+      # --rebase refuses to run on a dirty tree. Its .gitignore is an allowlist,
+      # so `add -A` never picks up sessions or credentials.
+      if [ -d "$HOME/.claude/.git" ]; then
+        echo "==> Syncing ~/.claude"
+        git -C "$HOME/.claude" add -A
+        git -C "$HOME/.claude" diff --cached --quiet \
+          || git -C "$HOME/.claude" commit -m "update from $(uname -n)"
+        git -C "$HOME/.claude" pull --rebase
+        git -C "$HOME/.claude" push
+      fi
     '';
   };
 
