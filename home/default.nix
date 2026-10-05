@@ -188,9 +188,12 @@ in
   programs.git = {
     enable = true;
     signing.format = null;
-    settings.user = {
-      name = "chrisaddy";
-      email = "chris.william.addy@gmail.com";
+    settings = {
+      user = {
+        name = "chrisaddy";
+        email = "chris.william.addy@gmail.com";
+      };
+      credential."https://github.com".helper = "!gh auth git-credential";
     };
   };
 
