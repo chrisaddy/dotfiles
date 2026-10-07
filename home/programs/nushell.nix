@@ -105,7 +105,7 @@ in
     extraConfig = ''
       alias ls = eza -la
       alias ll = yazi
-      alias claude = caveman claude
+      alias claude = caveman claude --dangerously-skip-permissions
       alias gs = gh stack
       alias zl = zellij list-sessions
       alias zk = zellij delete-session --force (zellij list-sessions --short | fzf)
