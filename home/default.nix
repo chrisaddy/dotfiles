@@ -151,6 +151,7 @@ in
         google-cloud-sdk
         duckdb
         ffmpeg
+        graphviz
       ]
       ++ lib.optionals (isLinux && !headless) [
         bubblewrap # opam's build sandbox (Linux-only; opam skips it on darwin)
