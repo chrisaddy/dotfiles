@@ -1,4 +1,10 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  headless,
+  gui,
+  ...
+}:
 let
   # Arch packages that genuinely cannot come from Nix, kept declarative so the
   # set has an owner instead of drifting as hand-run `pacman -S` calls.
@@ -127,10 +133,35 @@ let
       ssh "$vm_name.exe.xyz"
     '';
   };
+
+  # WSL has no desktop to hand files to, and wslu (wslview) is gone from
+  # nixpkgs, so this is xdg-open for WSL: Windows opens the target with its
+  # own default app. Explorer cannot read Linux paths, hence wslpath -w for
+  # anything that is not a URL.
+  xdgOpenWsl = pkgs.writeShellApplication {
+    name = "xdg-open";
+    text = ''
+      if [ "$#" -ne 1 ]; then
+        echo "usage: xdg-open { file | URL }" >&2
+        exit 1
+      fi
+
+      target="$1"
+      case "$target" in
+        *://* | mailto:*) ;;
+        *) target="$(wslpath -w "$target")" ;;
+      esac
+
+      # explorer.exe exits 1 even when it succeeds.
+      explorer.exe "$target" || true
+    '';
+  };
 in
 {
   home.packages = [
     upd
     exevm
-  ];
+  ]
+  # WSL is the one non-headless Linux setup without a desktop (`chris@linux`).
+  ++ lib.optional (pkgs.stdenv.hostPlatform.isLinux && !headless && !gui) xdgOpenWsl;
 }
