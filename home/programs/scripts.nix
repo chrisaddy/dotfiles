@@ -149,7 +149,14 @@ let
       target="$1"
       case "$target" in
         *://* | mailto:*) ;;
-        *) target="$(wslpath -w "$target")" ;;
+        *)
+          # Explorer opens a default folder for a bad path instead of failing.
+          if [ ! -e "$target" ]; then
+            echo "xdg-open: no such file: $target" >&2
+            exit 2
+          fi
+          target="$(wslpath -w "$target")"
+          ;;
       esac
 
       # explorer.exe exits 1 even when it succeeds.
