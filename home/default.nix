@@ -70,6 +70,7 @@ in
         nodejs
         pnpm
         sqlite
+        pre-commit
 
         # python
         uv
