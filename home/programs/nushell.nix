@@ -100,6 +100,11 @@ in
       )
 
       $env.CARAPACE_BRIDGES = "zsh,fish,bash,inshellisense"
+
+      let secrets = ($nu.home-path | path join ".secrets.toml")
+      if secrets | path exists {
+        open $secrets | load-env
+      }
     '';
 
     extraConfig = ''
@@ -152,5 +157,15 @@ in
     # zsh.nix sources carapace itself; two hooks would register the completer
     # twice.
     enableZshIntegration = false;
+  };
+
+  # A nu started from a zsh that has sourced hm-session-vars.sh inherits
+  # XDG_CONFIG_HOME, and then reads ~/.config/nushell instead of configDir —
+  # no config, so the welcome banner and defaults come back. Mirror the same
+  # files there so nu finds them whichever way it was launched.
+  xdg.configFile = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    "nushell/config.nu".source =
+      config.home.file."Library/Application Support/nushell/config.nu".source;
+    "nushell/env.nu".source = config.home.file."Library/Application Support/nushell/env.nu".source;
   };
 }
