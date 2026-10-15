@@ -86,6 +86,9 @@ in
         gum
         just
         direnv
+        # Claude Code's PreToolUse hook calls `rtk`. The hook's non-interactive
+        # zsh only gets home.sessionPath, so rtk must live in the profile.
+        rtk
 
         # Networking
         tailscale
