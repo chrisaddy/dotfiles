@@ -102,7 +102,7 @@ in
       $env.CARAPACE_BRIDGES = "zsh,fish,bash,inshellisense"
 
       let secrets = ($nu.home-dir | path join ".secrets.toml")
-      if (secrets | path exists) {
+      if ($secrets | path exists) {
         open $secrets | load-env
       }
     '';
