@@ -49,6 +49,7 @@ in
 {
   programs.nushell = {
     enable = true;
+    loadSessionVariables = true;
 
     # Pinned to nu's OWN per-platform default, not to xdg. The module would
     # follow `xdg.enable = true` and write ~/.config/nushell on both platforms,

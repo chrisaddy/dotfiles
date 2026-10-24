@@ -114,6 +114,7 @@ in
 
         # Terminal
         yazi
+        herdr
       ]
       ++ lib.optionals isDarwin [
         libiconv
@@ -151,7 +152,10 @@ in
         unzip
 
         awscli2
-        azure-cli
+        # azure-cli is out until nixpkgs fixes fabric, which it depends on:
+        # fabric is marked broken for invoke >= 3 (fabric/fabric#2376), and
+        # that refuses evaluation of the whole home config.
+        # azure-cli
         google-cloud-sdk
         duckdb
         ffmpeg
