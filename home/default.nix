@@ -19,14 +19,14 @@ in
     ./programs/bat.nix
     ./programs/lazygit.nix
     ./programs/mise.nix
-    ./programs/helix.nix
+    # ./programs/helix.nix
     ./programs/neovim.nix
     ./programs/notes.nix
     ./programs/scripts.nix
     ./programs/starship.nix
     ./programs/tmux.nix
-    ./programs/yazi.nix
-    ./programs/zellij.nix
+    # ./programs/yazi.nix
+    # ./programs/zellij.nix
     ./programs/zoxide.nix
     ./programs/zsh.nix
   ]
