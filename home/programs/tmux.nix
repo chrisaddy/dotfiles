@@ -55,6 +55,14 @@ in
             bind -n C-k select-pane -U
             bind -n C-l select-pane -R
 
+            # Alt-hjkl: move between panes; at the left/right edge, step to the
+            # previous/next window and land on its nearest pane. Up/down stop
+            # at the edge instead of wrapping.
+            bind -n M-h if -F "#{pane_at_left}" "previous-window ; select-pane -t '{right}'" "select-pane -L"
+            bind -n M-l if -F "#{pane_at_right}" "next-window ; select-pane -t '{left}'" "select-pane -R"
+            bind -n M-j if -F "#{pane_at_bottom}" "" "select-pane -D"
+            bind -n M-k if -F "#{pane_at_top}" "" "select-pane -U"
+
             # Resize panes
             bind -r H resize-pane -L 5
             bind -r J resize-pane -D 5
