@@ -24,6 +24,7 @@ in
     ./programs/notes.nix
     ./programs/scripts.nix
     ./programs/starship.nix
+    ./programs/tmux.nix
     ./programs/yazi.nix
     ./programs/zellij.nix
     ./programs/zoxide.nix
@@ -84,6 +85,7 @@ in
         bat
         eza
         gum
+        sesh # session picker behind tmux prefix+o
         just
         direnv
         # Claude Code's PreToolUse hook calls `rtk`. The hook's non-interactive
