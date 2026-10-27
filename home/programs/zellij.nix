@@ -81,7 +81,7 @@
           }
           {
             bind = {
-              _args = [ "Ctrl Space" ];
+              _args = [ "Ctrl a" ];
               _children = [
                 { SwitchToMode._args = [ "tab" ]; }
               ];

@@ -13,7 +13,7 @@ in
     keyMode = "vi";
     # Not C-Space: zellij binds Ctrl Space to tab mode, and tmux often runs
     # inside zellij. C-a is unbound there.
-    prefix = "C-a";
+    prefix = "C-Space";
 
     extraConfig = ''
             # Terminal overrides
