@@ -116,6 +116,21 @@ in
       alias zl = zellij list-sessions
       alias zk = zellij delete-session --force (zellij list-sessions --short | fzf)
       alias rg = rg --hidden
+      # OpenRig. The daemon must not start under nu (its seat launch command
+      # is POSIX) or zsh (zellij auto-start takes over the pane), and must use
+      # the default tmux socket so it finds its seats after a restart.
+      def rig-start [] {
+        hide-env --ignore-errors TMUX_TMPDIR
+        with-env { SHELL: "${config.home.profileDirectory}/bin/bash" } { ^rig daemon start }
+      }
+      # Herdr window for the OpenRig view; then `rig terminal open saved:kernel --provider herdr`.
+      def rig-view [] {
+        hide-env --ignore-errors TMUX HERDR_SESSION
+        with-env {
+          HERDR_SOCKET_PATH: "${config.home.homeDirectory}/.config/herdr/herdr.sock"
+          HERDR_CONFIG_PATH: "${config.home.homeDirectory}/.config/herdr/config.toml"
+        } { ^herdr }
+      }
       # direnv, resolved through $PATH rather than a pinned store path, so a
       # running shell survives a rebuild + `nh clean all` deleting the old
       # direnv derivation. Same reasoning as the zsh hook in zsh.nix, which is
