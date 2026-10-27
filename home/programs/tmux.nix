@@ -1,4 +1,8 @@
-{...}: {
+{ pkgs, ... }:
+let
+  tmuxFzf = pkgs.tmuxPlugins.tmux-fzf;
+in
+{
   programs.tmux = {
     enable = true;
     mouse = true;
@@ -61,7 +65,9 @@
             bind c new-window -c "#{pane_current_path}"
 
             # Sessions
-            bind Space choose-session
+            # Like zellij's Ctrl Space, Space: a fuzzy session switcher in a popup.
+            # tmux-fzf's full menu (windows, panes, kill, rename...) is prefix F.
+            bind Space run-shell -b "${tmuxFzf}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
             bind-key R command-prompt -I "#S" "rename-session '%%'"
             bind n command-prompt "new-session -s '%%'"
             bind-key o display-popup -E -w 40% "sesh connect \"$(
@@ -97,5 +103,9 @@
             # Source local overrides
             if-shell "test -f ~/.tmux.conf.local" "source-file ~/.tmux.conf.local"
     '';
+
+    # nixpkgs patches the plugin's scripts to call fzf from the store, so this
+    # works on the headless VMs too, which do not install fzf.
+    plugins = [ tmuxFzf ];
   };
 }

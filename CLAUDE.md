@@ -49,7 +49,7 @@ home/
     nushell.nix        # Nushell (login shell; non-headless only)
     scripts.nix        # `upd`, `exevm` binaries
     starship.nix       # Starship prompt
-    tmux.nix           # Tmux (prefix C-a; sesh picker on prefix+o)
+    tmux.nix           # Tmux (prefix C-a; fzf sessions on prefix+Space, tmux-fzf menu on prefix+F)
     waybar.nix         # Waybar (Linux, gui only)
     yazi.nix           # Yazi file manager
     zellij.nix         # Zellij multiplexer

@@ -54,11 +54,13 @@ in
         cacert
 
         # Core tools
+        bandwhich
         cloc
         curl
         dust
         fd
         jq
+        lsof
         ripgrep
         tree
         wget
