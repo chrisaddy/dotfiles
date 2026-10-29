@@ -15,6 +15,10 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    workmux = {
+      url = "github:raine/workmux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -53,7 +57,12 @@
             ./home
           ];
           extraSpecialArgs = {
-            inherit username headless gui nixvim;
+            inherit
+              username
+              headless
+              gui
+              nixvim
+              ;
           };
         };
     in
