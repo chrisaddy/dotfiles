@@ -21,7 +21,7 @@ in {
       };
       opener = {
         edit = [
-          {run = ''hx "$@"''; block = true;}
+          {run = ''nvim "$@"''; block = true;}
         ];
       };
     };
