@@ -115,7 +115,7 @@ in
       alias gs = gh stack
       alias zl = zellij list-sessions
       alias zk = zellij delete-session --force (zellij list-sessions --short | fzf)
-      alias rg = rg --hidden
+      alias wm = workmux
       # OpenRig. The daemon must not start under nu (its seat launch command
       # is POSIX) or zsh (zellij auto-start takes over the pane), and must use
       # the default tmux socket so it finds its seats after a restart.
