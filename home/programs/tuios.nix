@@ -151,6 +151,10 @@
       [keybindings]
       leader_key = "ctrl+space"
 
+      # Prefix then ctrl+space opens the session switcher, in place of S.
+      [keybindings.prefix_mode]
+      prefix_session_switcher = ["ctrl+space"]
+
       [notifications]
       duration = 5
       warning_duration = 10
