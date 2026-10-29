@@ -63,9 +63,15 @@ let
       }
     ];
 
-    colorschemes.catppuccin = {
+    # Matches tuios's `tokyonight_day` theme. tuios reports light/dark (mode
+    # 2031), nvim sets 'background' from it, and tokyonight picks `light_style`
+    # or `style` to follow.
+    colorschemes.tokyonight = {
       enable = true;
-      settings.flavour = "macchiato";
+      settings = {
+        style = "night";
+        light_style = "day";
+      };
     };
 
     keymaps = [
