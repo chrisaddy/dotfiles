@@ -147,6 +147,10 @@
       [appearance.sidebar.left]
       enabled = false
 
+      # Ctrl+Space is the NUL byte, so this also binds Ctrl+@.
+      [keybindings]
+      leader_key = "ctrl+space"
+
       [notifications]
       duration = 5
       warning_duration = 10
