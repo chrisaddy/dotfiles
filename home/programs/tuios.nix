@@ -1,6 +1,5 @@
-{ pkgs, ... }:
-{
-  programs.tuios = {
-    enable = true;
-  };
+{ pkgs, ... }: {
+  home.packages = with pkgs; [
+    tuios
+  ];
 }
