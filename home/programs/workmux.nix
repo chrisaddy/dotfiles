@@ -1,12 +1,12 @@
 {
-  inputs,
+  workmux,
   pkgs,
   lib,
   ...
 }:
 {
-  home.packages = with pkgs; [
-    inputs.workmux.packages.${pkgs.system}.default
+  home.packages = [
+    workmux.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   xdg.configFile."workmux/config.yaml" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {

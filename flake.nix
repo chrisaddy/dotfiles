@@ -27,6 +27,7 @@
       home-manager,
       nix-darwin,
       nixvim,
+      workmux,
       ...
     }:
     let
@@ -62,6 +63,7 @@
               headless
               gui
               nixvim
+              workmux
               ;
           };
         };
@@ -79,7 +81,7 @@
               username = "chrisaddy";
               headless = false;
               gui = true;
-              inherit nixvim;
+              inherit nixvim workmux;
             };
           }
         ];
