@@ -138,6 +138,7 @@ in
 
   xdg.configFile."workmux/config.yaml" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     text = ''
+      nerdfont: true
       merge_strategy: rebase
       agent: claude
       panes:
