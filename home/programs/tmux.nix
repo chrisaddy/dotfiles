@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  workmux,
+  pkgs,
+  lib,
+  ...
+}:
 let
   tmuxFzf = pkgs.tmuxPlugins.tmux-fzf;
 in
@@ -125,4 +130,22 @@ in
       pkgs.tmuxPlugins.resurrect
     ];
   };
+
+  home.packages = [
+    workmux.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.tuicr
+  ];
+
+  xdg.configFile."workmux/config.yaml" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
+    text = ''
+      merge_strategy: rebase
+      agent: claude
+      panes:
+        - command: <agent>
+          focus: true
+        - split: horizontal
+
+    '';
+  };
+
 }
