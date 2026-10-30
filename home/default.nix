@@ -26,7 +26,6 @@ in
     ./programs/starship.nix
     ./programs/tmux.nix
     ./programs/tuios.nix
-    ./programs/workmux.nix
     # ./programs/yazi.nix
     # ./programs/zellij.nix
     ./programs/zoxide.nix
