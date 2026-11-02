@@ -162,15 +162,6 @@ in
         duckdb
         ffmpeg
         graphviz
-      ]
-      ++ lib.optionals (isLinux && !headless) [
-        bubblewrap # opam's build sandbox (Linux-only; opam skips it on darwin)
-      ]
-      ++ lib.optionals gui [
-        # Only where a local terminal draws the glyphs: on WSL the Windows-side
-        # terminal renders, so the font has to be installed in Windows instead.
-        nerd-fonts.jetbrains-mono
-        nerd-fonts.symbols-only
       ];
   };
 
