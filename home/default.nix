@@ -118,7 +118,7 @@ in
         (lib.hiPrio secretspec)
 
         # Terminal
-        yazi
+        # yazi
       ]
       ++ lib.optionals isDarwin [
         libiconv

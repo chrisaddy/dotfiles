@@ -182,7 +182,7 @@ update down with it before any Nix work runs.
 `archSystemPackages` is the declarative list of things that genuinely cannot
 come from Nix: the Arch base (`base`, `base-devel`, `sudo`, `openssh`, `less`),
 `bubblewrap` because `glycin` links against it, and `vim`/`git` as the rescue
-floor — a broken Nix profile takes `hx` and Nix's `git` with it, and repairing
+floor — a broken Nix profile takes `nvim` and Nix's `git` with it, and repairing
 the flake needs an editor and a way to reach the repo. **An ordinary CLI tool
 does not belong there**; put it in `home/default.nix`. Nix wins on PATH, so a
 pacman copy of a tool Nix already provides is dead weight.
