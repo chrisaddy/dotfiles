@@ -140,7 +140,7 @@ in
         rust-analyzer
         rustfmt # :lang rust — format-on-save
         lldb
-        marksman
+        # marksman
         markdown-oxide
         lua-language-server # :lang lua
         yaml-language-server # :lang yaml
@@ -149,7 +149,7 @@ in
 
         # OCaml — opam manages the compiler and libraries in ~/.opam, so only
         # opam itself plus its build prerequisites live in the Nix closure.
-        opam
+        # opam
         gmp
         m4
         pkg-config
@@ -160,7 +160,6 @@ in
         # fabric is marked broken for invoke >= 3 (fabric/fabric#2376), and
         # that refuses evaluation of the whole home config.
         # azure-cli
-        google-cloud-sdk
         duckdb
         ffmpeg
         graphviz
