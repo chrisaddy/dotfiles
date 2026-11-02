@@ -25,7 +25,7 @@ in
     ./programs/scripts.nix
     ./programs/starship.nix
     ./programs/tmux.nix
-    ./programs/tuios.nix
+    # ./programs/tuios.nix
     # ./programs/yazi.nix
     # ./programs/zellij.nix
     ./programs/zoxide.nix
@@ -119,7 +119,6 @@ in
 
         # Terminal
         yazi
-        herdr
       ]
       ++ lib.optionals isDarwin [
         libiconv

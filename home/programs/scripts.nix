@@ -20,8 +20,6 @@ let
     "sudo"
     "openssh"
     "less"
-    # The rescue floor. A broken Nix profile takes hx and Nix's git with it,
-    # and repairing the flake needs an editor and a way to reach the repo.
     "vim"
     "git"
     "bubblewrap" # glycin (system GTK image loading) links against it

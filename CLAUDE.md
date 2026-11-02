@@ -107,7 +107,7 @@ binaries.
 OCaml is excluded from headless mode (`exedev@linux`).
 
 ### Environment
-- Editor: hx (helix)
+- Editor: nvim (neovim)
 - Shell: nushell (login shell) with starship prompt; zsh still installed
 - Multiplexer: zellij
 
