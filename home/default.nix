@@ -25,7 +25,6 @@ in
     ./programs/scripts.nix
     ./programs/starship.nix
     ./programs/tmux.nix
-    # ./programs/tuios.nix
     # ./programs/yazi.nix
     # ./programs/zellij.nix
     ./programs/zoxide.nix
@@ -172,9 +171,6 @@ in
         # terminal renders, so the font has to be installed in Windows instead.
         nerd-fonts.jetbrains-mono
         nerd-fonts.symbols-only
-      ]
-      ++ lib.optionals (isLinux && gui) [
-        nyxt
       ];
   };
 

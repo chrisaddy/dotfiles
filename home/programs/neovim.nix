@@ -63,9 +63,8 @@ let
       }
     ];
 
-    # Matches tuios's `tokyonight_day` theme. tuios reports light/dark (mode
-    # 2031), nvim sets 'background' from it, and tokyonight picks `light_style`
-    # or `style` to follow.
+    # nvim sets 'background' from the terminal's light/dark report, and
+    # tokyonight picks `light_style` or `style` to follow.
     colorschemes.tokyonight = {
       enable = true;
       settings = {
