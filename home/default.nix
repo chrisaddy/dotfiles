@@ -76,7 +76,6 @@ in
         pre-commit
 
         # python
-        uv
         ruff
         basedpyright
 
@@ -85,10 +84,8 @@ in
         zoxide
         carapace
         bat
-        eza
         gum
         sesh # session picker behind tmux prefix+o
-        just
         direnv
         # Claude Code's PreToolUse hook calls `rtk`. The hook's non-interactive
         # zsh only gets home.sessionPath, so rtk must live in the profile.
@@ -104,9 +101,6 @@ in
         cargo
         rustc
         cargo-clean-recursive
-
-        # Type checking
-        ty
 
         # Nix
         nh
@@ -144,22 +138,13 @@ in
         lua-language-server # :lang lua
         yaml-language-server # :lang yaml
         tree-sitter # grammar CLI for neovim/helix
-        zig
 
-        # OCaml — opam manages the compiler and libraries in ~/.opam, so only
-        # opam itself plus its build prerequisites live in the Nix closure.
-        # opam
         gmp
         m4
         pkg-config
         unzip
 
-        awscli2
-        # azure-cli is out until nixpkgs fixes fabric, which it depends on:
-        # fabric is marked broken for invoke >= 3 (fabric/fabric#2376), and
-        # that refuses evaluation of the whole home config.
         # azure-cli
-        duckdb
         ffmpeg
         graphviz
       ];
@@ -186,8 +171,6 @@ in
   # drifted — zsh aliased `ls` to `exa`, a package that is not installed, while
   # nushell correctly used `eza`.
   home.shellAliases = {
-    ls = "eza -la";
-    lss = "yazi";
     ccc = "claude --dangerously-skip-permissions";
   };
 
