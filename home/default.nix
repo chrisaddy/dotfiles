@@ -139,6 +139,8 @@ in
         yaml-language-server # :lang yaml
         tree-sitter # grammar CLI for neovim/helix
 
+        tuxedo
+
         gmp
         m4
         pkg-config
