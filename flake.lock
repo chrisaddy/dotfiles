@@ -132,11 +132,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793443682,
-        "narHash": "sha256-DJn1cpSL/P4InQuU+oEusf68nezA1NgBBsGu4XujQEM=",
+        "lastModified": 1793660342,
+        "narHash": "sha256-mOIPZYk+6aBAfbx83xbIm0PdJTWCcxEvvA+Xhy8A/30=",
         "owner": "raine",
         "repo": "workmux",
-        "rev": "b0caf23be53c9967190b3ee8fe2437a9e4bd0f1e",
+        "rev": "bcef2cbf7519c2e6cc61d8bd6850afb8da93eed8",
         "type": "github"
       },
       "original": {
