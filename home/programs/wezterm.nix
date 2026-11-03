@@ -4,9 +4,9 @@
     settings = {
       enable_scrollbar = false;
       font = {
-        size = 16.0;
+        size = 16;
       };
-      color_scheme = "tokyonight_night";
+      color_scheme = "tokyonight_moon";
       hide_tab_bar_if_only_one_tab = true;
     };
   };
