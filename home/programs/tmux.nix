@@ -144,7 +144,6 @@ in
       panes:
         - command: <agent>
           focus: true
-        - split: horizontal
 
     '';
   };
