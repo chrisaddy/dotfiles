@@ -109,8 +109,6 @@ in
     '';
 
     extraConfig = ''
-      alias ls = eza -la
-      alias ll = yazi
       alias claude = claude --dangerously-skip-permissions
       alias gs = gh stack
       # alias zl = zellij list-sessions
