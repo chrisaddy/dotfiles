@@ -27,6 +27,7 @@ in
     ./programs/tmux.nix
     # ./programs/yazi.nix
     # ./programs/zellij.nix
+    ./programs/wezterm.nix
     ./programs/zoxide.nix
     ./programs/zsh.nix
   ]
