@@ -21,6 +21,11 @@ in
     prefix = "C-Space";
 
     extraConfig = ''
+            # annoying bell shit
+            set -g bell-action none
+            set -g visual-bell off
+            set -g monitor-bell off
+
             # Terminal overrides
             set -ga terminal-overrides ",*256col*:Tc"
             set -g allow-passthrough on
