@@ -17,6 +17,7 @@ in
   imports = [
     ./programs/bash.nix
     ./programs/bat.nix
+    ./programs/btm.nix
     ./programs/lazygit.nix
     ./programs/mise.nix
     # ./programs/helix.nix
