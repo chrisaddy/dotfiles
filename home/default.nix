@@ -56,6 +56,7 @@ in
 
         # Core tools
         bandwhich
+        bottom
         cloc
         curl
         dust
