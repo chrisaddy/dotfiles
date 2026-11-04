@@ -59,11 +59,11 @@ in
 
             bind-key w command-prompt -I "#S" "rename-window '%%'"
 
-            # Navigate panes with vim-style keys
+            # Navigate panes with vim-style keys. No C-l: it stays with the
+            # shell to clear the screen; M-l (below) moves right instead.
             bind -n C-h select-pane -L
             bind -n C-j select-pane -D
             bind -n C-k select-pane -U
-            bind -n C-l select-pane -R
 
             # Alt-hjkl: move between panes; at the left/right edge, step to the
             # previous/next window and land on its nearest pane. Up/down stop

@@ -129,10 +129,64 @@ let
       ssh "$vm_name.exe.xyz"
     '';
   };
+
+  # Swagger UI's static bundle, pinned so `swagger` works offline. nixpkgs has
+  # no swagger-ui package; the npm dist tarball is the upstream distribution.
+  swaggerUiDist = pkgs.fetchzip {
+    url = "https://registry.npmjs.org/swagger-ui-dist/-/swagger-ui-dist-5.34.1.tgz";
+    hash = "sha256-ABucAF8LlfUaD1SzkeP8e498XpNIFsBvOQyU58IWMEs=";
+  };
+
+  # `swagger [spec] [port]`: serve Swagger UI for a local OpenAPI file on
+  # localhost. The spec's directory is linked in whole, so relative $refs to
+  # sibling files resolve, and edits show up on browser reload.
+  swagger = pkgs.writeShellApplication {
+    name = "swagger";
+    runtimeInputs = with pkgs; [
+      python3
+      coreutils
+    ];
+    text = ''
+      spec="''${1:-openapi.yaml}"
+      port="''${2:-8080}"
+
+      if [ ! -f "$spec" ]; then
+        echo "swagger: no such file: $spec" >&2
+        echo "usage: swagger [spec=openapi.yaml] [port=8080]" >&2
+        exit 1
+      fi
+      spec_dir=$(realpath "$(dirname "$spec")")
+      spec_name=$(basename "$spec")
+
+      root=$(mktemp -d)
+      trap 'rm -rf "$root"' EXIT
+      for f in ${swaggerUiDist}/*; do
+        ln -s "$f" "$root/"
+      done
+      ln -s "$spec_dir" "$root/spec"
+      # Replace the bundled initializer, which points at the petstore demo.
+      rm "$root/swagger-initializer.js"
+      cat > "$root/swagger-initializer.js" <<EOF
+      window.onload = () => {
+        window.ui = SwaggerUIBundle({
+          url: "spec/$spec_name",
+          dom_id: "#swagger-ui",
+          deepLinking: true,
+          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+          layout: "StandaloneLayout",
+        });
+      };
+      EOF
+
+      echo "Swagger UI for $spec at http://localhost:$port"
+      python3 -m http.server "$port" --bind 127.0.0.1 --directory "$root"
+    '';
+  };
 in
 {
   home.packages = [
     upd
     exevm
+    swagger
   ];
 }

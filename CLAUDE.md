@@ -47,7 +47,7 @@ home/
     neovim.nix         # Neovim via nixvim
     niri.nix           # Niri compositor (Linux, gui only)
     nushell.nix        # Nushell (login shell; non-headless only)
-    scripts.nix        # `upd`, `exevm` binaries
+    scripts.nix        # `upd`, `exevm`, `swagger` binaries
     starship.nix       # Starship prompt
     tmux.nix           # Tmux (prefix C-a; fzf sessions on prefix+Space, tmux-fzf menu on prefix+F)
     waybar.nix         # Waybar (Linux, gui only)
