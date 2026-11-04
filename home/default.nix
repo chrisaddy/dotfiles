@@ -75,6 +75,7 @@ in
         pnpm
         sqlite
         postman
+        newman
         pre-commit
 
         # python
