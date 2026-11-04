@@ -4,6 +4,7 @@
     enable = true;
     settings = {
       enable_scrollbar = false;
+      audible_bell = "Disabled";
       font = {
         size = 16;
       };
