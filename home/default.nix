@@ -74,6 +74,7 @@ in
         nodejs
         pnpm
         sqlite
+        postman
         pre-commit
 
         # python
