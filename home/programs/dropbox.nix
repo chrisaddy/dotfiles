@@ -1,14 +1,12 @@
 { pkgs, ... }: {
-  systemd.user.services.dropbox = {
-    Unit = {
-      Description = "Dropbox service";
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
+  home.packages = with pkgs; [ maestral ];
+  systemd.user.services.maestral = {
+    Unit.Description = "Maestral Dropbox client";
     Service = {
-      ExecStart = "${pkgs.dropbox}/bin/dropbox";
+      ExecStart = "${pkgs.maestral}/bin/maestral start --foreground";
+      ExecStop = "${pkgs.maestral}/bin/maestral stop";
       Restart = "on-failure";
     };
+    Install.WantedBy = [ "default.target" ];
   };
 }
