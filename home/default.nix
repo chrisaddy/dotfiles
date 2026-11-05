@@ -18,6 +18,7 @@ in
     ./programs/bash.nix
     ./programs/bat.nix
     ./programs/btm.nix
+    ./programs/dropbox.nix
     ./programs/lazygit.nix
     ./programs/mise.nix
     # ./programs/helix.nix
@@ -57,7 +58,6 @@ in
 
         # Core tools
         bandwhich
-        bottom
         cloc
         curl
         dust
