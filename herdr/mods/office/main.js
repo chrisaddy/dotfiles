@@ -15,20 +15,21 @@ const DEMO = [["working", "fix login"], ["blocked", "migrate db"], ["done", "wri
     const space_name = i < 5 ? "web" : i < 9 ? "api" : "infra";
     return { address: `demo${i}`, status, tab_name, space: space_name, space_name, title: "", program: null, focused: i === 0 };
   });
-// Everyone at work: the agents, plus panes running an agent program that reports no status
-// (Claude Code without Herdr's status integration still shows as "Claude Code" in its pane).
-// Those have no status, so it's read from the title: Claude Code puts a braille spinner there
-// while it works.
+// Everyone at work: the agents, plus panes running an agent that reports no status (Claude
+// Code without Herdr's status hook). Herdr names the program from what runs in the pane, which
+// misses Claude started under a wrapper (`devenv shell`), so Claude's title counts too: it puts
+// ✳ there while idle and a spinner (◐◓◑◒ or braille) while it works.
+const CLAUDE_IDLE = /^✳/, CLAUDE_BUSY = /^[◐◓◑◒\u2800-\u28ff]/;
 function workers() {
   const list = agents(), seen = new Set(list.map((a) => a.address));
   const order = [];
   for (const sp of spaces()) sp.tabs.forEach((t, ti) => order.push({ sp, t, ti }));
   for (const p of panes()) {
-    if (!p.terminal || seen.has(p.terminal) || !p.program?.agent) continue;
+    if (!p.terminal || seen.has(p.terminal) || !(p.program?.agent || CLAUDE_IDLE.test(p.title) || CLAUDE_BUSY.test(p.title))) continue;
     const at = order.find((o) => o.t.id === p.tab);
     if (!at) continue;
     list.push({ address: p.terminal, pane: p.pane, space: at.sp.id, space_name: at.sp.name, tab: p.tab,
-      tab_index: at.ti, tab_name: at.t.name ?? String(at.ti + 1), status: /^[\u2800-\u28ff]/.test(p.title) ? "working" : "idle",
+      tab_index: at.ti, tab_name: at.t.name ?? String(at.ti + 1), status: CLAUDE_BUSY.test(p.title) ? "working" : "idle",
       app: p.app, program: p.program, title: p.title, focused: p.focused, unreported: true });
   }
   // Keep space, then tab, order: the desks group by space.
