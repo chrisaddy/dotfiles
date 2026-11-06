@@ -62,6 +62,7 @@ in
         curl
         dust
         fd
+        herdr
         jq
         lsof
         ripgrep
