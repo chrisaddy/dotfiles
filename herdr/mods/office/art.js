@@ -25,11 +25,14 @@ export function sprite(rows, pal, s) {
     for (let x = 0; x < row.length;) {
       let e = x;
       while (e < row.length && row[e] === row[x]) e++;
-      if (pal[row[x]]) out.push(r(x * s, y * s, (e - x) * s, s, pal[row[x]]));
+      // Edges on whole pixels, so neighbouring runs meet exactly at any scale: fractional
+      // edges anti-alias into seams.
+      const x0 = Math.round(x * s), y0 = Math.round(y * s);
+      if (pal[row[x]]) out.push(r(x0, y0, Math.round(e * s) - x0, Math.round((y + 1) * s) - y0, pal[row[x]]));
       x = e;
     }
   });
-  return div().relative().w(rows[0].length * s).h(rows.length * s).children(out);
+  return div().relative().w(Math.round(rows[0].length * s)).h(Math.round(rows.length * s)).children(out);
 }
 
 // ---- people ---------------------------------------------------------------
@@ -95,9 +98,63 @@ export function standing(lk, s, facing, walking, item, id) {
     .when(item === "book", (e) => e.child(r(12 * s, 8 * s, 3 * s, 4 * s, lk.book)));
 }
 
-const CAT = [".......O.O", ".......OOO", "O......OEO", "O..OOOOOOO", ".OOOOOOOO.", "..OOOOOOO.", "..O.O..O.O"];
-export const CATS = ["#e0913a", "#5b5b66", "#2a2a2a", "#f4f0e6", "#a0704a"];
-export const cat = (coat, s, left) => sprite(left ? CAT.map((row) => [...row].reverse().join("")) : CAT, { O: coat, E: "#7bd389" }, s);
+// The office cats, facing right. O is the coat, W white, S tabby stripes, E an eye, N the nose.
+const CANNOLI = [
+  ".......O.O",
+  ".......OOO",
+  "O......OEO",
+  "O..OOOOOWN",
+  ".OOOOOOWW.",
+  "..OOOOOWW.",
+  "..W.W..W.W",
+];
+const TWITCH = [
+  ".......O.O",
+  ".......OSO",
+  "S......OEO",
+  "O..OSOSOON",
+  ".OOSOSOOO.",
+  "..OSOSOOO.",
+  "..O.O..O.O",
+];
+export const CATS = [
+  { name: "Cannoli", rows: CANNOLI, pal: { O: "#1f1f24", W: "#f4f0e6", E: "#e0c040", N: "#e07a9a" } },
+  { name: "Twitch", rows: TWITCH, pal: { O: "#e0913a", S: "#a85a1c", E: "#7bd389", N: "#e07a9a" } },
+];
+export const cat = (c, s, left) => sprite(left ? c.rows.map((row) => [...row].reverse().join("")) : c.rows, c.pal, s);
+
+const HEART = [".H.H.", "HHHHH", ".HHH.", "..H.."];
+export const heart = (s) => sprite(HEART, { H: "#e05a8a" }, s);
+
+// Their corner, top right: bed, food and water, the litter box, and toys about. bedX is the
+// bed's left; feet is where a cat's paws rest in the walkway along the wall.
+const BED = [".RRRRRRRRRRRR.", "RRccccccccccRR", "RccccccccccccR", "RccccccccccccR", "RRRRRRRRRRRRRR", ".RRRRRRRRRRRR."];
+const FOOD = [".kkkk.", "BBBBBB", ".BBBB."];
+const WATER = [".wwww.", "SSSSSS", ".SSSS."];
+const LITTER = ["LLLLLLLLLLLL", "LssssdsssssL", "LsssssssdssL", "LLLLLLLLLLLL", "LLLLLLLLLLLL"];
+const YARN = [".YY..", "YyYY.", "YYyY.", ".YY.Y", "....Y"];
+const MOUSE = ["..GG..", ".GGGGP", "t....."];
+const JINGLE = [".J.", "JjJ", ".J."];
+const CORNER_PAL = { R: "#a8322a", c: "#f4e8d0", k: "#8a5530", B: "#e05a8a", w: "#5ab0e0", S: "#c3cfe0",
+  L: "#3f9aa6", s: "#e8d8a8", d: "#c9b27a", Y: "#8a62b8", y: "#b494dc", G: "#8a8f9c", P: "#e07a9a", t: "#5b5b66",
+  J: "#e0c040", j: "#fff27a" };
+export function catCorner(w, bedX, feet, s) {
+  const at = (rows, x, y) => sprite(rows, CORNER_PAL, s).absolute().left(Math.round(x)).top(Math.round(y));
+  return [
+    at(BED, bedX, feet - 4 * s),
+    at(FOOD, bedX, feet + 4 * s), at(WATER, bedX + 8 * s, feet + 4 * s),
+    at(LITTER, w - 6 - 12 * s, feet + 10 * s),
+    at(JINGLE, bedX - 14 * s, feet), at(YARN, bedX - 10 * s, feet + 6 * s), at(MOUSE, bedX - 9 * s, feet + 14 * s),
+  ];
+}
+
+// The cat flap at the foot of the front door (centred on doorX); open while a cat goes through.
+export function catFlap(doorX, s, open) {
+  const fw = Math.round(9 * s), fh = Math.round(8 * s), b = Math.max(1, Math.round(s));
+  return r(Math.round(doorX - fw / 2), WALL - fh, fw, fh, "#7a4426")
+    .child(r(b, b, fw - 2 * b, fh - b, open ? "#2b1a10" : "#c47d4a"))
+    .child(r(b, b, fw - 2 * b, open ? 2 * b : b, "#6b3f1f"));
+}
 
 // ---- the room -------------------------------------------------------------
 

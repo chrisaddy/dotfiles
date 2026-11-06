@@ -1,8 +1,9 @@
 import { View, div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
 import { agents, spaces, panes, props, run, setAgentOrder, knownAgents } from "herdr";
-import { ink, WALL, SLOT_W, SLOT_H, SCREEN, CATS, RUGS, r, icon, txt, hash, rng, pick, look, deskLook, clutter, seated, standing, cat, room } from "./art.js";
+import { ink, WALL, SLOT_W, SLOT_H, SCREEN, CATS, RUGS, r, icon, txt, hash, rng, pick, look, deskLook, clutter, seated, standing, cat, heart, catCorner, catFlap, room } from "./art.js";
 import { djCorner, playing, toggleMusic } from "./dj.js";
+import { whiteboards, loadArtifacts } from "./whiteboards.js";
 
 // A pixel-art office: every agent is a little worker at a desk, and each space gets its own
 // group of desks on a rug. Idle workers wander, and everyone (the cat too) keeps to the walkways:
@@ -14,6 +15,28 @@ const DEMO = [["working", "fix login"], ["blocked", "migrate db"], ["done", "wri
     const space_name = i < 5 ? "web" : i < 9 ? "api" : "infra";
     return { address: `demo${i}`, status, tab_name, space: space_name, space_name, title: "", program: null, focused: i === 0 };
   });
+// Everyone at work: the agents, plus panes running an agent program that reports no status
+// (Claude Code without Herdr's status integration still shows as "Claude Code" in its pane).
+// Those have no status, so it's read from the title: Claude Code puts a braille spinner there
+// while it works.
+function workers() {
+  const list = agents(), seen = new Set(list.map((a) => a.address));
+  const order = [];
+  for (const sp of spaces()) sp.tabs.forEach((t, ti) => order.push({ sp, t, ti }));
+  for (const p of panes()) {
+    if (!p.terminal || seen.has(p.terminal) || !p.program?.agent) continue;
+    const at = order.find((o) => o.t.id === p.tab);
+    if (!at) continue;
+    list.push({ address: p.terminal, pane: p.pane, space: at.sp.id, space_name: at.sp.name, tab: p.tab,
+      tab_index: at.ti, tab_name: at.t.name ?? String(at.ti + 1), status: /^[\u2800-\u28ff]/.test(p.title) ? "working" : "idle",
+      app: p.app, program: p.program, title: p.title, focused: p.focused, unreported: true });
+  }
+  // Keep space, then tab, order: the desks group by space.
+  const rank = (a) => order.findIndex((o) => o.t.id === a.tab);
+  return list.map((a, i) => ({ a, i })).sort((x, y) => rank(x.a) - rank(y.a) || x.i - y.i).map((x) => x.a);
+}
+const focusRun = (a) => run(a.unreported ? "pane.focus" : "agent.focus", { terminal: a.address });
+
 const THOUGHTS = ["?", "!", "♪", "♥", "...", "☼", "$", "#"];
 const SPOTS = ["cooler", "cooler", "shelfL", "shelfR", "window", "door", "plant", "floor", "floor", "chat", "chat"];
 const WALK = 0.11, CAT_WALK = 0.07; // px per ms
@@ -61,14 +84,30 @@ export default class Office extends View {
     this.hover = null;
     this.minute = -1;
     this.n = 0;
-    this.cat = { coat: pick(rng(this.seed), CATS), path: null, i: 0, until: 0, left: false };
+    // Cannoli and Twitch: they wander, nap in their bed, and play when they meet.
+    this.cats = CATS.map((c, i) => ({ ...c, home: i ? 0.62 : 0.33, path: null, i: 0, until: 0, left: i === 1 }));
+    this.play = null;    // { start, until, x, y } while the cats play
+    this.playNext = 0;
+    this.flap = 0;       // the cat flap swings until then
+    this.catHover = null;
     this.list = [];
     if (props()?.role) return;
     this.roomView = cx.new(Room, this.roomProps());
     this.music = false;
     cx.timer.every(3000, (cx) => this.checkMusic(cx));
     this.checkMusic(cx);
+    this.boards = [];
+    this.boardHover = null;
+    cx.timer.every(5000, (cx) => this.loadBoards(cx));
+    this.loadBoards(cx);
     cx.timer.every(250, (cx) => { this.syncRoom(); if (this.tick()) cx.notify(); });
+  }
+
+  loadBoards(cx) {
+    cx.spawn(async (cx) => {
+      const list = await loadArtifacts(), key = JSON.stringify(list);
+      if (key !== this.boardsKey) { this.boardsKey = key; this.boards = list; cx.notify(); }
+    });
   }
 
   checkMusic(cx) {
@@ -121,7 +160,7 @@ export default class Office extends View {
   // Someone (or the cat) is standing at, or heading for, the spot p: wait a moment.
   crowded(self, p) {
     const near = (q) => q && Math.abs(q.x - p.x) < 12 * this.geo.s && Math.abs(q.y - p.y) < 8 * this.geo.s;
-    if (self !== "cat" && near(this.cat.path?.[this.cat.i])) return true;
+    if (!self.startsWith("cat:") && this.cats.some((c) => near(c.path?.[c.i]))) return true;
     return Object.entries(this.trips).some(([addr, t]) => addr !== self && t.phase !== "enter" && near(t.path[t.i]));
   }
 
@@ -173,8 +212,10 @@ export default class Office extends View {
       }
     }
     for (const [k, t] of Object.entries(this.thoughts)) if (now >= t.until) { delete this.thoughts[k]; changed = true; }
-    changed = this.moveCat(now) || changed;
+    for (const c of this.cats) changed = this.moveCat(c, now) || changed;
+    changed = this.catsPlay(now) || changed;
     if (this.door && now >= this.door) { this.door = 0; changed = true; }
+    if (this.flap && now >= this.flap) { this.flap = 0; changed = true; }
     return changed;
   }
 
@@ -183,17 +224,69 @@ export default class Office extends View {
     Object.assign(t, { phase: "back", path, i: 0, until: now + path[0].ms, hurry: false });
   }
 
-  moveCat(now) {
-    const c = this.cat, g = this.geo;
+  // Where a cat is right now: partway along the leg it's walking.
+  catAt(c, now) {
+    const to = c.path?.[c.i];
+    if (!to) return { r: -1, x: Math.round(this.size.width * c.home), y: this.geo.topY };
+    const from = c.path[c.i - 1];
+    if (!from || now >= c.until) return to;
+    const u = 1 - (c.until - now) / to.ms;
+    return { r: to.r, x: Math.round(from.x + (to.x - from.x) * u), y: Math.round(from.y + (to.y - from.y) * u) };
+  }
+
+  // The cats' corner, top right: the bed's x, where a napping cat lies.
+  bedX() { return this.size.width - 6 - Math.round(14 * this.geo.s); }
+  // Where a cat stands to use the flap in the front door.
+  flapX() { return Math.round(this.size.width / 2) - Math.round(5 * this.geo.s); }
+
+  moveCat(c, now) {
+    const g = this.geo;
     if (now < c.until) return false;
+    // Back in through the flap after a while outside.
+    if (c.away) {
+      Object.assign(c, { away: false, path: [{ x: this.flapX(), y: g.topY, r: -1, ms: 16 }], i: 0, resting: true, until: now + 1500 });
+      this.flap = now + 900;
+      return true;
+    }
     if (c.path && c.i < c.path.length - 1) {
-      if ((c.wait ?? 0) < 8 && this.crowded("cat", c.path[c.i + 1])) { c.wait = (c.wait ?? 0) + 1; c.until = now + 250; return false; }
+      if ((c.wait ?? 0) < 8 && this.crowded(`cat:${c.name}`, c.path[c.i + 1])) { c.wait = (c.wait ?? 0) + 1; c.until = now + 250; return false; }
       c.wait = 0; c.i++; c.until = now + c.path[c.i].ms; c.left = c.path[c.i].left; return true; }
-    const at = c.path?.[c.i] ?? { r: -1, x: Math.round(this.size.width / 3) };
-    if (c.path && !c.resting) { c.resting = true; c.until = now + (Math.random() < 0.4 ? 8000 + Math.random() * 15000 : 1000 + Math.random() * 3000); return false; }
-    const to = { r: Math.floor(Math.random() * (g.rows + 1)) - 1, x: Math.round(8 + Math.random() * (this.size.width - 60)) };
-    c.path = this.path({ r: at.r, x: at.x }, to, CAT_WALK, Math.round((Math.random() * 16 - 8) * g.k));
-    Object.assign(c, { i: 0, until: now + c.path[0].ms, left: c.path[0].left, resting: false });
+    const at = this.catAt(c, now);
+    if (c.outing && !c.resting) {
+      Object.assign(c, { outing: false, away: true, until: now + 20000 + Math.random() * 40000 });
+      this.flap = now + 900;
+      return true;
+    }
+    if (c.path && !c.resting) {
+      const nap = c.nap ? 15000 + Math.random() * 25000 : Math.random() < 0.4 ? 8000 + Math.random() * 15000 : 1000 + Math.random() * 3000;
+      c.resting = true; c.until = now + nap; return false;
+    }
+    // Off again: to find the other cat, to bed, or anywhere.
+    const other = this.catAt(this.cats.find((o) => o !== c), now), roll = Math.random();
+    let to, off = Math.round((Math.random() * 16 - 8) * g.k), nap = false, outing = false;
+    if (roll < 0.25) to = { r: other.r, x: other.x + (Math.random() < 0.5 ? -1 : 1) * Math.round(14 * g.s) };
+    else if (roll < 0.45) { to = { r: -1, x: this.bedX() + Math.round(2 * g.s) }; off = 0; nap = true; }
+    else if (roll < 0.52) { to = { r: -1, x: this.flapX() }; off = 0; outing = true; }
+    else to = { r: Math.floor(Math.random() * (g.rows + 1)) - 1, x: Math.round(8 + Math.random() * (this.size.width - 60)) };
+    to.x = Math.max(8, Math.min(this.size.width - 6 - Math.round(10 * g.s), to.x));
+    c.path = this.path({ r: at.r, x: at.x }, to, CAT_WALK, off);
+    Object.assign(c, { i: 0, until: now + c.path[0].ms, left: c.path[0].left, resting: false, nap, outing });
+    return true;
+  }
+
+  // When the cats meet they stop, face each other and play for a few seconds, with hearts.
+  catsPlay(now) {
+    if (this.play) { if (now >= this.play.until) this.play = null; return true; }
+    if (now < this.playNext) return false;
+    const [a, b] = this.cats, s = this.geo.s, pa = this.catAt(a, now), pb = this.catAt(b, now);
+    if (a.away || b.away || a.outing || b.outing) return false;
+    if (Math.abs(pa.x - pb.x) > 20 * s || Math.abs(pa.y - pb.y) > 8 * s) return false;
+    const until = now + 3600;
+    for (const [c, at, o] of [[a, pa, pb], [b, pb, pa]])
+      Object.assign(c, { path: [{ ...at, ms: 16 }], i: 0, until: until + 500 + Math.random() * 1500,
+        resting: true, nap: false, wait: 0, left: o.x < at.x });
+    this.play = { start: now, until, x: Math.round((pa.x + pb.x) / 2), y: Math.min(pa.y, pb.y) };
+    this.playNext = until + 25000;
     return true;
   }
 
@@ -226,7 +319,7 @@ export default class Office extends View {
     }
     return el.id(`desk-${a.address}`).cursor_pointer()
       .on_mouse_down("left", (_e, cx) => cx.stop_propagation())
-      .on_click(() => !this.demo && run("agent.focus", { terminal: a.address }))
+      .on_click(() => !this.demo && focusRun(a))
       .on_hover((hov, cx) => {
         // Only a real change redraws: a redraw re-reports hover, and notifying again would loop.
         const next = hov ? a.address : this.hover === a.address ? null : this.hover;
@@ -283,7 +376,7 @@ export default class Office extends View {
     return div().id(id).absolute().left(pos.x).top(pos.y).w(16 * s).h(20 * s)
       .transition("left", { duration: ms, easing: "linear" }).transition("top", { duration: ms, easing: "linear" })
       .cursor_pointer().on_mouse_down("left", (_e, cx) => cx.stop_propagation())
-      .on_click(() => !this.demo && run("agent.focus", { terminal: a.address }))
+      .on_click(() => !this.demo && focusRun(a))
       .child(body)
       .when(!t && a.status === "done", (e) => e.child(txt("z", 16, "#24406e").absolute().left(14 * s).top(-2 * s).id(`${id}-z`).frames(["z", "zZ", "zZz", ""], 500)))
       .when(chatting, (e) => e.child(bubble(txt(".", 12, ink).id(`${id}-chat`).frames([".", "..", "..."], 400)).left(10 * s).top(-6 * s)))
@@ -307,8 +400,8 @@ export default class Office extends View {
         .child(txt(`${s?.name ?? ""} / ${tab?.name ?? ""}`, 12, "#fff1d6"));
     }
     // props.demo fills the desks with sample workers in every state (for previews).
-    const list = p.demo ? DEMO : agents();
-    if (!p.demo) setAgentOrder(list.map((a) => a.address));
+    const list = p.demo ? DEMO : workers();
+    if (!p.demo) setAgentOrder(list.filter((a) => !a.unreported).map((a) => a.address));
     this.list = list;
 
     const { width: w, height: h } = this.size, now = new Date(), hour = now.getHours();
@@ -360,7 +453,7 @@ export default class Office extends View {
     for (const key of Object.keys(this.trips)) if (!this.known.has(key)) delete this.trips[key];
     for (const t of Object.values(this.trips)) if (t.phase === "enter" && ts >= t.until) t.phase = "back";
 
-    const c = this.cat, cp = c.path?.[c.i] ?? { x: Math.round(w / 3), y: this.geo.topY, ms: 16 };
+    const cy = Math.round(30 * k);
     const hd = taken.find((d) => d.a.address === this.hover), hovered = hd?.a;
     const music = this.demo || this.music;
     const toggle = (cx) => {
@@ -370,6 +463,10 @@ export default class Office extends View {
     return div().id("office-root").relative().size_full().overflow_hidden().bg("#e2a465")
       .on_size_change((size, cx) => { this.size = size; this.syncRoom(); cx.notify(); })
       .child(this.roomView)
+      .child(whiteboards(this.boards, Math.round(w / 2) + 275, w - 352, this.boardHover, (a, cx) => {
+        // Only a real change redraws, as with the desks.
+        if ((a?.url ?? null) !== (this.boardHover?.url ?? null)) { this.boardHover = a; cx.notify(); }
+      }))
       .children(groups.filter((g) => g.name).map((g) => {
         const [col, edge] = RUGS[g.rug], rw = g.w + q(16), rh = rows * sh + q(4);
         return r(g.x - q(8), top - q(8), rw, rh, col).border(3).border_color(edge)
@@ -383,9 +480,28 @@ export default class Office extends View {
         return div().absolute().left(g.x - q(8)).top(top - q(8) - ts - 8).px(8).py(4).bg(edge)
           .child(txt(g.name.slice(0, 20), ts, "#fff8e1"));
       }))
-      .child(div().id("cat").absolute().left(cp.x).top(cp.y + Math.round(30 * k))
-        .transition("left", { duration: cp.ms, easing: "linear" }).transition("top", { duration: cp.ms, easing: "linear" })
-        .child(cat(c.coat, s, c.left)))
+      .children(catCorner(w, this.bedX(), this.geo.topY + cy + Math.round(7 * s), s))
+      .when(!this.door, (e) => e.child(catFlap(Math.round(w / 2), s, ts < this.flap)))
+      .children(this.cats.filter((c) => !c.away).map((c, i) => {
+        const cp = c.path?.[c.i] ?? { ...this.catAt(c, ts), ms: 16 };
+        // Playing, they bounce: a whole two art pixels up and down, a beat apart.
+        const hop = this.play && (Math.floor(ts / 250) + i) % 2 ? -2 * s : 0;
+        return div().id(`cat-${c.name}`).absolute().left(cp.x).top(cp.y + cy).w(Math.round(10 * s)).h(Math.round(7 * s))
+          .transition("left", { duration: cp.ms, easing: "linear" }).transition("top", { duration: cp.ms, easing: "linear" })
+          .on_hover((hov, cx) => {
+            const name = hov ? c.name : this.catHover === c.name ? null : this.catHover;
+            if (name !== this.catHover) { this.catHover = name; cx.notify(); }
+          })
+          .child(div().absolute().left(0).top(hop).child(cat(c, s, c.left)))
+          .when(this.catHover === c.name, (e) => e.child(div().absolute().left(0).top(-Math.max(8, q(16)) - 10).px(4).py(2).bg(wood)
+            .child(txt(c.name, Math.max(8, q(16)), "#fff8e1"))));
+      }))
+      .when(!!this.play, (e) => e.children([0, 1, 2].map((i) => {
+        const p = this.play, age = ts - p.start - i * 500;
+        if (age < 0 || age >= 2000) return div();
+        const rise = Math.round((age / 2000) * 12) * s;
+        return div().absolute().left(Math.round(p.x + (i * 6 - 1) * s)).top(Math.round(p.y + cy - 6 * s - rise)).child(heart(s));
+      })))
       .children(list.map((a) => this.worker(a, k, s)))
       .when(night, (e) => e.child(r(0, 0, w, h, "#0b123650")))
       .when(hour >= 17 && hour < 19, (e) => e.child(r(0, 0, w, h, "#f2a65a1a")))

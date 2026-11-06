@@ -1,5 +1,5 @@
 import { div, svg } from "gpui-kit";
-import { exec, hc, notify } from "herdr";
+import { exec, hc, notify, shared, setShared } from "herdr";
 import { r, txt, sprite } from "./art.js";
 
 // The office DJ: a booth in the bottom-left corner of the floor. With the music on he spins
@@ -11,6 +11,17 @@ import { r, txt, sprite } from "./art.js";
 // terminals() leaves out terminals without herdr labels, so ask the core.
 export const DJ_URL = "https://www.youtube.com/watch?v=OVEspa2yBQE";
 const NAME = "office-dj";
+// mpv's control socket, for changing the volume while it plays.
+const SOCK = "/tmp/office-dj.sock";
+
+// 0–100, kept in shared state so it survives restarts and the next play starts there.
+export const volume = () => shared("office.dj.volume") ?? 60;
+
+export function setVolume(v) {
+  setShared("office.dj.volume", v);
+  const cmd = JSON.stringify({ command: ["set_property", "volume", v] });
+  return exec("/bin/sh", ["-c", `printf '%s\\n' '${cmd}' | nc -U -w 1 ${SOCK}`]).catch(() => null);
+}
 
 export async function playing() {
   const res = await hc(["get", NAME, "--json"]).catch(() => null);
@@ -27,7 +38,7 @@ export async function toggleMusic(on) {
   }
   // --rm: if the stream dies, the terminal goes and the DJ goes back to sleep on his own.
   return hc(["run", "--bg", "--no-parent", "--rm", "--name", NAME, "--label", "office.dj=1", "--",
-    "/bin/zsh", "-lc", `exec mpv --no-video --really-quiet --loop-playlist=inf '${DJ_URL}'`]);
+    "/bin/zsh", "-lc", `exec mpv --no-video --really-quiet --loop-playlist=inf --volume=${volume()} --input-ipc-server=${SOCK} '${DJ_URL}'`]);
 }
 
 const PAL = { H: "#151515", S: "#c68a5e", E: "#1b1b1b", T: "#3f9aa6", P: "#e05a8a", K: "#2b2f3a", m: "#a0522d" };
@@ -78,13 +89,16 @@ function record(x, y, s, on) {
     .child(r(5.5 * s, 5.5 * s, s, s, "#1b1b1b"));
 }
 
-// The whole corner, s px per art pixel, its bottom-left at (x, bottom).
-export function djCorner(x, bottom, s, on, onClick) {
-  const bw = 44 * s, bh = 16 * s, by = bottom - bh;
+// The whole corner, about `scale` px per art pixel, its bottom-left at (x, bottom). Art pixels
+// are whole screen pixels: a fractional size anti-aliases each run's edges into seams.
+export function djCorner(x, bottom, scale, on, onClick) {
+  const s = Math.max(1, Math.round(scale));
+  x = Math.round(x); bottom = Math.round(bottom);
+  const bw = 44 * s, bh = 21 * s, by = bottom - bh;
   const bagX = x + bw + 6 * s, bagY = bottom - BAG.length * s;
   const lights = ["#e05a8a", "#5ab0e0", "#e0c040", "#7ee0a0", "#c08ae0", "#f08a4a"];
   const el = div().id("dj").absolute().left(0).top(0);
-  const hit = div().id("dj-hit").cursor_pointer().absolute().left(x).top(by - 14 * s).w(bw + 32 * s).h(bh + 14 * s)
+  const hit = div().id("dj-hit").cursor_pointer().absolute().left(x).top(by - 14 * s).w(bw + 32 * s).h(30 * s)
     .on_mouse_down("left", (_e, cx) => cx.stop_propagation())
     .on_click((_e, cx) => onClick(cx));
 
@@ -111,7 +125,7 @@ export function djCorner(x, bottom, s, on, onClick) {
   // The beanbag, with him asleep in it when the music's off.
   el.child(sprite(BAG, BAG_PAL, s).absolute().left(bagX).top(bagY));
   if (!on) el.child(div().absolute().left(bagX + 2 * s).top(bagY + 2 * s).id("dj-breathe")
-    .loop("top", { from: bagY + 2 * s, to: bagY + 1.5 * s, period: 2400 })
+    .loop("top", { from: bagY + 2 * s, to: bagY + s, period: 2400 })
     .child(sprite(ASLEEP, PAL, s)))
     .child(txt("z", Math.max(10, 5 * s), "#24406e").absolute().left(bagX + 4 * s).top(bagY - 6 * s)
       .id("dj-z").frames(["z", "zZ", "zZz", ""], 700));
@@ -121,5 +135,21 @@ export function djCorner(x, bottom, s, on, onClick) {
     .absolute().left(x + (8 + i * 12) * s).id(`dj-note-${i}`)
     .loop("top", { from: by - 12 * s, to: by - 30 * s, period: 2600 + i * 700 })));
 
-  return el.child(hit);
+  return el.child(hit).child(fader(x + 3 * s, by + 15 * s, bw - 6 * s, s, on));
+}
+
+// The volume fader along the bottom of the booth: ten steps, click one to set it. It sits
+// below the click area that toggles the music, so it gets its own clicks.
+function fader(x, y, w, s, on) {
+  const v = Math.round(volume() / 10), label = 9 * s, cw = Math.floor((w - label) / 10);
+  return div().absolute().left(x).top(y).w(w).h(4 * s)
+    .child(div().absolute().left(0).top(0).child(txt("VOL", Math.max(8, 3.5 * s), "#8a8f9c")))
+    .children(Array.from({ length: 10 }, (_, i) => {
+      const lit = i < v, c = i >= 8 ? "#e05a5a" : i >= 6 ? "#e0c040" : "#7ee0a0";
+      return div().id(`dj-vol-${i}`).absolute().left(label + i * cw).top(0).w(cw).h(4 * s).cursor_pointer()
+        .on_mouse_down("left", (_e, cx) => cx.stop_propagation())
+        .on_click(() => setVolume((i + 1) * 10))
+        .child(r(Math.max(1, s / 2), s, cw - s, 2 * s, lit ? (on ? c : "#6a7080") : "#2b2f3a")
+          .when(i === v - 1, (e) => e.child(r(cw / 2 - s, -s, 2 * s, 4 * s, "#e7e9ee"))));
+    }));
 }
