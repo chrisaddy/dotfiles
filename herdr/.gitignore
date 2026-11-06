@@ -1,0 +1,4 @@
+# Written by Herdr into every mod folder on start.
+mods/*/gpui-kit.d.ts
+mods/*/herdr.d.ts
+mods/*/jsconfig.json

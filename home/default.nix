@@ -38,6 +38,7 @@ in
     # keep zsh: bootstrap.sh and exevm drive them with `ssh host "a && b"`,
     # which nushell cannot parse.
     ./programs/nushell.nix
+    ./programs/herdr.nix
   ]
   ++ lib.optionals gui [
     ./programs/ghostty.nix
@@ -155,6 +156,9 @@ in
         # azure-cli
         ffmpeg
         graphviz
+        # The herdr office DJ plays YouTube audio through these.
+        mpv
+        yt-dlp
       ];
   };
 
