@@ -90,6 +90,13 @@ let
     '';
   };
 
+  work = pkgs.writeShellApplication {
+    name = "work";
+    runtimeInputs = with pkgs; [
+      git
+    ];
+  };
+
   # exe.dev VM: create, bootstrap dotfiles on it, connect. Not to be confused
   # with bootstrap.sh, which configures the machine it runs on.
   exevm = pkgs.writeShellApplication {
