@@ -64,6 +64,8 @@ in
         dust
         fd
         herdr
+        worktrunk
+        worktrunk-sync
         jq
         lsof
         ripgrep
@@ -72,6 +74,7 @@ in
 
         # Development
         git
+        hunk
         lazygit
         delta
         gh

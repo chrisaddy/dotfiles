@@ -138,7 +138,7 @@ in
 
   home.packages = [
     workmux.packages.${pkgs.stdenv.hostPlatform.system}.default
-    pkgs.tuicr
+    # pkgs.tuicr
   ];
 
   xdg.configFile."workmux/config.yaml" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
