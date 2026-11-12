@@ -38,7 +38,7 @@
     rex.bind("ctrl+l", "pane.focus", { direction = "right" })
 
     -- cmd+shift+j/k walk down/up the session list.
-    rex.bind("cmd+ctrl+j", "session.next")
-    rex.bind("cmd+ctrl+k", "session.previous")
+    rex.bind("cmd+ctrl+j", "tab.next")
+    rex.bind("cmd+ctrl+k", "tab.previous")
   '';
 }
