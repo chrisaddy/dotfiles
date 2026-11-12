@@ -7,8 +7,6 @@
 # macOS and Linux is ~/.config/rex, and it must not depend on xdg.enable.
 {
   home.file.".config/rex/init.lua".text = ''
-    -- Migrated from ~/.config/zellij/config.kdl
-
     rex.action{
       name  = "then_normal",
       title = "Run an action and return to normal mode",
@@ -19,7 +17,6 @@
       end,
     }
 
-    -- zellij pane mode (config.kdl:18-35)
     rex.mode("pane", { exclusive = true })
     rex.bind("ctrl+p", "client.mode.enter", { name = "pane" })
     rex.bind("pane/h", "then_normal", { action = "pane.focus", args = { direction = "left" } })
@@ -27,7 +24,6 @@
     rex.bind("pane/k", "then_normal", { action = "pane.focus", args = { direction = "up" } })
     rex.bind("pane/l", "then_normal", { action = "pane.focus", args = { direction = "right" } })
 
-    -- zellij tab mode (config.kdl:36-60)
     rex.mode("tab", { exclusive = true })
     rex.bind("ctrl+space", "client.mode.enter", { name = "tab" })
     rex.bind("tab/h", "then_normal", { action = "pane.focus", args = { direction = "left" } })
@@ -42,7 +38,7 @@
     rex.bind("ctrl+l", "pane.focus", { direction = "right" })
 
     -- cmd+shift+j/k walk down/up the session list.
-    rex.bind("cmd+shift+j", "session.next")
-    rex.bind("cmd+shift+k", "session.previous")
+    rex.bind("cmd+ctrl+j", "session.next")
+    rex.bind("cmd+ctrl+k", "session.previous")
   '';
 }
