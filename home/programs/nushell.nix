@@ -102,6 +102,16 @@ in
 
       $env.CARAPACE_BRIDGES = "zsh,fish,bash,inshellisense"
 
+      # nu has no `eval`: `source` needs a file at parse time. So regenerate
+      # wt's init into the vendor autoload dir here (env.nu runs before nu scans
+      # autoload dirs), and nu sources it on this same startup. Resolved through
+      # $PATH so it survives rebuilds; skipped when wt is absent.
+      if not (which wt | is-empty) {
+        let autoload = ($nu.data-dir | path join "vendor" "autoload")
+        mkdir $autoload
+        ^wt config shell init nu | save --force ($autoload | path join "wt.nu")
+      }
+
       let secrets = ($nu.home-dir | path join ".secrets.toml")
       if ($secrets | path exists) {
         open $secrets | load-env
@@ -156,8 +166,6 @@ in
         let cmd_duration = if $env.CMD_DURATION_MS == "0823" { 0 } else { $env.CMD_DURATION_MS }
         ^starship prompt --right --cmd-duration $cmd_duration $"--status=($env.LAST_EXIT_CODE)" --terminal-width (term size).columns --jobs (job list | length)
       }
-
-      eval $(worktrunk config shell init nu)
 
     '';
   };
