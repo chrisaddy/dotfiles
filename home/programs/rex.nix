@@ -17,13 +17,6 @@
       end,
     }
 
-    rex.mode("pane", { exclusive = true })
-    rex.bind("ctrl+p", "client.mode.enter", { name = "pane" })
-    rex.bind("pane/h", "then_normal", { action = "pane.focus", args = { direction = "left" } })
-    rex.bind("pane/j", "then_normal", { action = "pane.focus", args = { direction = "down" } })
-    rex.bind("pane/k", "then_normal", { action = "pane.focus", args = { direction = "up" } })
-    rex.bind("pane/l", "then_normal", { action = "pane.focus", args = { direction = "right" } })
-
     rex.mode("tab", { exclusive = true })
     rex.bind("ctrl+space", "client.mode.enter", { name = "tab" })
     rex.bind("tab/h", "then_normal", { action = "pane.focus", args = { direction = "left" } })
@@ -38,7 +31,7 @@
     rex.bind("ctrl+l", "pane.focus", { direction = "right" })
 
     -- cmd+shift+j/k walk down/up the session list.
-    rex.bind("cmd+ctrl+j", "tab.next")
-    rex.bind("cmd+ctrl+k", "tab.previous")
+    rex.bind("cmd+ctrl+j", "client.tab.next")
+    rex.bind("cmd+ctrl+k", "client.tab.previous")
   '';
 }
