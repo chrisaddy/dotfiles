@@ -27,6 +27,8 @@
     rex.bind("cmd+shift+l", "client.tab.next")
     rex.bind("cmd+shift+h", "client.tab.previous")
 
+    rex.bind("cmd+d", "pane.close")
+
     rex.bind("cmd+r", "client.mode.enter", { name = "resize" })
 
     rex.bind("resize/h", "pane.resize", { direction = "left" })
