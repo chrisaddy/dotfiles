@@ -26,5 +26,12 @@
     -- cmd+shift+j/k walk down/up the session list.
     rex.bind("cmd+shift+l", "client.tab.next")
     rex.bind("cmd+shift+h", "client.tab.previous")
+
+    rex.bind("cmd+r", "client.mode.enter", { name = "resize" })
+
+    rex.bind("resize/h", "pane.resize", { direction = "left" })
+    rex.bind("resize/j", "pane.resize", { direction = "down" })
+    rex.bind("resize/k", "pane.resize", { direction = "up" })
+    rex.bind("resize/l", "pane.resize", { direction = "right" })
   '';
 }
