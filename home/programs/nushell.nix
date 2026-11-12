@@ -156,6 +156,9 @@ in
         let cmd_duration = if $env.CMD_DURATION_MS == "0823" { 0 } else { $env.CMD_DURATION_MS }
         ^starship prompt --right --cmd-duration $cmd_duration $"--status=($env.LAST_EXIT_CODE)" --terminal-width (term size).columns --jobs (job list | length)
       }
+
+      eval $(worktrunk config shell init nu)
+
     '';
   };
 
