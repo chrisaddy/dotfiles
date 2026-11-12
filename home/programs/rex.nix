@@ -29,7 +29,7 @@
 
     rex.bind("cmd+d", "pane.close")
 
-    rex.bind("cmd+p", "session.select")
+    rex.bind("cmd+p", "session.switch")
 
     rex.bind("cmd+r", "client.mode.enter", { name = "resize" })
 
