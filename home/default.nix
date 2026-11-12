@@ -39,6 +39,7 @@ in
     # which nushell cannot parse.
     ./programs/nushell.nix
     ./programs/herdr.nix
+    ./programs/rex.nix
   ]
   ++ lib.optionals gui [
     ./programs/ghostty.nix
