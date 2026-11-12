@@ -102,14 +102,24 @@ in
 
       $env.CARAPACE_BRIDGES = "zsh,fish,bash,inshellisense"
 
-      # nu has no `eval`: `source` needs a file at parse time. So regenerate
-      # wt's init into the vendor autoload dir here (env.nu runs before nu scans
-      # autoload dirs), and nu sources it on this same startup. Resolved through
-      # $PATH so it survives rebuilds; skipped when wt is absent.
+      # nu has no `eval`: `source` needs a file at parse time, and the whole of
+      # config.nu is parsed before any of it runs, so "generate then source"
+      # in config.nu fails with "File not found" on a machine without the file.
+      # So regenerate each tool's init into the vendor autoload dir here
+      # (env.nu runs before nu scans autoload dirs), and nu sources it on this
+      # same startup. Resolved through $PATH so it survives rebuilds; skipped
+      # when the tool is absent.
+      let autoload = ($nu.data-dir | path join "vendor" "autoload")
+      mkdir $autoload
       if not (which wt | is-empty) {
-        let autoload = ($nu.data-dir | path join "vendor" "autoload")
-        mkdir $autoload
         ^wt config shell init nu | save --force ($autoload | path join "wt.nu")
+      }
+      # devenv native auto-activation (devenv 2.0+), the nu side of the hook in
+      # zsh.nix. nixpkgs' devenv does not ship this under share/nushell, so it
+      # is generated here. It appends to hooks.pre_prompt. Projects opt in
+      # with `devenv allow`.
+      if not (which devenv | is-empty) {
+        ^devenv hook nu | save --force ($autoload | path join "devenv.nu")
       }
 
       let secrets = ($nu.home-dir | path join ".secrets.toml")
@@ -165,9 +175,6 @@ in
       $env.PROMPT_COMMAND_RIGHT = {||
         let cmd_duration = if $env.CMD_DURATION_MS == "0823" { 0 } else { $env.CMD_DURATION_MS }
         ^starship prompt --right --cmd-duration $cmd_duration $"--status=($env.LAST_EXIT_CODE)" --terminal-width (term size).columns --jobs (job list | length)
-
-      devenv hook nu | save --force ~/.cache/devenv/hook.nu
-      source ~/.cache/devenv/hook.nu
       }
 
     '';
