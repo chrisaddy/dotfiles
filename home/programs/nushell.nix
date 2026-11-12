@@ -165,6 +165,9 @@ in
       $env.PROMPT_COMMAND_RIGHT = {||
         let cmd_duration = if $env.CMD_DURATION_MS == "0823" { 0 } else { $env.CMD_DURATION_MS }
         ^starship prompt --right --cmd-duration $cmd_duration $"--status=($env.LAST_EXIT_CODE)" --terminal-width (term size).columns --jobs (job list | length)
+
+      devenv hook nu | save --force ~/.cache/devenv/hook.nu
+      source ~/.cache/devenv/hook.nu
       }
 
     '';
