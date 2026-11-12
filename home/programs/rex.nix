@@ -18,13 +18,13 @@
     }
 
     -- ctrl+h/j/k/l move between panes directly, no mode needed.
-    rex.bind("ctrl+h", "pane.focus", { direction = "left" })
+    rex.bind("cmd+h", "pane.focus", { direction = "left" })
     rex.bind("cmd+j", "pane.focus", { direction = "down" })
-    rex.bind("ctrl+k", "pane.focus", { direction = "up" })
-    rex.bind("ctrl+l", "pane.focus", { direction = "right" })
+    rex.bind("cmd+k", "pane.focus", { direction = "up" })
+    rex.bind("cmd+l", "pane.focus", { direction = "right" })
 
     -- cmd+shift+j/k walk down/up the session list.
-    rex.bind("cmd+l", "client.tab.next")
-    rex.bind("cmd+h", "client.tab.previous")
+    rex.bind("cmd+shift+l", "client.tab.next")
+    rex.bind("cmd+shift+h", "client.tab.previous")
   '';
 }
