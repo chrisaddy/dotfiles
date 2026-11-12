@@ -141,10 +141,28 @@ in
             }
           }
       )
+
+      # starship prompt, resolved through $PATH for the same reason as direnv.
+      $env.STARSHIP_SHELL = "nu"
+      $env.STARSHIP_SESSION_KEY = (random chars -l 16)
+      $env.PROMPT_INDICATOR = ""
+      $env.PROMPT_MULTILINE_INDICATOR = (^starship prompt --continuation)
+      $env.config.render_right_prompt_on_last_line = true
+      $env.PROMPT_COMMAND = {||
+        let cmd_duration = if $env.CMD_DURATION_MS == "0823" { 0 } else { $env.CMD_DURATION_MS }
+        ^starship prompt --cmd-duration $cmd_duration $"--status=($env.LAST_EXIT_CODE)" --terminal-width (term size).columns --jobs (job list | length)
+      }
+      $env.PROMPT_COMMAND_RIGHT = {||
+        let cmd_duration = if $env.CMD_DURATION_MS == "0823" { 0 } else { $env.CMD_DURATION_MS }
+        ^starship prompt --right --cmd-duration $cmd_duration $"--status=($env.LAST_EXIT_CODE)" --terminal-width (term size).columns --jobs (job list | length)
+      }
     '';
   };
 
-  programs.starship.enableNushellIntegration = true;
+  # Off deliberately — the generated init pins the starship store path, so an
+  # open shell breaks ("Command ... not found") after a rebuild + `nh clean
+  # all`. extraConfig above does the same wiring through $PATH instead.
+  programs.starship.enableNushellIntegration = false;
   programs.zoxide.enableNushellIntegration = true;
 
   # Off deliberately — extraConfig above installs an equivalent pre_prompt hook
