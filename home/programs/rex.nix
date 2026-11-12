@@ -21,7 +21,7 @@
 
     -- zellij pane mode (config.kdl:18-35)
     rex.mode("pane", { exclusive = true })
-    rex.bind("ctrl+k", "client.mode.enter", { name = "pane" })
+    rex.bind("ctrl+p", "client.mode.enter", { name = "pane" })
     rex.bind("pane/h", "then_normal", { action = "pane.focus", args = { direction = "left" } })
     rex.bind("pane/j", "then_normal", { action = "pane.focus", args = { direction = "down" } })
     rex.bind("pane/k", "then_normal", { action = "pane.focus", args = { direction = "up" } })
@@ -34,5 +34,15 @@
     rex.bind("tab/j", "then_normal", { action = "pane.focus", args = { direction = "down" } })
     rex.bind("tab/k", "then_normal", { action = "pane.focus", args = { direction = "up" } })
     rex.bind("tab/l", "then_normal", { action = "pane.focus", args = { direction = "right" } })
+
+    -- ctrl+h/j/k/l move between panes directly, no mode needed.
+    rex.bind("ctrl+h", "pane.focus", { direction = "left" })
+    rex.bind("ctrl+j", "pane.focus", { direction = "down" })
+    rex.bind("ctrl+k", "pane.focus", { direction = "up" })
+    rex.bind("ctrl+l", "pane.focus", { direction = "right" })
+
+    -- cmd+shift+j/k walk down/up the session list.
+    rex.bind("cmd+shift+j", "session.next")
+    rex.bind("cmd+shift+k", "session.previous")
   '';
 }
