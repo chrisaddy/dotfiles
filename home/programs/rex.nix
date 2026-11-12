@@ -33,5 +33,6 @@
     rex.bind("resize/j", "pane.resize", { direction = "down" })
     rex.bind("resize/k", "pane.resize", { direction = "up" })
     rex.bind("resize/l", "pane.resize", { direction = "right" })
+    rex.bind("resize/b", "pane.balance")
   '';
 }
