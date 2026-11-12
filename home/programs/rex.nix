@@ -17,13 +17,6 @@
       end,
     }
 
-    rex.mode("tab", { exclusive = true })
-    # rex.bind("ctrl+space", "client.mode.enter", { name = "tab" })
-    rex.bind("tab/h", "then_normal", { action = "pane.focus", args = { direction = "left" } })
-    rex.bind("tab/j", "then_normal", { action = "pane.focus", args = { direction = "down" } })
-    rex.bind("tab/k", "then_normal", { action = "pane.focus", args = { direction = "up" } })
-    rex.bind("tab/l", "then_normal", { action = "pane.focus", args = { direction = "right" } })
-
     -- ctrl+h/j/k/l move between panes directly, no mode needed.
     rex.bind("ctrl+h", "pane.focus", { direction = "left" })
     rex.bind("cmd+j", "pane.focus", { direction = "down" })
