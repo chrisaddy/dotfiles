@@ -42,7 +42,6 @@ in
     ./programs/rex.nix
   ]
   ++ lib.optionals gui [
-    ./programs/ghostty.nix
     ./programs/niri.nix
     ./programs/waybar.nix
   ];

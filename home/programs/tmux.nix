@@ -1,5 +1,4 @@
 {
-  workmux,
   pkgs,
   lib,
   ...
@@ -135,22 +134,4 @@ in
       pkgs.tmuxPlugins.resurrect
     ];
   };
-
-  home.packages = [
-    workmux.packages.${pkgs.stdenv.hostPlatform.system}.default
-    # pkgs.tuicr
-  ];
-
-  xdg.configFile."workmux/config.yaml" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
-    text = ''
-      nerdfont: true
-      merge_strategy: rebase
-      agent: claude
-      panes:
-        - command: <agent>
-          focus: true
-
-    '';
-  };
-
 }

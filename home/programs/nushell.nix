@@ -133,7 +133,6 @@ in
       alias gs = gh stack
       # alias zl = zellij list-sessions
       # alias zk = zellij delete-session --force (zellij list-sessions --short | fzf)
-      alias wm = workmux
       # is POSIX) or zsh (zellij auto-start takes over the pane), and must use
       # the default tmux socket so it finds its seats after a restart.
       # direnv, resolved through $PATH rather than a pinned store path, so a

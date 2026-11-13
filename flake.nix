@@ -15,10 +15,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    workmux = {
-      url = "github:raine/workmux";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -27,7 +23,6 @@
       home-manager,
       nix-darwin,
       nixvim,
-      workmux,
       ...
     }:
     let
@@ -63,7 +58,6 @@
               headless
               gui
               nixvim
-              workmux
               ;
           };
         };
@@ -81,7 +75,6 @@
               username = "chrisaddy";
               headless = false;
               gui = true;
-              inherit nixvim workmux;
             };
           }
         ];
