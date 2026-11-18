@@ -33,14 +33,16 @@ nix build '.#homeConfigurations.chrisaddy@darwin.activationPackage' --dry-run
 
 ### Flake Structure
 ```
-flake.nix              # Flake with home-manager + nix-darwin inputs
+flake.nix              # Flake with home-manager + nix-darwin inputs (+ nixvim, doomemacs)
 bootstrap.sh           # Zero-to-configured setup script
 darwin/
   default.nix          # nix-darwin system config (system packages, platform)
 home/
   default.nix          # Main home config (packages, imports, flag wiring)
+  doom/                # Doom Emacs config (init.el, config.el, packages.el)
   programs/
     bat.nix            # bat config
+    emacs.nix          # Emacs + Doom (links framework and config, `doom` wrapper)
     ghostty.nix        # Ghostty terminal (gui only)
     helix.nix          # Helix editor
     lazygit.nix        # Lazygit TUI
@@ -74,6 +76,44 @@ Keep them separate. `chris@linux` (WSL2) is exactly the case that needs
 `headless = false` with `gui = false`: the full toolchain and no compositor.
 
 All program configurations are fully inlined in their .nix files using `xdg.configFile.*.text`.
+
+### Doom Emacs
+
+`home/programs/emacs.nix` installs Emacs and links two read-only store paths:
+the Doom framework (the `doomemacs` flake input) at `~/.config/emacs` and the
+config in `home/doom/` at `~/.config/doom`. Everything Doom installs or builds
+is mutable and lives in `~/.local/share/doom` (`DOOMLOCALDIR`), outside the Nix
+store. `upd` runs `doom sync` after the switch, so a new machine and a moved
+framework pin are both handled there; by hand it is:
+
+```bash
+doom sync      # after changing home/doom/init.el or packages.el, then switching
+doom doctor    # when something looks off
+```
+
+`home/doom/config.el` needs a switch but no sync. Things that are easy to get
+wrong:
+
+- **Never `doom install` or `doom upgrade`.** Both drive git in `$EMACSDIR`,
+  which here is a store path with no `.git`. `doom sync` is the only install
+  step, and the framework is updated with `nix flake update doomemacs`.
+- The `doomemacs` input is `git+https://...?submodules=1`, not `github:`. Doom
+  keeps its modules in the `sources/doom+` submodule and the `github:` tarball
+  has no submodules.
+- `doom` on PATH is a wrapper that exports `EMACSDIR`, `DOOMDIR` and
+  `DOOMLOCALDIR` and runs the CLI with the same Emacs as the editor. Emacs
+  itself gets the three variables from `home.sessionVariables`, so start it
+  from a shell. Launched from Finder or a launcher it has no `DOOMLOCALDIR`
+  and Doom tries to write into the store.
+- Emacs prefers `~/.emacs.d` over `~/.config/emacs` whenever the former exists,
+  and a plain Emacs creates it on first start. Activation removes an empty one
+  and warns about a non-empty one, because either hides Doom completely.
+- vterm and pdf-tools have native parts, so they come prebuilt from Nix
+  (`programs.emacs.extraPackages`) and Doom is told to prefer those copies:
+  vterm upstream, pdf-tools in `home/doom/packages.el`.
+
+The Emacs build follows `gui`: `emacs-nox` without a desktop, `emacs-pgtk` on a
+Linux desktop, Cocoa `emacs` on macOS.
 
 ### OCaml / opam
 
