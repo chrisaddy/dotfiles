@@ -1,10 +1,35 @@
 {
   config,
+  lib,
   pkgs,
   nixvim,
   ...
 }:
 let
+  # Bend's language server is on crates.io but not in nixpkgs. Upstream's
+  # install step is `cargo install bend-language-server`; building the same
+  # crate here keeps it pinned and off the mutable ~/.cargo/bin. It links
+  # bend-lang as a library, so it needs neither `bend` nor `hvm` at runtime.
+  # Keep the version in step with nixpkgs' `bend`, which it tracks.
+  bendLanguageServer = pkgs.rustPlatform.buildRustPackage (finalAttrs: {
+    pname = "bend-language-server";
+    version = "0.2.37";
+
+    src = pkgs.fetchCrate {
+      inherit (finalAttrs) pname version;
+      hash = "sha256-jYtwiEuGXVbA6Km0xf1ythAIuRV3hNuWsspWTOHsG+Q=";
+    };
+
+    cargoHash = "sha256-UDFGr48X8UsnF7REeXnVYCiPqWsJ11vzUFEN8usLYho=";
+
+    meta = {
+      description = "Language server for the Bend programming language";
+      homepage = "https://github.com/HigherOrderCO/bend-language-server";
+      license = lib.licenses.mit;
+      mainProgram = "bend-language-server";
+    };
+  });
+
   nixvimPkg = nixvim.legacyPackages.${pkgs.stdenv.hostPlatform.system}.makeNixvim {
     viAlias = true;
     vimAlias = true;
@@ -50,6 +75,25 @@ let
       virtual_text.source = "if_many";
       float.source = true;
       underline = true;
+    };
+
+    # nvim has no built-in detection for Bend, and an LSP only attaches by
+    # filetype.
+    filetype.extension.bend = "bend";
+
+    # nvim-lspconfig ships no Bend config, so `plugins.lsp.servers` has nothing
+    # to enable. The top-level `lsp.servers` goes through `vim.lsp.config`
+    # directly and takes any name, given a full config. The server offers
+    # diagnostics and semantic-token highlighting, which is also the only
+    # highlighting `.bend` files get: nixpkgs has no tree-sitter grammar for it.
+    lsp.servers.bend = {
+      enable = true;
+      package = bendLanguageServer;
+      config = {
+        cmd = [ "bend-language-server" ];
+        filetypes = [ "bend" ];
+        root_markers = [ ".git" ];
+      };
     };
 
     # `:make` parses compiler output with 'errorformat', whose default already
