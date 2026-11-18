@@ -22,7 +22,7 @@ in
     ./programs/lazygit.nix
     ./programs/mise.nix
     ./programs/neovim.nix
-    ./programs/notes.nix
+    # ./programs/notes.nix
     ./programs/scripts.nix
     ./programs/starship.nix
     ./programs/tmux.nix
