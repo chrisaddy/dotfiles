@@ -146,6 +146,7 @@ in
         markdown-oxide
         lua-language-server # :lang lua
         yaml-language-server # :lang yaml
+        sbcl # :lang common-lisp — the Lisp that Sly starts (inferior-lisp-program)
         tree-sitter # grammar CLI for neovim/helix
 
         tuxedo
