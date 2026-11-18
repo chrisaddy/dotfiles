@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -18,6 +19,15 @@ in
     # Not C-Space: zellij binds Ctrl Space to tab mode, and tmux often runs
     # inside zellij. C-a is unbound there.
     prefix = "C-Space";
+    # Without this, default-shell is $SHELL as it was when the server started,
+    # so a server started before a `chsh` keeps opening the old shell. tmux
+    # needs an absolute path: use the profile path, not a store path, which
+    # dies at the next `nh clean all`. Headless VMs have no nushell.
+    shell =
+      if config.programs.nushell.enable then
+        "${config.home.profileDirectory}/bin/nu"
+      else
+        "${config.home.profileDirectory}/bin/zsh";
 
     extraConfig = ''
             # annoying bell shit
