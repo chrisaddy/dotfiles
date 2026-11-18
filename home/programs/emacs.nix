@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  headless ? false,
   gui ? true,
   doomemacs,
   ...
@@ -67,8 +68,35 @@ in
   };
 
   # Emacs itself reads these at startup, so it must be started from a shell
-  # (nushell gets them too, generated from home.sessionVariables).
+  # (nushell gets them too, generated from home.sessionVariables) or by the
+  # daemon below, which runs under a login shell for the same reason.
   home.sessionVariables = doomEnv;
+
+  # One long-lived Emacs per login, reached with `emacsclient`: launchd on
+  # macOS, a systemd user unit on Linux. Not on the headless VMs, where a
+  # resident Doom is most of the machine. `client.enable` only adds an
+  # "Emacs Client" launcher entry on Linux desktops.
+  services.emacs = {
+    enable = !headless;
+    client.enable = gui;
+  };
+
+  # Home Manager's systemd unit already starts Emacs through a login shell,
+  # but its launchd agent execs the binary directly, and launchd hands it
+  # only /usr/bin:/bin:/usr/sbin:/sbin and none of the session variables.
+  # Doom would then have no DOOMLOCALDIR (it would try to write into the
+  # store) and find neither git, rg, fd nor any language server. A login
+  # shell reads ~/.profile, which sources hm-session-vars.sh and the Nix
+  # profile, so the daemon sees what a terminal sees. `exec` keeps Emacs as
+  # the process launchd supervises.
+  launchd.agents.emacs.config.ProgramArguments = lib.mkIf config.services.emacs.enable (
+    lib.mkForce [
+      pkgs.runtimeShell
+      "-l"
+      "-c"
+      "exec ${config.services.emacs.package}/bin/emacs --fg-daemon"
+    ]
+  );
 
   # The Doom framework, pinned as the `doomemacs` flake input. Must match
   # EMACSDIR.

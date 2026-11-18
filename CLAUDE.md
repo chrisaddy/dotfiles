@@ -103,8 +103,8 @@ wrong:
 - `doom` on PATH is a wrapper that exports `EMACSDIR`, `DOOMDIR` and
   `DOOMLOCALDIR` and runs the CLI with the same Emacs as the editor. Emacs
   itself gets the three variables from `home.sessionVariables`, so start it
-  from a shell. Launched from Finder or a launcher it has no `DOOMLOCALDIR`
-  and Doom tries to write into the store.
+  from a shell or use the daemon. Launched from Finder or a launcher it has
+  no `DOOMLOCALDIR` and Doom tries to write into the store.
 - Emacs prefers `~/.emacs.d` over `~/.config/emacs` whenever the former exists,
   and a plain Emacs creates it on first start. Activation removes an empty one
   and warns about a non-empty one, because either hides Doom completely.
@@ -114,6 +114,36 @@ wrong:
 
 The Emacs build follows `gui`: `emacs-nox` without a desktop, `emacs-pgtk` on a
 Linux desktop, Cocoa `emacs` on macOS.
+
+#### Daemon and `emacsclient`
+
+`services.emacs` starts one Emacs at login everywhere except the headless VMs:
+a launchd agent (`org.nix-community.home.emacs`) on macOS, `emacs.service` in
+the systemd user session on Linux.
+
+```bash
+emacsclient -c            # new GUI frame
+emacsclient -t            # frame in this terminal
+emacsclient -n FILE       # open FILE in an existing frame and return
+
+# restart the daemon
+launchctl kickstart -k gui/$(id -u)/org.nix-community.home.emacs   # macOS
+systemctl --user restart emacs                                     # Linux
+```
+
+- Both platforms start Emacs through a login shell (`bash -l -c`). On Linux
+  that is Home Manager's own unit; on macOS `emacs.nix` overrides the agent's
+  `ProgramArguments`, because launchd would otherwise exec Emacs with a bare
+  PATH and no `DOOM*` variables. The daemon's environment is therefore what
+  `~/.profile` produces, not what nushell or `.zshrc` add on top (the opam
+  env, for one).
+- **A running daemon does not see a `doom sync`.** Restart it after syncing,
+  or after a switch that changed `home/doom/`. Restarting closes every frame;
+  unsaved buffers are only auto-saved.
+- On macOS a switch that changes the Emacs store path makes Home Manager
+  reload the agent, which restarts the daemon in the middle of `upd`, before
+  its `doom sync`. After an Emacs version bump that daemon comes up without a
+  Doom profile (`void-variable doom-modules`); restart it once `upd` is done.
 
 ### OCaml / opam
 

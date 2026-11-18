@@ -1,0 +1,3 @@
+# Private yasnippet snippets, one directory per major mode (python-mode/, ...).
+# Kept in git because ~/.config/doom is a read-only store link: Doom cannot
+# create this directory itself, and yasnippet complains at startup without it.
