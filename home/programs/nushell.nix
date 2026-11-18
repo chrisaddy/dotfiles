@@ -88,6 +88,25 @@ in
       # not found" on every `cd`, since that hook shells out to `^zoxide`.
       # `profileDirectory` is used rather than a literal ~/.nix-profile so this
       # also resolves on nix-darwin, where it is /etc/profiles/per-user/$USER.
+      #
+      # macOS keeps its system PATH in /etc/paths and /etc/paths.d/*, which
+      # POSIX login shells get from /usr/libexec/path_helper (via /etc/zprofile).
+      # nu never runs it, so a nu login shell starts with launchd's bare
+      # /usr/bin:/bin:/usr/sbin:/sbin and misses /usr/local/bin — which is
+      # where the flox installer puts `nix` itself on this Mac (there is no
+      # /nix/var/nix/profiles/default here), so `nh` failed with "No output
+      # from nix --version". Appended rather than prepended so nothing already
+      # on PATH changes priority. Neither file exists on Linux, so this is
+      # empty there.
+      let system_paths = (
+        ["/etc/paths"]
+        | append (glob "/etc/paths.d/*" | sort)
+        | where { |f| ($f | path type) == "file" }
+        | each { |f| open --raw $f | lines }
+        | flatten
+        | str trim
+        | where { |p| $p != "" }
+      )
       $env.PATH = (
         $env.PATH
         | if ($in | describe) == "string" { split row (char esep) } else { $in }
@@ -97,6 +116,7 @@ in
             "${config.home.profileDirectory}/bin"
             "/nix/var/nix/profiles/default/bin"
           ]
+        | append $system_paths
         | uniq
       )
 

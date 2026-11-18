@@ -527,6 +527,10 @@ let
           nushell.enable = true;
           ocamllsp.enable = true;
           postgres_lsp.enable = true;
+          racket_langserver = {
+            enable = true;
+            package = null;
+          };
           ruff.enable = true;
           rust_analyzer = {
             enable = true;
@@ -570,6 +574,7 @@ let
           ocaml
           ocaml_interface
           python
+          racket
           rust
           toml
           yaml

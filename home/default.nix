@@ -18,10 +18,9 @@ in
     ./programs/bash.nix
     ./programs/bat.nix
     ./programs/btm.nix
-    ./programs/dropbox.nix
+    ./programs/emacs.nix
     ./programs/lazygit.nix
     ./programs/mise.nix
-    # ./programs/helix.nix
     ./programs/neovim.nix
     ./programs/notes.nix
     ./programs/scripts.nix
