@@ -33,6 +33,10 @@ let
     DOOMLOCALDIR = "${config.xdg.dataHome}/doom";
   };
 
+  doomExports = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList (name: value: "export ${name}=${lib.escapeShellArg value}") doomEnv
+  );
+
   # `doom` on PATH. A wrapper rather than adding ~/.config/emacs/bin to
   # home.sessionPath, so the CLI carries its own environment: it works from a
   # shell that predates the session variables, and from `upd`. It also pins
@@ -45,12 +49,23 @@ let
       pkgs.git
     ];
     text = ''
-      ${lib.concatStringsSep "\n" (
-        lib.mapAttrsToList (name: value: "export ${name}=${lib.escapeShellArg value}") doomEnv
-      )}
+      ${doomExports}
       exec "$EMACSDIR/bin/doom" "$@"
     '';
   };
+
+  # `emacs` on PATH, for the same reason. Without DOOMLOCALDIR in its
+  # environment Emacs still finds Doom in ~/.config/emacs but looks for the
+  # synced profile in the store, finds none and stops with "void-variable
+  # doom-modules". That is every shell opened before the first switch, and
+  # anything else that does not source hm-session-vars.sh. hiPrio because
+  # programs.emacs installs the real bin/emacs into the same profile.
+  emacsWithDoomEnv = lib.hiPrio (
+    pkgs.writeShellScriptBin "emacs" ''
+      ${doomExports}
+      exec ${config.programs.emacs.finalPackage}/bin/emacs "$@"
+    ''
+  );
 in
 {
   programs.emacs = {
@@ -67,9 +82,10 @@ in
     ];
   };
 
-  # Emacs itself reads these at startup, so it must be started from a shell
-  # (nushell gets them too, generated from home.sessionVariables) or by the
-  # daemon below, which runs under a login shell for the same reason.
+  # Emacs reads these at startup. The `emacs` wrapper above sets them
+  # itself; this covers whatever starts Emacs by another path (the daemon's
+  # login shell, a script calling a store path). nushell gets them too,
+  # generated from home.sessionVariables.
   home.sessionVariables = doomEnv;
 
   # One long-lived Emacs per login, reached with `emacsclient`: launchd on
@@ -107,6 +123,7 @@ in
 
   home.packages = [
     doom
+    emacsWithDoomEnv
   ]
   ++ lib.optionals gui [
     pkgs.nerd-fonts.jetbrains-mono # doom-font in home/doom/config.el

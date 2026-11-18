@@ -100,11 +100,13 @@ wrong:
 - The `doomemacs` input is `git+https://...?submodules=1`, not `github:`. Doom
   keeps its modules in the `sources/doom+` submodule and the `github:` tarball
   has no submodules.
-- `doom` on PATH is a wrapper that exports `EMACSDIR`, `DOOMDIR` and
-  `DOOMLOCALDIR` and runs the CLI with the same Emacs as the editor. Emacs
-  itself gets the three variables from `home.sessionVariables`, so start it
-  from a shell or use the daemon. Launched from Finder or a launcher it has
-  no `DOOMLOCALDIR` and Doom tries to write into the store.
+- Doom needs `EMACSDIR`, `DOOMDIR` and `DOOMLOCALDIR` in Emacs's environment.
+  Without `DOOMLOCALDIR` it looks for its synced profile inside the store and
+  stops with `void-variable doom-modules`. So `emacs` and `doom` on PATH are
+  both wrappers that export the three (`doom` also pins the CLI to the
+  editor's Emacs), and `home.sessionVariables` carries them for the daemon.
+  Only `Emacs.app` opened from Finder or Spotlight bypasses all of that; use
+  `emacsclient -c` there.
 - Emacs prefers `~/.emacs.d` over `~/.config/emacs` whenever the former exists,
   and a plain Emacs creates it on first start. Activation removes an empty one
   and warns about a non-empty one, because either hides Doom completely.
