@@ -42,6 +42,7 @@ home/
   doom/                # Doom Emacs config (init.el, config.el, packages.el)
   programs/
     bat.nix            # bat config
+    common-lisp.nix    # SBCL + Quicklisp (non-headless only)
     emacs.nix          # Emacs + Doom (links framework and config, `doom` wrapper)
     ghostty.nix        # Ghostty terminal (gui only)
     helix.nix          # Helix editor
@@ -146,6 +147,24 @@ systemctl --user restart emacs                                     # Linux
   reload the agent, which restarts the daemon in the middle of `upd`, before
   its `doom sync`. After an Emacs version bump that daemon comes up without a
   Doom profile (`void-variable doom-modules`); restart it once `upd` is done.
+
+### Common Lisp / Quicklisp
+
+`home/programs/common-lisp.nix` installs SBCL, which is what Sly (Doom's
+`:lang common-lisp`) starts. Quicklisp is a mutable tree in `~/quicklisp`,
+outside the Nix store. Activation installs it once, from an installer pinned by
+hash, when `~/quicklisp/setup.lisp` is missing; offline, that only warns and
+the next switch retries. `~/.sbclrc` is Home Manager's file and loads Quicklisp
+into every SBCL, so `(ql:add-to-init-file)` is neither needed nor able to work.
+
+Nothing updates Quicklisp automatically, `upd` included. From a REPL:
+
+```lisp
+(ql:update-client)
+(ql:update-dist "quicklisp")
+```
+
+Quicklisp fetches libraries over plain HTTP without verifying them.
 
 ### OCaml / opam
 

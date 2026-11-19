@@ -37,6 +37,7 @@ in
     # keep zsh: bootstrap.sh and exevm drive them with `ssh host "a && b"`,
     # which nushell cannot parse.
     ./programs/nushell.nix
+    ./programs/common-lisp.nix
     ./programs/herdr.nix
     ./programs/rex.nix
   ]
@@ -146,7 +147,6 @@ in
         markdown-oxide
         lua-language-server # :lang lua
         yaml-language-server # :lang yaml
-        sbcl # :lang common-lisp — the Lisp that Sly starts (inferior-lisp-program)
         tree-sitter # grammar CLI for neovim/helix
 
         tuxedo
