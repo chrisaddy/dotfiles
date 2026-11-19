@@ -13,7 +13,7 @@
     };
 
     initContent = ''
-      export PATH=$HOME/.local/bin:$PATH:$HOME/.cargo
+      export PATH=$HOME/.local/bin:$PATH:$HOME/.cargo:$HOME/.bend/bin
 
       # Carapace completions
       export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
