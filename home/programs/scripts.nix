@@ -68,7 +68,8 @@ let
       # programs.bash.enable makes HM's file. Without it activation aborts with
       # "Existing file ... would be clobbered" and the whole update stops.
       nh home switch . -b backup -c "$(whoami)@$platform"
-      # nh clean all
+      bend update
+      nh clean all
       git add -A
       # A clean tree is not a failure; skip the commit and still push whatever
       # is already local.
