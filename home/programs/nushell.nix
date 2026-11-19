@@ -117,7 +117,7 @@ in
             "/nix/var/nix/profiles/default/bin"
           ]
         | append $system_paths
-        | append "${config.home.homeDirectory}/bend"
+        | append "${config.home.homeDirectory}/.bend"
         | uniq
       )
 
