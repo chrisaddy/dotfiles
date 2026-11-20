@@ -88,6 +88,7 @@ in
         # python
         ruff
         basedpyright
+        pyright
 
         # Shell tools
         starship
