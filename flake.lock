@@ -3,11 +3,11 @@
     "doomemacs": {
       "flake": false,
       "locked": {
-        "lastModified": 1795066169,
-        "narHash": "sha256-P4bnJLDANVHJ6K+uINhdTMb0s/pnCWhpl99hpRdO0nE=",
+        "lastModified": 1795129205,
+        "narHash": "sha256-M66JDxAOfhiU9OKgcPxJ/2/Fqx7jhv0ElwkGeBVI9lQ=",
         "ref": "refs/heads/master",
-        "rev": "a4e926d10bbc19b88a6edc70196e89cfd541ba63",
-        "revCount": 21419,
+        "rev": "38897297fe973dccd3eb7ae5baa0722498323fbe",
+        "revCount": 21425,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/doomemacs/doomemacs"
@@ -81,11 +81,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794890597,
-        "narHash": "sha256-lME2lHoDHAaSHP3/okgiVoJ0icVEvsQH8LeU3We7tcc=",
+        "lastModified": 1795085501,
+        "narHash": "sha256-S5keGWzaKpuXo9MNoIC2FfTIuTyTnx8P4NhYJMEsTLI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "04906337b6d53e8bb0eaf0470ae9f070a4d4eb55",
+        "rev": "0bb8272318b4ca41bf0edc6224df3e3e3046b70d",
         "type": "github"
       },
       "original": {
