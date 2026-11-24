@@ -15,14 +15,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # The Doom Emacs framework, pinned here and linked to ~/.config/emacs by
-    # home/programs/emacs.nix. git+https with submodules=1, not the github:
-    # shorthand: Doom keeps its modules in the `sources/doom+` submodule and
-    # github: fetches a tarball without submodules.
-    doomemacs = {
-      url = "git+https://github.com/doomemacs/doomemacs?submodules=1";
-      flake = false;
-    };
   };
 
   outputs =
@@ -31,7 +23,6 @@
       home-manager,
       nix-darwin,
       nixvim,
-      doomemacs,
       ...
     }:
     let
@@ -67,7 +58,6 @@
               headless
               gui
               nixvim
-              doomemacs
               ;
           };
         };
@@ -85,7 +75,7 @@
               username = "chrisaddy";
               headless = false;
               gui = true;
-              inherit doomemacs nixvim;
+              inherit nixvim;
             };
           }
         ];

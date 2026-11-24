@@ -18,7 +18,6 @@ in
     ./programs/bash.nix
     ./programs/bat.nix
     ./programs/btm.nix
-    ./programs/emacs.nix
     ./programs/lazygit.nix
     ./programs/mise.nix
     ./programs/neovim.nix

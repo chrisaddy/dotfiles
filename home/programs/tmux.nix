@@ -40,11 +40,6 @@ in
             set -g allow-passthrough on
             set -ga terminal-overrides ",*:Ss=\\E[%p1%d q:Se=\\E[2 q"
 
-            # keyMode sets vi for the command prompt too, where Esc only enters
-            # vi normal mode and a second Esc is ignored. Emacs prompt keys make
-            # Esc cancel the prompt; copy mode stays vi.
-            set -g status-keys emacs
-
             # Pane base index
             setw -g pane-base-index 1
 

@@ -152,7 +152,6 @@ in
     extraConfig = ''
       alias claude = claude --dangerously-skip-permissions
       alias gs = gh stack
-      alias em = emacs -nw
       # alias zl = zellij list-sessions
       # alias zk = zellij delete-session --force (zellij list-sessions --short | fzf)
       # is POSIX) or zsh (zellij auto-start takes over the pane), and must use

@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "doomemacs": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1795391758,
-        "narHash": "sha256-pFLgTYc5DQfvhqzQVQEmdkjEiCeRbhlwtbe+gcGT3aI=",
-        "ref": "refs/heads/master",
-        "rev": "8b9b1ea14d02c6f18114a8e183469f685e0fa34e",
-        "revCount": 21436,
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/doomemacs/doomemacs"
-      },
-      "original": {
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/doomemacs/doomemacs"
-      }
-    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -119,7 +101,6 @@
     },
     "root": {
       "inputs": {
-        "doomemacs": "doomemacs",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",

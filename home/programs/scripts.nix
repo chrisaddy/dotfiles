@@ -75,17 +75,6 @@ let
       git diff --cached --quiet || git commit -m 'update'
       git push
 
-      # Doom's packages are built outside the Nix store against the framework
-      # in ~/.config/emacs, which `nix flake update` above may just have moved
-      # (the doomemacs input), so bring them back in step. On a new machine
-      # this is also the first install. `doom` is the wrapper from
-      # home/programs/emacs.nix, on PATH once the switch above has run. Not
-      # fatal: a failed package build should not stop the ~/.claude sync.
-      if command -v doom >/dev/null 2>&1; then
-        echo "==> Syncing Doom Emacs"
-        doom sync || echo "upd: doom sync failed; run 'doom sync' to see why" >&2
-      fi
-
       # ~/.claude (skills, memory, CLAUDE.md) is its own repo, synced last so a
       # conflict there cannot block the system update. Commit before pulling:
       # --rebase refuses to run on a dirty tree. Its .gitignore is an allowlist,

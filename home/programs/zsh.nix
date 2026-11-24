@@ -6,12 +6,6 @@
     syntaxHighlighting.enable = true;
     enableCompletion = true;
 
-    # Shared aliases live in home.shellAliases (home/default.nix). These two are
-    # zsh-only because they shell out to fzf.
-    shellAliases = {
-      em = "emacs -nw";
-    };
-
     initContent = ''
       export PATH=$HOME/.local/bin:$PATH:$HOME/.cargo:$HOME/.bend/bin
 

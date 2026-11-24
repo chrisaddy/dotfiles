@@ -33,17 +33,15 @@ nix build '.#homeConfigurations.chrisaddy@darwin.activationPackage' --dry-run
 
 ### Flake Structure
 ```
-flake.nix              # Flake with home-manager + nix-darwin inputs (+ nixvim, doomemacs)
+flake.nix              # Flake with home-manager + nix-darwin inputs (+ nixvim)
 bootstrap.sh           # Zero-to-configured setup script
 darwin/
   default.nix          # nix-darwin system config (system packages, platform)
 home/
   default.nix          # Main home config (packages, imports, flag wiring)
-  doom/                # Doom Emacs config (init.el, config.el, packages.el)
   programs/
     bat.nix            # bat config
     common-lisp.nix    # SBCL + Quicklisp (non-headless only)
-    emacs.nix          # Emacs + Doom (links framework and config, `doom` wrapper)
     ghostty.nix        # Ghostty terminal (gui only)
     helix.nix          # Helix editor
     lazygit.nix        # Lazygit TUI
@@ -77,76 +75,6 @@ Keep them separate. `chris@linux` (WSL2) is exactly the case that needs
 `headless = false` with `gui = false`: the full toolchain and no compositor.
 
 All program configurations are fully inlined in their .nix files using `xdg.configFile.*.text`.
-
-### Doom Emacs
-
-`home/programs/emacs.nix` installs Emacs and links two read-only store paths:
-the Doom framework (the `doomemacs` flake input) at `~/.config/emacs` and the
-config in `home/doom/` at `~/.config/doom`. Everything Doom installs or builds
-is mutable and lives in `~/.local/share/doom` (`DOOMLOCALDIR`), outside the Nix
-store. `upd` runs `doom sync` after the switch, so a new machine and a moved
-framework pin are both handled there; by hand it is:
-
-```bash
-doom sync      # after changing home/doom/init.el or packages.el, then switching
-doom doctor    # when something looks off
-```
-
-`home/doom/config.el` needs a switch but no sync. Things that are easy to get
-wrong:
-
-- **Never `doom install` or `doom upgrade`.** Both drive git in `$EMACSDIR`,
-  which here is a store path with no `.git`. `doom sync` is the only install
-  step, and the framework is updated with `nix flake update doomemacs`.
-- The `doomemacs` input is `git+https://...?submodules=1`, not `github:`. Doom
-  keeps its modules in the `sources/doom+` submodule and the `github:` tarball
-  has no submodules.
-- Doom needs `EMACSDIR`, `DOOMDIR` and `DOOMLOCALDIR` in Emacs's environment.
-  Without `DOOMLOCALDIR` it looks for its synced profile inside the store and
-  stops with `void-variable doom-modules`. So `emacs` and `doom` on PATH are
-  both wrappers that export the three (`doom` also pins the CLI to the
-  editor's Emacs), and `home.sessionVariables` carries them for the daemon.
-  Only `Emacs.app` opened from Finder or Spotlight bypasses all of that; use
-  `emacsclient -c` there.
-- Emacs prefers `~/.emacs.d` over `~/.config/emacs` whenever the former exists,
-  and a plain Emacs creates it on first start. Activation removes an empty one
-  and warns about a non-empty one, because either hides Doom completely.
-- vterm and pdf-tools have native parts, so they come prebuilt from Nix
-  (`programs.emacs.extraPackages`) and Doom is told to prefer those copies:
-  vterm upstream, pdf-tools in `home/doom/packages.el`.
-
-The Emacs build follows `gui`: `emacs-nox` without a desktop, `emacs-pgtk` on a
-Linux desktop, Cocoa `emacs` on macOS.
-
-#### Daemon and `emacsclient`
-
-`services.emacs` starts one Emacs at login everywhere except the headless VMs:
-a launchd agent (`org.nix-community.home.emacs`) on macOS, `emacs.service` in
-the systemd user session on Linux.
-
-```bash
-emacsclient -c            # new GUI frame
-emacsclient -t            # frame in this terminal
-emacsclient -n FILE       # open FILE in an existing frame and return
-
-# restart the daemon
-launchctl kickstart -k gui/$(id -u)/org.nix-community.home.emacs   # macOS
-systemctl --user restart emacs                                     # Linux
-```
-
-- Both platforms start Emacs through a login shell (`bash -l -c`). On Linux
-  that is Home Manager's own unit; on macOS `emacs.nix` overrides the agent's
-  `ProgramArguments`, because launchd would otherwise exec Emacs with a bare
-  PATH and no `DOOM*` variables. The daemon's environment is therefore what
-  `~/.profile` produces, not what nushell or `.zshrc` add on top (the opam
-  env, for one).
-- **A running daemon does not see a `doom sync`.** Restart it after syncing,
-  or after a switch that changed `home/doom/`. Restarting closes every frame;
-  unsaved buffers are only auto-saved.
-- On macOS a switch that changes the Emacs store path makes Home Manager
-  reload the agent, which restarts the daemon in the middle of `upd`, before
-  its `doom sync`. After an Emacs version bump that daemon comes up without a
-  Doom profile (`void-variable doom-modules`); restart it once `upd` is done.
 
 ### Common Lisp / Quicklisp
 
