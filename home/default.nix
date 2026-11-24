@@ -37,7 +37,6 @@ in
     # which nushell cannot parse.
     ./programs/nushell.nix
     ./programs/common-lisp.nix
-    ./programs/herdr.nix
     ./programs/rex.nix
   ]
   ++ lib.optionals gui [
@@ -62,7 +61,6 @@ in
         curl
         dust
         fd
-        herdr
         worktrunk
         worktrunk-sync
         jq
@@ -159,9 +157,6 @@ in
         # azure-cli
         ffmpeg
         graphviz
-        # The herdr office DJ plays YouTube audio through these.
-        mpv
-        yt-dlp
       ];
   };
 
