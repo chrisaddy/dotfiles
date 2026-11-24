@@ -43,6 +43,10 @@
         {
           headless ? false,
           gui ? !headless,
+          # The Windows user profile as WSL sees it (`/mnt/c/Users/<name>`),
+          # or null off WSL. Windows programs such as WezTerm read their
+          # config from there, not from the WSL home.
+          windowsProfile ? null,
         }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
@@ -57,6 +61,7 @@
               username
               headless
               gui
+              windowsProfile
               nixvim
               ;
           };
@@ -75,6 +80,7 @@
               username = "chrisaddy";
               headless = false;
               gui = true;
+              windowsProfile = null;
               inherit nixvim;
             };
           }
@@ -87,7 +93,10 @@
           linuxHome = mkHome "x86_64-linux" "chrisaddy" { };
           # WSL2 Arch box: full dev toolchain, but no compositor or terminal
           # emulator — WSLg is not where niri/waybar/ghostty earn their keep.
-          wslHome = mkHome "x86_64-linux" "chris" { gui = false; };
+          wslHome = mkHome "x86_64-linux" "chris" {
+            gui = false;
+            windowsProfile = "/mnt/c/Users/ChrisAddy";
+          };
         in
         {
           # nh auto-detection (user@hostname)
